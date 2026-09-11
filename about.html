@@ -7,29 +7,11 @@
       name="description"
       content="About YINAGA - Mission, Vision and Our Story"
     />
-    <title>About YINAGA | Youth Inclusion in Agriculture Advancement</title>
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="assets/images/favicon/favicon.ico"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="assets/images/favicon/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="assets/images/favicon/favicon-16x16.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="assets/images/favicon/apple-touch-icon.png"
-    />
+    <title>About YINAGA | Youths In Agriculture for Africa</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@700&amp;display=swap"
@@ -51,6 +33,11 @@
         background-size: cover;
         background-position: center 40%;
         background-attachment: fixed;
+      }
+      @media (max-width: 768px) {
+        .about-hero {
+          background-attachment: scroll;
+        }
       }
 
       @keyframes fadeInUp {
@@ -319,7 +306,7 @@
             </div>
           </div>
           <p class="text-3xl md:text-4xl font-light mt-3">
-            Youth Inclusion in Agriculture Advancement
+            Youths In Agriculture for Africa
           </p>
         </div>
       </div>
@@ -341,9 +328,9 @@
               </h2>
             </div>
             <p class="text-2xl leading-tight text-white">
-              A Pan African movement where young people lead agriculture as the
-              pathway to food security, economic prosperity and lasting peace
-              across the continent.
+              A Pan African movement where young people lead agriculture as
+              the pathway to food security, economic prosperity and lasting
+              peace across the continent.
             </p>
           </div>
           <div class="premium-card p-10 rounded-3xl">
@@ -360,7 +347,8 @@
             <p class="text-2xl leading-tight text-white">
               To inspire young Africans, strengthen farming communities and
               build strategic partnerships that transform agriculture into a
-              resilient, competitive and innovation driven sector across Africa.
+              resilient, competitive and innovation driven sector across
+              Africa.
             </p>
           </div>
         </div>
@@ -392,8 +380,8 @@
               02
             </div>
             <div>
-              Reorient Youth Perception of Agriculture: change mindsets through
-              campaigns and success stories
+              Reorient Youth Perception of Agriculture: change mindsets
+              through campaigns and success stories
             </div>
           </div>
           <div class="premium-card p-8 rounded-3xl flex gap-6 items-start">
@@ -414,8 +402,8 @@
               04
             </div>
             <div>
-              Promote Innovation and Technology in Agriculture: encourage smart
-              farming and agritech
+              Promote Innovation and Technology in Agriculture: encourage
+              smart farming and agritech
             </div>
           </div>
           <div class="premium-card p-8 rounded-3xl flex gap-6 items-start">
@@ -458,29 +446,29 @@
           <p>
             Africa holds close to sixty percent of the world's uncultivated
             arable land, yet the continent remains a net importer of food and
-            the average Nigerian farmer is now over sixty years old. YINAGA, the
-            Youth in Agriculture Africa Initiative, was founded to close that
-            gap by reconnecting young people with the industry that can employ,
-            feed, and enrich them.
+            the average Nigerian farmer is now over sixty years old. YINAGA,
+            the Youth in Agriculture Africa Initiative, was founded to close
+            that gap by reconnecting young people with the industry that can
+            employ, feed, and enrich them.
           </p>
           <p class="mt-6">
-            In its first year, YINAGA organized the YINAGA Agrinnovation Summit
-            at Federal University Dutse in Jigawa State, bringing together more
-            than two hundred students alongside representatives from the Bank of
-            Agriculture and the Jigawa State Government. The organization went
-            on to run an Improved Seed Empowerment and Financial Inclusion
-            Programme with Tecni Seeds and Alternative Bank in Dabi Local
-            Government Area, reaching over one hundred farmers, and launched the
-            YINAGA Outgrower Programme, which began cultivation across thirty
-            hectares of farmland.
+            In its first year, YINAGA organized the YINAGA Agrinnovation
+            Summit at Federal University Dutse in Jigawa State, bringing
+            together more than two hundred students alongside representatives
+            from the Bank of Agriculture and the Jigawa State Government. The
+            organization went on to run an Improved Seed Empowerment and
+            Financial Inclusion Programme with Tecni Seeds and Alternative
+            Bank in Dabi Local Government Area, reaching over one hundred
+            farmers, and launched the YINAGA Outgrower Programme, which began
+            cultivation across thirty hectares of farmland.
           </p>
           <p class="mt-6">
-            Building on these results, YINAGA is now scaling that model through
-            the Food Beyond Africa Project and the Food Beyond Africa
-            Conference, aiming to reach three hundred farming communities across
-            fifteen Nigerian states, train at least fifteen thousand farmers,
-            and create more than thirty five thousand jobs for young people
-            across the agricultural value chain.
+            Building on these results, YINAGA is now scaling that model
+            through the Food Beyond Africa Project and the Food Beyond Africa
+            Conference, aiming to reach three hundred farming communities
+            across fifteen Nigerian states, train at least fifteen thousand
+            farmers, and create more than thirty five thousand jobs for young
+            people across the agricultural value chain.
           </p>
         </div>
       </div>
@@ -538,7 +526,9 @@
             class="block hover:text-[#f5c24c] transition-colors"
             >Volunteer Application</a
           >
-          <a href="member" class="block hover:text-[#f5c24c] transition-colors"
+          <a
+            href="member"
+            class="block hover:text-[#f5c24c] transition-colors"
             >Member Portal</a
           >
         </div>
@@ -570,9 +560,7 @@
           document.getElementById("mobileMenu").classList.toggle("hidden");
 
         // Active nav
-        document
-          .querySelectorAll('a.nav-link[href="about.html"]')
-          .forEach((l) => l.classList.add("active"));
+        document.querySelectorAll('a.nav-link[href="about.html"]').forEach(l => l.classList.add("active"));
 
         const reveals = document.querySelectorAll(".reveal");
         const observer = new IntersectionObserver(
