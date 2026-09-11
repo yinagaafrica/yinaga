@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="YINAGA Partners – Strategic Alliances Powering Africa's Agricultural Revolution"
+    />
+    <title>Partners | YINAGA</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="assets/images/favicon/favicon.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/images/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/images/favicon/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/images/favicon/apple-touch-icon.png"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --yinaga-green: #1f9e3e;
+        --yinaga-gold: #f5c24c;
+      }
+      .heading-font {
+        font-family: "Playfair Display", sans-serif;
+      }
+
+      .partners-hero {
+        background-image:
+          linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+          url("assets/images/tractor.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+      }
+
+      @keyframes fadeInUp {
+        0% {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 1s cubic-bezier(0.25, 0.1, 0.25, 1);
+      }
+      .reveal.active {
+        animation: fadeInUp 1s forwards;
+      }
+
+      .nav-link {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      .nav-link:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #f5c24c;
+        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .nav-link:hover:after {
+        width: 100%;
+      }
+      .nav-link.active:after {
+        width: 100%;
+      }
+      .nav-link.active {
+        color: #f5c24c;
+      }
+
+      .gold-button {
+        background: linear-gradient(90deg, #f5c24c, #e8b02a);
+        box-shadow: 0 10px 30px -10px #f5c24c;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .gold-button:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 20px 40px -10px #f5c24c;
+      }
+
+      .premium-card {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .premium-card:hover {
+        transform: translateY(-6px);
+        border-color: #f5c24c;
+        box-shadow: 0 25px 50px -15px rgba(245, 194, 76, 0.4);
+      }
+
+      .partner-logo-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .partner-logo-card:hover {
+        background: rgba(245, 194, 76, 0.08);
+        border-color: rgba(245, 194, 76, 0.4);
+        transform: translateY(-4px);
+      }
+
+      .section-padding {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      @media (min-width: 640px) {
+        .section-padding {
+          padding-left: 2rem;
+          padding-right: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="overflow-x-hidden font-sans bg-[#0a0f0a]">
+    <!-- NAVBAR -->
+    <nav
+      class="bg-black border-b border-[#f5c24c]/30 sticky top-0 z-50 backdrop-blur-lg"
+    >
+      <div class="max-w-screen-2xl mx-auto section-padding">
+        <div class="flex justify-between items-center h-16 md:h-20">
+          <a href="index.html" class="flex items-center group">
+            <img
+              src="assets/images/logo.jpg"
+              alt="YINAGA Logo"
+              class="h-9 w-auto md:h-11 transition-transform group-hover:rotate-12"
+            />
+          </a>
+          <div
+            class="hidden lg:flex items-center gap-x-10 text-white uppercase text-sm font-medium tracking-[2px]"
+          >
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="team.html" class="nav-link">Team</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="gallery.html" class="nav-link">Gallery</a>
+            <a href="partners.html" class="nav-link">Partners</a>
+            <a href="join.html" class="nav-link">Join</a>
+          </div>
+          <div class="flex items-center gap-x-4 md:gap-x-6">
+            <a
+              href="join.html"
+              class="gold-button text-black px-7 py-3 md:px-10 md:py-4 text-xs md:text-sm uppercase tracking-widest flex items-center gap-x-2 rounded-3xl font-semibold"
+            >
+              Join the Movement <span class="text-xl leading-none"></span>
+            </a>
+            <button
+              onclick="toggleMobileMenu()"
+              class="lg:hidden text-white p-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-7 h-7 md:w-8 md:h-8"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        id="mobileMenu"
+        class="hidden lg:hidden bg-black px-6 py-6 border-t border-[#f5c24c]/30"
+      >
+        <div class="flex flex-col gap-y-6 text-white text-base font-medium">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="team.html" class="nav-link">Team</a>
+          <a href="projects.html" class="nav-link">Projects</a>
+          <a href="gallery.html" class="nav-link">Gallery</a>
+          <a href="partners.html" class="nav-link">Partners</a>
+          <a href="join.html" class="nav-link">Join</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <header
+      class="partners-hero h-screen flex items-center relative text-white"
+    >
+      <div class="max-w-screen-2xl mx-auto section-padding pt-12">
+        <div class="max-w-2xl">
+          <p class="text-[#f5c24c] uppercase text-sm tracking-[3px] mb-6">
+            Powered By
+          </p>
+          <h1
+            class="text-6xl md:text-7xl font-bold heading-font tracking-[-4px] mb-6"
+          >
+            Our Partners
+          </h1>
+          <p class="text-2xl md:text-3xl font-light text-white/90">
+            Strategic alliances turning vision into continental action.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- PARTNER TIERS -->
+    <section class="py-16 md:py-24 bg-[#0a0f0a] text-white reveal">
+      <div class="max-w-screen-2xl mx-auto section-padding">
+        <!-- Institutional Partners -->
+        <h2 class="text-4xl heading-font text-center mb-4 text-[#f5c24c]">
+          Institutional Partners
+        </h2>
+        <p class="text-center text-white/60 mb-14 max-w-xl mx-auto">
+          Government bodies and continental institutions anchoring YINAGA's
+          mandate.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+          <div class="premium-card p-8 rounded-3xl flex gap-6 items-start">
+            <div
+              class="w-12 h-12 flex-shrink-0 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+            >
+              🏛️
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold mb-1">
+                Federal Ministry of Agriculture & Food Security
+              </h3>
+              <p class="text-[#f5c24c] text-xs uppercase tracking-widest mb-3">
+                Nigeria
+              </p>
+              <p class="text-white/65 text-sm leading-relaxed">
+                Policy alignment, state-level implementation support, and access
+                to national agricultural programmes.
+              </p>
+            </div>
+          </div>
+
+          <div class="premium-card p-8 rounded-3xl flex gap-6 items-start">
+            <div
+              class="w-12 h-12 flex-shrink-0 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+            >
+              🌍
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold mb-1">African Union (AU)</h3>
+              <p class="text-[#f5c24c] text-xs uppercase tracking-widest mb-3">
+                Continental
+              </p>
+              <p class="text-white/65 text-sm leading-relaxed">
+                Strategic alignment with AU Agenda 2063 and the Comprehensive
+                Africa Agriculture Development Programme (CAADP).
+              </p>
+            </div>
+          </div>
+
+          <div class="premium-card p-8 rounded-3xl flex gap-6 items-start">
+            <div
+              class="w-12 h-12 flex-shrink-0 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+            >
+              🏦
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold mb-1">
+                African Development Bank (AfDB)
+              </h3>
+              <p class="text-[#f5c24c] text-xs uppercase tracking-widest mb-3">
+                Pan-African
+              </p>
+              <p class="text-white/65 text-sm leading-relaxed">
+                Funding pipelines, technical assistance, and connections to the
+                Feed Africa Strategy for youth agribusiness scale-up.
+              </p>
+            </div>
+          </div>
+
+          <div class="premium-card p-8 rounded-3xl flex gap-6 items-start">
+            <div
+              class="w-12 h-12 flex-shrink-0 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+            >
+              🔬
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold mb-1">
+                International Institute of Tropical Agriculture (IITA)
+              </h3>
+              <p class="text-[#f5c24c] text-xs uppercase tracking-widest mb-3">
+                Research
+              </p>
+              <p class="text-white/65 text-sm leading-relaxed">
+                Research collaboration, agritech knowledge transfer, and youth
+                internship placement in cutting-edge agricultural science.
+              </p>
+            </div>
+          </div>
+
+          <div class="premium-card p-8 rounded-3xl flex gap-6 items-start">
+            <div
+              class="w-12 h-12 flex-shrink-0 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+            >
+              🌱
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold mb-1">
+                Food and Agriculture Organization (FAO)
+              </h3>
+              <p class="text-[#f5c24c] text-xs uppercase tracking-widest mb-3">
+                UN Agency
+              </p>
+              <p class="text-white/65 text-sm leading-relaxed">
+                Data sharing, food security benchmarking, and integration with
+                global nutrition and sustainability frameworks.
+              </p>
+            </div>
+          </div>
+
+          <div class="premium-card p-8 rounded-3xl flex gap-6 items-start">
+            <div
+              class="w-12 h-12 flex-shrink-0 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+            >
+              📊
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold mb-1">
+                National Youth Council of Nigeria
+              </h3>
+              <p class="text-[#f5c24c] text-xs uppercase tracking-widest mb-3">
+                Nigeria
+              </p>
+              <p class="text-white/65 text-sm leading-relaxed">
+                Youth mobilisation, registration support, and national outreach
+                through an established grassroots network.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Become a Partner CTA -->
+        <div
+          class="premium-card p-12 rounded-3xl text-center max-w-3xl mx-auto"
+        >
+          <h3 class="text-3xl heading-font text-[#f5c24c] mb-4">
+            Partner With YINAGA
+          </h3>
+          <p class="text-white/70 leading-relaxed mb-8">
+            Are you an organisation, corporation, or institution that shares our
+            vision? We welcome partnerships at every level, from funding and
+            training to advocacy and research collaboration.
+          </p>
+          <a
+            href="join.html"
+            class="gold-button text-black px-10 py-5 rounded-3xl text-base font-semibold inline-block"
+            >Get in Touch
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer
+      class="bg-[#0f2a1f] text-white py-12 md:py-20 border-t border-[#f5c24c]/20"
+    >
+      <div
+        class="max-w-screen-2xl mx-auto section-padding grid md:grid-cols-4 gap-y-10"
+      >
+        <div>
+          <img
+            src="assets/images/logo.jpg"
+            alt="YINAGA"
+            class="h-8 md:h-10 mb-6"
+          />
+          <p class="text-white/80 max-w-xs text-sm leading-relaxed">
+            A youth-led Pan-African movement redefining agriculture as the
+            ultimate wealth and peace engine.
+          </p>
+          <div class="text-xs text-white/40 mt-12">
+            © 2026 YINAGA • yinaga.com • All Rights Reserved
+          </div>
+        </div>
+        <div class="space-y-3 text-sm">
+          <a
+            href="about.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Mission & Vision</a
+          >
+          <a
+            href="team.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Leadership</a
+          >
+          <a
+            href="projects.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Projects</a
+          >
+        </div>
+        <div class="space-y-3 text-sm">
+          <a
+            href="join.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Member Registration</a
+          >
+          <a
+            href="join.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Volunteer Application</a
+          >
+          <a
+            href="member-portal.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Member Portal</a
+          >
+        </div>
+        <div>
+          <p class="text-white/80 text-sm mb-4">Stay in the movement</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input
+              id="footer-email"
+              type="email"
+              placeholder="your@email.com"
+              class="bg-white/10 border border-white/30 text-white placeholder:text-white/50 px-6 py-4 rounded-3xl w-full focus:outline-none text-sm"
+            />
+            <button
+              onclick="subscribe()"
+              class="bg-[#f5c24c] text-black px-8 py-4 rounded-3xl font-semibold text-sm whitespace-nowrap hover:bg-[#e8b02a]"
+            >
+              JOIN
+            </button>
+          </div>
+          <div id="subscribe-msg" class="text-[#4ade80] text-xs mt-4"></div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        window.toggleMobileMenu = () =>
+          document.getElementById("mobileMenu").classList.toggle("hidden");
+
+        document
+          .querySelectorAll('a.nav-link[href="partners.html"]')
+          .forEach((l) => l.classList.add("active"));
+
+        const reveals = document.querySelectorAll(".reveal");
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("active");
+            });
+          },
+          { threshold: 0.15 },
+        );
+        reveals.forEach((el) => observer.observe(el));
+
+        window.subscribe = () => {
+          document.getElementById("subscribe-msg").innerHTML =
+            "✅ Welcome to the YINAGA movement!";
+        };
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="YINAGA – Youth Inclusion in Agriculture Advancement"
+    />
+    <title>YINAGA | Youth Inclusion in Agriculture Advancement</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="assets/images/favicon/favicon.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/images/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/images/favicon/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/images/favicon/apple-touch-icon.png"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --yinaga-green: #1f9e3e;
+        --yinaga-gold: #f5c24c;
+      }
+      .heading-font {
+        font-family: "Playfair Display", sans-serif;
+      }
+
+      .hero-bg {
+        background-image:
+          linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
+          url("assets/images/vast-field.jpg");
+        background-size: cover;
+        background-position: center 30%;
+        background-attachment: fixed;
+      }
+
+      .remarks-bg {
+        background-image: url("assets/images/harvesting.png");
+        background-size: cover;
+        background-position: center;
+      }
+
+      @keyframes fadeInUp {
+        0% {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 1s cubic-bezier(0.25, 0.1, 0.25, 1);
+      }
+      .reveal.active {
+        animation: fadeInUp 1s forwards;
+      }
+
+      .nav-link {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      .nav-link:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #f5c24c;
+        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .nav-link:hover:after {
+        width: 100%;
+      }
+      .nav-link.active:after {
+        width: 100%;
+      }
+      .nav-link.active {
+        color: #f5c24c;
+      }
+
+      .gold-button {
+        background: linear-gradient(90deg, #f5c24c, #e8b02a);
+        box-shadow: 0 10px 30px -10px #f5c24c;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .gold-button:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 20px 40px -10px #f5c24c;
+      }
+
+      /* Premium glamorous card style */
+      .premium-card {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .premium-card:hover {
+        transform: translateY(-6px);
+        border-color: #f5c24c;
+        box-shadow: 0 25px 50px -15px rgba(245, 194, 76, 0.4);
+      }
+
+      .logo-container {
+        display: inline-flex;
+        gap: 4px;
+        font-size: 2.75rem;
+        line-height: 1.05;
+        letter-spacing: -6px;
+        text-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+      }
+      @media (min-width: 640px) {
+        .logo-container {
+          font-size: 3.8rem;
+          letter-spacing: -7px;
+          gap: 6px;
+        }
+      }
+      @media (min-width: 768px) {
+        .logo-container {
+          font-size: 5.5rem;
+          letter-spacing: -8px;
+          gap: 8px;
+        }
+      }
+      @media (min-width: 1024px) {
+        .logo-container {
+          font-size: 6.8rem;
+          letter-spacing: -9px;
+          gap: 10px;
+        }
+      }
+      @media (min-width: 1280px) {
+        .logo-container {
+          font-size: 92px;
+          letter-spacing: -10px;
+          gap: 12px;
+        }
+      }
+
+      .logo-letter {
+        display: inline-block;
+        font-weight: 700;
+        transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        position: relative;
+      }
+
+      .logo-letter.animate {
+        animation: pianoBounce 1.8s cubic-bezier(0.68, -0.55, 0.27, 1.55)
+          forwards;
+      }
+
+      @keyframes pianoBounce {
+        0% {
+          transform: translateY(0) scale(1);
+        }
+        15% {
+          transform: translateY(-28px) scale(1.12);
+        }
+        30% {
+          transform: translateY(8px) scale(0.92);
+        }
+        45% {
+          transform: translateY(-14px) scale(1.08);
+        }
+        60% {
+          transform: translateY(4px) scale(0.96);
+        }
+        75% {
+          transform: translateY(-6px) scale(1.04);
+        }
+        90% {
+          transform: translateY(2px) scale(0.98);
+        }
+        100% {
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .logo-letter:nth-child(1) {
+        color: #f5c24c;
+      }
+      .logo-letter:nth-child(2) {
+        color: #f5c24c;
+      }
+      .logo-letter:nth-child(3) {
+        color: #f5c24c;
+      }
+      .logo-letter:nth-child(4) {
+        color: #1f9e3e;
+      }
+      .logo-letter:nth-child(5) {
+        color: #1f9e3e;
+      }
+      .logo-letter:nth-child(6) {
+        color: #1f9e3e;
+      }
+
+      .hero-subtitle {
+        font-size: 1.75rem;
+        font-weight: 400;
+        letter-spacing: -0.5px;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      }
+      @media (min-width: 640px) {
+        .hero-subtitle {
+          font-size: 2.3rem;
+        }
+      }
+      @media (min-width: 1024px) {
+        .hero-subtitle {
+          font-size: 3rem;
+        }
+      }
+
+      .hero-description {
+        font-size: 1.1rem;
+        line-height: 1.65;
+        max-width: 460px;
+        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+      }
+      @media (min-width: 768px) {
+        .hero-description {
+          font-size: 1.25rem;
+        }
+      }
+
+      .outlined-button {
+        border: 2px solid #f5c24c;
+        color: #f5c24c;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .outlined-button:hover {
+        background: #ffffff;
+        color: #000000;
+        border-color: #ffffff;
+        box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.4);
+        transform: translateY(-2px);
+      }
+
+      .section-padding {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      @media (min-width: 640px) {
+        .section-padding {
+          padding-left: 2rem;
+          padding-right: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="overflow-x-hidden font-sans">
+    <!-- NAVBAR -->
+    <nav
+      class="bg-black border-b border-[#f5c24c]/30 sticky top-0 z-50 backdrop-blur-lg"
+    >
+      <div class="max-w-screen-2xl mx-auto section-padding">
+        <div class="flex justify-between items-center h-16 md:h-20">
+          <a href="index.html" class="flex items-center group">
+            <img
+              src="assets/images/logo.jpg"
+              alt="YINAGA Logo"
+              class="h-9 w-auto md:h-11 transition-transform group-hover:rotate-12"
+            />
+          </a>
+
+          <div
+            class="hidden lg:flex items-center gap-x-10 text-white uppercase text-sm font-medium tracking-[2px]"
+          >
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="team.html" class="nav-link">Team</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="gallery.html" class="nav-link">Gallery</a>
+            <a href="partners.html" class="nav-link">Partners</a>
+            <a href="join.html" class="nav-link">Join</a>
+          </div>
+
+          <div class="flex items-center gap-x-4 md:gap-x-6">
+            <a
+              href="join.html"
+              class="gold-button text-black px-7 py-3 md:px-10 md:py-4 text-xs md:text-sm uppercase tracking-widest flex items-center gap-x-2 rounded-3xl font-semibold"
+            >
+              Join the Movement <span class="text-xl leading-none"></span>
+            </a>
+            <button
+              onclick="toggleMobileMenu()"
+              class="lg:hidden text-white p-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-7 h-7 md:w-8 md:h-8"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="mobileMenu"
+        class="hidden lg:hidden bg-black px-6 py-6 border-t border-[#f5c24c]/30"
+      >
+        <div class="flex flex-col gap-y-6 text-white text-base font-medium">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="team.html" class="nav-link">Team</a>
+          <a href="projects.html" class="nav-link">Projects</a>
+          <a href="gallery.html" class="nav-link">Gallery</a>
+          <a href="partners.html" class="nav-link">Partners</a>
+          <a href="join.html" class="nav-link">Join</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO – PIANO BOUNCE LOGO -->
+    <header class="hero-bg h-screen flex items-center relative text-white">
+      <div class="max-w-screen-2xl mx-auto section-padding pt-8 md:pt-12">
+        <div class="max-w-2xl">
+          <div id="logoContainer" class="logo-container mb-4 md:mb-6">
+            <span class="logo-letter" data-index="0">Y</span>
+            <span class="logo-letter" data-index="1">I</span>
+            <span class="logo-letter" data-index="2">N</span>
+            <span class="logo-letter" data-index="3">A</span>
+            <span class="logo-letter" data-index="4">G</span>
+            <span class="logo-letter" data-index="5">A</span>
+          </div>
+          <p class="hero-subtitle font-light mb-6 md:mb-8">
+            Youth Inclusion in Agriculture Advancement
+          </p>
+          <p class="hero-description text-white/95 mb-8 md:mb-12">
+            We are rebranding agriculture as the most profitable, innovative,
+            and dignified career for African youth. From soil to sovereignty.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a
+              href="projects.html"
+              class="gold-button text-black px-8 py-4 md:px-12 md:py-6 rounded-3xl text-base md:text-xl font-semibold flex items-center justify-center gap-x-3"
+            >
+              See Our Projects <span class="text-2xl"></span>
+            </a>
+            <a
+              href="join.html"
+              class="outlined-button px-8 py-4 md:px-12 md:py-6 rounded-3xl text-base md:text-xl font-semibold transition-all duration-500 text-center"
+              >Become a Member</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="absolute bottom-8 left-1/2 flex flex-col items-center text-white/60 text-xs tracking-[2.5px] animate-pulse"
+      >
+        SCROLL TO JOIN THE REVOLUTION
+        <div
+          class="mt-3 w-5 h-8 border border-white/40 rounded-3xl flex items-center justify-center"
+        >
+          <div class="w-px h-3 bg-white animate-bounce"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- PRESIDENT, DIRECTOR GENERAL & SECRETARY GENERAL REMARKS -->
+    <section
+      class="py-12 md:py-24 bg-[#0a0f0a] reveal relative overflow-hidden"
+    >
+      <div
+        class="max-w-screen-2xl mx-auto section-padding grid md:grid-cols-3 gap-8 md:gap-10 relative z-10"
+      >
+        <!-- President -->
+        <div class="premium-card p-10 md:p-12 rounded-3xl">
+          <p class="text-[#f5c24c] uppercase text-sm tracking-[2px] mb-6">
+            President’s Message
+          </p>
+          <p class="text-2xl md:text-3xl leading-tight italic text-white">
+            "Africa's future will not be built by waiting for opportunities, it
+            will be built by young people bold enough to create them through
+            agriculture. Agriculture is one of the most powerful tools we have
+            to fight hunger, create jobs and build stability in Africa. I
+            believe in one simple vision: a peaceful and prosperous Africa
+            powered by youth, driven by agriculture. This is not just a vision,
+            it is possible."
+          </p>
+          <div class="mt-10">
+            <div class="font-semibold text-xl text-[#22c55e]">
+              Ayodeji Adegboro
+            </div>
+            <div class="text-sm text-[#4ade80]">President, YINAGA</div>
+          </div>
+        </div>
+
+        <!-- Director General (NEW - placed in the middle) -->
+        <div class="premium-card p-10 md:p-12 rounded-3xl">
+          <p class="text-[#f5c24c] uppercase text-sm tracking-[2px] mb-6">
+            Director General’s Message
+          </p>
+          <p class="text-2xl md:text-3xl leading-tight italic text-white">
+            "At YINAGA, we believe the solution to Africa’s food security lies
+            in the hands of bold, innovative young people willing to turn
+            challenges into opportunities. Our mission is clear, to inspire,
+            equip, and position young Africans to become the driving force
+            behind a resilient, innovative, and prosperous agricultural future."
+          </p>
+          <div class="mt-10">
+            <div class="font-semibold text-xl text-[#22c55e]">
+              Stanley Chukwuka
+            </div>
+            <div class="text-sm text-[#4ade80]">Director General, YINAGA</div>
+          </div>
+        </div>
+
+        <!-- Secretary General -->
+        <div class="premium-card p-10 md:p-12 rounded-3xl">
+          <p class="text-[#f5c24c] uppercase text-sm tracking-[2px] mb-6">
+            Secretary General’s Message
+          </p>
+          <p class="text-2xl md:text-3xl leading-tight italic text-white">
+            "At YINAGA, we are igniting a generation that will not run from
+            agriculture, but will revolutionize it. Through YINAGA, the youth
+            become the engine of food security and the architects of Africa's
+            sustainable future."
+          </p>
+          <div class="mt-10">
+            <div class="font-semibold text-xl text-[#22c55e]">Ruby Oputa</div>
+            <div class="text-sm text-[#4ade80]">Secretary General, YINAGA</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUICK LINKS -->
+    <section class="py-12 md:py-20 bg-[#0a0f0a] reveal">
+      <div
+        class="max-w-screen-2xl mx-auto section-padding grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
+      >
+        <a
+          href="projects.html"
+          class="premium-card p-8 md:p-10 rounded-3xl group"
+        >
+          <div class="text-[#f5c24c] text-xs font-semibold mb-6">
+            OUR PROJECTS
+          </div>
+          <h3
+            class="text-3xl md:text-4xl heading-font mb-6 group-hover:text-[#f5c24c] text-white"
+          >
+            10,000 youth agribusinesses launched by 2026
+          </h3>
+          <p class="text-white/80">
+            Real, measurable impact across every state in Nigeria and beyond.
+          </p>
+        </a>
+        <a
+          href="partners.html"
+          class="premium-card p-8 md:p-10 rounded-3xl group"
+        >
+          <div class="text-[#f5c24c] text-xs font-semibold mb-6">
+            POWERED BY
+          </div>
+          <h3
+            class="text-3xl md:text-4xl heading-font mb-6 group-hover:text-[#f5c24c] text-white"
+          >
+            Federal Ministry, AfDB, AU, IITA &amp; more
+          </h3>
+          <p class="text-white/80">
+            Strategic partnerships that turn vision into action.
+          </p>
+        </a>
+        <a href="join.html" class="premium-card p-8 md:p-10 rounded-3xl group">
+          <div class="text-[#f5c24c] text-xs font-semibold mb-6">
+            GET INVOLVED
+          </div>
+          <h3
+            class="text-3xl md:text-4xl heading-font mb-6 group-hover:text-[#f5c24c] text-white"
+          >
+            Register as Member or Volunteer
+          </h3>
+          <p class="text-white/80">
+            Create your profile, get updates, and access exclusive
+            opportunities.
+          </p>
+        </a>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <!-- NEW DISTINCT GLAMOROUS FOOTER -->
+    <footer
+      class="bg-[#0f2a1f] text-white py-12 md:py-20 border-t border-[#f5c24c]/20"
+    >
+      <div
+        class="max-w-screen-2xl mx-auto section-padding grid md:grid-cols-4 gap-y-10"
+      >
+        <div>
+          <img
+            src="assets/images/logo.jpg"
+            alt="YINAGA"
+            class="h-8 md:h-10 mb-6"
+          />
+          <p class="text-white/80 max-w-xs text-sm leading-relaxed">
+            A youth-led Pan-African movement redefining agriculture as the
+            ultimate wealth and peace engine.
+          </p>
+          <div class="text-xs text-white/40 mt-12">
+            © 2026 YINAGA • yinaga.com • All Rights Reserved
+          </div>
+        </div>
+
+        <div class="space-y-3 text-sm">
+          <a
+            href="about.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Mission &amp; Vision</a
+          >
+          <a
+            href="team.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Leadership</a
+          >
+          <a
+            href="projects.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Projects</a
+          >
+        </div>
+
+        <div class="space-y-3 text-sm">
+          <a
+            href="join.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Member Registration</a
+          >
+          <a
+            href="join.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Volunteer Application</a
+          >
+          <a
+            href="member-portal.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Member Portal</a
+          >
+        </div>
+
+        <div>
+          <p class="text-white/80 text-sm mb-4">Stay in the movement</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input
+              id="footer-email"
+              type="email"
+              placeholder="your@email.com"
+              class="bg-white/10 border border-white/30 text-white placeholder:text-white/50 px-6 py-4 rounded-3xl w-full focus:outline-none text-sm"
+            />
+            <button
+              onclick="subscribe()"
+              class="bg-[#f5c24c] text-black px-8 py-4 rounded-3xl font-semibold text-sm whitespace-nowrap hover:bg-[#e8b02a]"
+            >
+              JOIN
+            </button>
+          </div>
+          <div id="subscribe-msg" class="text-[#4ade80] text-xs mt-4"></div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        window.toggleMobileMenu = () =>
+          document.getElementById("mobileMenu").classList.toggle("hidden");
+
+        // Active nav
+        document
+          .querySelectorAll('a.nav-link[href="index.html"]')
+          .forEach((l) => l.classList.add("active"));
+
+        const reveals = document.querySelectorAll(".reveal");
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) entry.target.classList.add("active");
+            });
+          },
+          { threshold: 0.15 },
+        );
+        reveals.forEach((el) => observer.observe(el));
+
+        // Piano bounce logo
+        const logoContainer = document.getElementById("logoContainer");
+        if (logoContainer) {
+          const letters = logoContainer.querySelectorAll(".logo-letter");
+          function triggerPianoBounce() {
+            letters.forEach((letter, index) => {
+              const delay = index * 45;
+              letter.style.animationDelay = `${delay}ms`;
+              letter.classList.add("animate");
+            });
+          }
+          if (window.innerWidth >= 768) triggerPianoBounce();
+          else {
+            const heroObserver = new IntersectionObserver(
+              (entries) => {
+                if (entries[0].isIntersecting) {
+                  triggerPianoBounce();
+                  heroObserver.disconnect();
+                }
+              },
+              { threshold: 0.6 },
+            );
+            heroObserver.observe(document.querySelector("header"));
+          }
+        }
+
+        window.subscribe = () => {
+          const msg = document.getElementById("subscribe-msg");
+          msg.innerHTML = "✅ Welcome to the YINAGA movement!";
+        };
+      });
+    </script>
+  </body>
+</html>

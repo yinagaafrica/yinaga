@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="YINAGA Gallery - Summits, Events & Moments" />
+    <title>Gallery | YINAGA</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --yinaga-green: #1f9e3e;
+        --yinaga-gold: #f5c24c;
+      }
+      .heading-font {
+        font-family: "Playfair Display", sans-serif;
+      }
+
+      .gallery-hero {
+        background-image:
+          linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+          url("assets/images/rural.webp");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+      }
+
+      @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(40px); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 1s cubic-bezier(0.25, 0.1, 0.25, 1);
+      }
+      .reveal.active {
+        animation: fadeInUp 1s forwards;
+      }
+
+      .nav-link {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      .nav-link:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #f5c24c;
+        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .nav-link:hover:after { width: 100%; }
+      .nav-link.active:after { width: 100%; }
+      .nav-link.active { color: #f5c24c; }
+
+      .gold-button {
+        background: linear-gradient(90deg, #f5c24c, #e8b02a);
+        box-shadow: 0 10px 30px -10px #f5c24c;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .gold-button:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 20px 40px -10px #f5c24c;
+      }
+
+      .gallery-card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+        cursor: pointer;
+      }
+      .gallery-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 20px 50px -15px rgba(245, 194, 76, 0.35);
+      }
+      .gallery-card img {
+        transition: transform 0.6s ease;
+      }
+      .gallery-card:hover img {
+        transform: scale(1.1);
+      }
+
+      /* Lightbox */
+      #lightbox {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.93);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+      }
+      #lightbox.open { display: flex; }
+      #lightbox img {
+        display: block;
+        max-width: 90vw;
+        max-height: 85vh;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+      }
+      .lb-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.18);
+        color: white;
+        width: 52px;
+        height: 52px;
+        border-radius: 9999px;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      .lb-btn:hover { background: rgba(245,194,76,0.25); }
+      #lb-prev { left: 1.5rem; }
+      #lb-next { right: 1.5rem; }
+      #lb-close {
+        position: absolute;
+        top: 1.25rem;
+        right: 1.5rem;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.18);
+        color: white;
+        width: 44px;
+        height: 44px;
+        border-radius: 9999px;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      #lb-close:hover { background: rgba(220,50,50,0.4); }
+      #lb-counter {
+        position: absolute;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(255,255,255,0.4);
+        font-size: 0.78rem;
+        letter-spacing: 2px;
+      }
+
+      .event-tab {
+        padding: 0.6rem 1.75rem;
+        border-radius: 9999px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255,255,255,0.15);
+        color: rgba(255,255,255,0.5);
+        white-space: nowrap;
+      }
+      .event-tab.active {
+        background: rgba(245,194,76,0.12);
+        border-color: #f5c24c;
+        color: #f5c24c;
+      }
+      .event-tab:hover:not(.active) {
+        border-color: rgba(255,255,255,0.4);
+        color: white;
+      }
+
+      .section-padding {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      @media (min-width: 640px) {
+        .section-padding { padding-left: 2rem; padding-right: 2rem; }
+      }
+    </style>
+  </head>
+  <body class="overflow-x-hidden font-sans bg-[#0a0f0a]">
+
+    <!-- NAVBAR -->
+    <nav class="bg-black border-b border-[#f5c24c]/30 sticky top-0 z-50 backdrop-blur-lg">
+      <div class="max-w-screen-2xl mx-auto section-padding">
+        <div class="flex justify-between items-center h-16 md:h-20">
+          <a href="index.html" class="flex items-center group">
+            <img src="assets/images/logo.jpg" alt="YINAGA Logo" class="h-9 w-auto md:h-11 transition-transform group-hover:rotate-12" />
+          </a>
+          <div class="hidden lg:flex items-center gap-x-10 text-white uppercase text-sm font-medium tracking-[2px]">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="team.html" class="nav-link">Team</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="gallery.html" class="nav-link">Gallery</a>
+            <a href="partners.html" class="nav-link">Partners</a>
+            <a href="join.html" class="nav-link">Join</a>
+          </div>
+          <div class="flex items-center gap-x-4 md:gap-x-6">
+            <a href="join.html" class="gold-button text-black px-7 py-3 md:px-10 md:py-4 text-xs md:text-sm uppercase tracking-widest flex items-center gap-x-2 rounded-3xl font-semibold">
+              Join the Movement <span class="text-xl leading-none"></span>
+            </a>
+            <button onclick="toggleMobileMenu()" class="lg:hidden text-white p-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 md:w-8 md:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="mobileMenu" class="hidden lg:hidden bg-black px-6 py-6 border-t border-[#f5c24c]/30">
+        <div class="flex flex-col gap-y-6 text-white text-base font-medium">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="team.html" class="nav-link">Team</a>
+          <a href="projects.html" class="nav-link">Projects</a>
+          <a href="gallery.html" class="nav-link">Gallery</a>
+          <a href="partners.html" class="nav-link">Partners</a>
+          <a href="join.html" class="nav-link">Join</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="gallery-hero h-screen flex items-center relative text-white">
+      <div class="max-w-screen-2xl mx-auto section-padding">
+        <div class="max-w-2xl">
+          <p class="text-[#f5c24c] uppercase text-sm tracking-[3px] mb-6">Our Events</p>
+          <h1 class="text-6xl md:text-7xl font-bold heading-font tracking-[-4px] mb-6">Moments That Matter</h1>
+          <p class="text-2xl md:text-3xl font-light text-white/90">Summits, field days, youth gatherings & more.</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- GALLERY -->
+    <section class="py-16 md:py-24 bg-[#0a0f0a] reveal">
+      <div class="max-w-screen-2xl mx-auto section-padding">
+
+        <!-- Event Tabs -->
+        <div class="flex gap-3 flex-wrap mb-10">
+          <button class="event-tab active" onclick="showEvent('summit', this)">Agri Innovation Summit 2026</button>
+          <button class="event-tab" onclick="showEvent('jigawa', this)">Jigawa State: Improved Seeds Improvement Program</button>
+        </div>
+
+        <!-- Event Header — Agri Innovation Summit -->
+        <div id="event-summit">
+        <div class="mb-10 pb-8 border-b border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <h2 class="text-3xl heading-font text-white mb-1">Agri Innovation Summit 2026</h2>
+            <p class="text-white/45 text-sm">May 2026 &nbsp;&nbsp;</p>
+          </div>
+          <p class="text-white/30 text-xs uppercase tracking-widest"></p>
+        </div>
+
+        <!-- Photo Grid — 20 photos, -14 versions only -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="photo-grid">
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_1_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 1" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">1 / 20</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_2_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 2" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">2 / 20</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_3_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 3" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">3 / 20</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_4_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 4" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">4 / 20</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_5_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 5" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">5 / 20</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_6_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 6" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">6 / 20</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_7_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 7" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">7 / 20</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_8_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 8" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">8 / 20</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_9_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 9" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">9 / 20</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_10_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 10" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">10 / 20</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_11_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 11" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">11 / 20</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_12_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 12" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">12 / 20</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_13_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 13" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">13 / 20</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_14_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 14" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">14 / 20</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_15_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 15" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">15 / 20</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_16_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 16" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">16 / 20</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_17_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 17" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">17 / 20</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_18_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 18" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">18 / 20</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_19_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 19" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">19 / 20</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_20_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 20" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">20 / 20</p>
+            </div>
+          </div>
+
+        </div>
+        </div><!-- end #event-summit -->
+
+        <!-- Event: Jigawa State Improved Seeds Improvement Program -->
+        <div id="event-jigawa" style="display:none;">
+        <div class="mb-10 pb-8 border-b border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <h2 class="text-3xl heading-font text-white mb-1">Jigawa State: Partnered with TECNI seeds and Alternative Bank for improved seed empowerment and financial inclusion program</h2>
+            <p class="text-white/45 text-sm">Jan 2026 &nbsp;&nbsp;</p>
+          </div>
+          <p class="text-white/30 text-xs uppercase tracking-widest"></p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="photo-grid-jigawa">
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_1_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 1" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">1 / 14</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_2_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 2" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">2 / 14</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_3_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 3" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">3 / 14</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_4_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 4" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">4 / 14</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_5_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 5" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">5 / 14</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_6_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 6" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">6 / 14</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_7_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 7" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">7 / 14</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_8_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 8" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">8 / 14</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_9_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 9" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">9 / 14</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_10_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 10" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">10 / 14</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_11_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 11" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">11 / 14</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_12_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 12" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">12 / 14</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_13_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 13" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">13 / 14</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_14_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 14" class="w-full aspect-square object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">14 / 14</p>
+            </div>
+          </div>
+
+        </div>
+        </div><!-- end #event-jigawa -->
+
+    </section>
+    <footer class="bg-[#0f2a1f] text-white py-12 md:py-20 border-t border-[#f5c24c]/20">
+      <div class="max-w-screen-2xl mx-auto section-padding grid md:grid-cols-4 gap-y-10">
+        <div>
+          <img src="assets/images/logo.jpg" alt="YINAGA" class="h-8 md:h-10 mb-6" />
+          <p class="text-white/80 max-w-xs text-sm leading-relaxed">A youth-led Pan-African movement redefining agriculture as the ultimate wealth and peace engine.</p>
+          <div class="text-xs text-white/40 mt-12">© 2026 YINAGA • yinaga.com • All Rights Reserved</div>
+        </div>
+        <div class="space-y-3 text-sm">
+          <a href="about.html" class="block hover:text-[#f5c24c] transition-colors">Mission & Vision</a>
+          <a href="team.html" class="block hover:text-[#f5c24c] transition-colors">Leadership</a>
+          <a href="projects.html" class="block hover:text-[#f5c24c] transition-colors">Projects</a>
+        </div>
+        <div class="space-y-3 text-sm">
+          <a href="join.html" class="block hover:text-[#f5c24c] transition-colors">Member Registration</a>
+          <a href="join.html" class="block hover:text-[#f5c24c] transition-colors">Volunteer Application</a>
+          <a href="member-portal.html" class="block hover:text-[#f5c24c] transition-colors">Member Portal</a>
+        </div>
+        <div>
+          <p class="text-white/80 text-sm mb-4">Stay in the movement</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input id="footer-email" type="email" placeholder="your@email.com" class="bg-white/10 border border-white/30 text-white placeholder:text-white/50 px-6 py-4 rounded-3xl w-full focus:outline-none text-sm" />
+            <button onclick="subscribe()" class="bg-[#f5c24c] text-black px-8 py-4 rounded-3xl font-semibold text-sm whitespace-nowrap hover:bg-[#e8b02a]">JOIN</button>
+          </div>
+          <div id="subscribe-msg" class="text-[#4ade80] text-xs mt-4"></div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        window.toggleMobileMenu = () =>
+          document.getElementById("mobileMenu").classList.toggle("hidden");
+
+        document.querySelectorAll('a.nav-link[href="gallery.html"]').forEach(l => l.classList.add("active"));
+
+        const reveals = document.querySelectorAll(".reveal");
+        const observer = new IntersectionObserver(
+          (entries) => { entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("active"); }); },
+          { threshold: 0.15 }
+        );
+        reveals.forEach((el) => observer.observe(el));
+
+        window.subscribe = () => {
+          document.getElementById("subscribe-msg").innerHTML = "✅ Welcome to the YINAGA movement!";
+        };
+
+        // ── Tab switching ──
+        window.showEvent = (event, btn) => {
+          document.querySelectorAll(".event-tab").forEach(t => t.classList.remove("active"));
+          btn.classList.add("active");
+          document.getElementById("event-summit").style.display = event === "summit" ? "block" : "none";
+          document.getElementById("event-jigawa").style.display = event === "jigawa" ? "block" : "none";
+        };
+
+        // ── Lightbox ──
+        // Each card passes itself (the .gallery-card div) to openLightbox/openLightboxJigawa.
+        // We find the img inside, grab its src directly, and collect siblings for prev/next.
+        let allImages = [];
+        let current = 0;
+
+        function openWith(cardEl, gridId) {
+          const grid = document.getElementById(gridId);
+          allImages = Array.from(grid.querySelectorAll(".gallery-card img"));
+          const img = cardEl.querySelector("img");
+          current = allImages.indexOf(img);
+          document.getElementById("lb-img").src = img.src;
+          document.getElementById("lb-counter").textContent = `${current + 1} / ${allImages.length}`;
+          document.getElementById("lightbox").classList.add("open");
+          document.body.style.overflow = "hidden";
+          history.pushState({ lightbox: true }, "");
+        }
+
+        window.openLightbox = (cardEl) => openWith(cardEl, "photo-grid");
+        window.openLightboxJigawa = (cardEl) => openWith(cardEl, "photo-grid-jigawa");
+
+        window.closeLightbox = () => {
+          document.getElementById("lightbox").classList.remove("open");
+          document.body.style.overflow = "";
+        };
+
+        // Browser back button — close lightbox instead of navigating away
+        window.addEventListener("popstate", (e) => {
+          if (document.getElementById("lightbox").classList.contains("open")) {
+            closeLightbox();
+          }
+        });
+
+        window.shiftLightbox = (dir) => {
+          current = (current + dir + allImages.length) % allImages.length;
+          document.getElementById("lb-img").src = allImages[current].src;
+          document.getElementById("lb-counter").textContent = `${current + 1} / ${allImages.length}`;
+        };
+
+        document.getElementById("lightbox").addEventListener("click", (e) => {
+          if (e.target === document.getElementById("lightbox")) closeLightbox();
+        });
+
+        document.addEventListener("keydown", (e) => {
+          if (!document.getElementById("lightbox").classList.contains("open")) return;
+          if (e.key === "ArrowRight") shiftLightbox(1);
+          if (e.key === "ArrowLeft") shiftLightbox(-1);
+          if (e.key === "Escape") closeLightbox();
+        });
+      });
+    </script>
+    <!-- LIGHTBOX — must be direct child of body, outside any transformed/animated parent -->
+    <div id="lightbox">
+      <button id="lb-close" onclick="closeLightbox()">✕</button>
+      <button class="lb-btn" id="lb-prev" onclick="shiftLightbox(-1)">‹</button>
+      <img id="lb-img" src="" alt="Gallery photo enlarged" />
+      <button class="lb-btn" id="lb-next" onclick="shiftLightbox(1)">›</button>
+      <div id="lb-counter"></div>
+    </div>
+
+  </body>
+</html>

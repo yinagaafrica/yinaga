@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="YINAGA Projects – Youth Agribusiness Initiatives Across Africa"
+    />
+    <title>Projects | YINAGA</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="assets/images/favicon/favicon.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/images/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/images/favicon/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/images/favicon/apple-touch-icon.png"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --yinaga-green: #1f9e3e;
+        --yinaga-gold: #f5c24c;
+      }
+      .heading-font {
+        font-family: "Playfair Display", sans-serif;
+      }
+
+      .projects-hero {
+        background-image:
+          linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+          url("assets/images/produce.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+      }
+
+      @keyframes fadeInUp {
+        0% {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 1s cubic-bezier(0.25, 0.1, 0.25, 1);
+      }
+      .reveal.active {
+        animation: fadeInUp 1s forwards;
+      }
+
+      .nav-link {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      .nav-link:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #f5c24c;
+        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .nav-link:hover:after {
+        width: 100%;
+      }
+      .nav-link.active:after {
+        width: 100%;
+      }
+      .nav-link.active {
+        color: #f5c24c;
+      }
+
+      .gold-button {
+        background: linear-gradient(90deg, #f5c24c, #e8b02a);
+        box-shadow: 0 10px 30px -10px #f5c24c;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .gold-button:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 20px 40px -10px #f5c24c;
+      }
+
+      .premium-card {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .premium-card:hover {
+        transform: translateY(-6px);
+        border-color: #f5c24c;
+        box-shadow: 0 25px 50px -15px rgba(245, 194, 76, 0.4);
+      }
+
+      .section-padding {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      @media (min-width: 640px) {
+        .section-padding {
+          padding-left: 2rem;
+          padding-right: 2rem;
+        }
+      }
+
+      .progress-bar {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 9999px;
+        overflow: hidden;
+        height: 6px;
+      }
+      .progress-fill {
+        height: 100%;
+        border-radius: 9999px;
+        background: linear-gradient(90deg, #1f9e3e, #f5c24c);
+      }
+    </style>
+  </head>
+  <body class="overflow-x-hidden font-sans bg-[#0a0f0a]">
+    <!-- NAVBAR -->
+    <nav
+      class="bg-black border-b border-[#f5c24c]/30 sticky top-0 z-50 backdrop-blur-lg"
+    >
+      <div class="max-w-screen-2xl mx-auto section-padding">
+        <div class="flex justify-between items-center h-16 md:h-20">
+          <a href="index.html" class="flex items-center group">
+            <img
+              src="assets/images/logo.jpg"
+              alt="YINAGA Logo"
+              class="h-9 w-auto md:h-11 transition-transform group-hover:rotate-12"
+            />
+          </a>
+          <div
+            class="hidden lg:flex items-center gap-x-10 text-white uppercase text-sm font-medium tracking-[2px]"
+          >
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="team.html" class="nav-link">Team</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="gallery.html" class="nav-link">Gallery</a>
+            <a href="partners.html" class="nav-link">Partners</a>
+            <a href="join.html" class="nav-link">Join</a>
+          </div>
+          <div class="flex items-center gap-x-4 md:gap-x-6">
+            <a
+              href="join.html"
+              class="gold-button text-black px-7 py-3 md:px-10 md:py-4 text-xs md:text-sm uppercase tracking-widest flex items-center gap-x-2 rounded-3xl font-semibold"
+            >
+              Join the Movement <span class="text-xl leading-none"></span>
+            </a>
+            <button
+              onclick="toggleMobileMenu()"
+              class="lg:hidden text-white p-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-7 h-7 md:w-8 md:h-8"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        id="mobileMenu"
+        class="hidden lg:hidden bg-black px-6 py-6 border-t border-[#f5c24c]/30"
+      >
+        <div class="flex flex-col gap-y-6 text-white text-base font-medium">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="team.html" class="nav-link">Team</a>
+          <a href="projects.html" class="nav-link">Projects</a>
+          <a href="gallery.html" class="nav-link">Gallery</a>
+          <a href="partners.html" class="nav-link">Partners</a>
+          <a href="join.html" class="nav-link">Join</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <header
+      class="projects-hero h-screen flex items-center relative text-white"
+    >
+      <div class="max-w-screen-2xl mx-auto section-padding pt-12">
+        <div class="max-w-2xl">
+          <p class="text-[#f5c24c] uppercase text-sm tracking-[3px] mb-6">
+            What We're Building
+          </p>
+          <h1
+            class="text-6xl md:text-7xl font-bold heading-font tracking-[-4px] mb-6"
+          >
+            Our Projects
+          </h1>
+          <p class="text-2xl md:text-3xl font-light text-white/90">
+            Real, measurable impact. From farm to future.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- IMPACT STATS -->
+    <section class="py-12 md:py-20 bg-[#0a0f0a] reveal">
+      <div
+        class="max-w-screen-2xl mx-auto section-padding grid grid-cols-2 md:grid-cols-4 gap-6"
+      >
+        <div class="premium-card p-8 rounded-3xl text-center">
+          <div
+            class="text-4xl md:text-5xl font-bold text-[#f5c24c] heading-font"
+          >
+            10K
+          </div>
+          <div class="text-white/70 text-sm mt-2 uppercase tracking-widest">
+            Youth Agribusinesses<br />Target by 2026
+          </div>
+        </div>
+        <div class="premium-card p-8 rounded-3xl text-center">
+          <div
+            class="text-4xl md:text-5xl font-bold text-[#f5c24c] heading-font"
+          >
+            36
+          </div>
+          <div class="text-white/70 text-sm mt-2 uppercase tracking-widest">
+            States Targeted<br />Across Nigeria
+          </div>
+        </div>
+        <div class="premium-card p-8 rounded-3xl text-center">
+          <div
+            class="text-4xl md:text-5xl font-bold text-[#f5c24c] heading-font"
+          >
+            54
+          </div>
+          <div class="text-white/70 text-sm mt-2 uppercase tracking-widest">
+            African Countries<br />In Scope
+          </div>
+        </div>
+        <div class="premium-card p-8 rounded-3xl text-center">
+          <div
+            class="text-4xl md:text-5xl font-bold text-[#f5c24c] heading-font"
+          >
+            2063
+          </div>
+          <div class="text-white/70 text-sm mt-2 uppercase tracking-widest">
+            Aligned With<br />AU Agenda
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FLAGSHIP PROJECTS -->
+    <section class="py-16 md:py-24 bg-[#0a0f0a] text-white reveal">
+      <div class="max-w-screen-2xl mx-auto section-padding">
+        <h2 class="text-4xl heading-font text-center mb-4 text-[#f5c24c]">
+          Flagship Initiatives
+        </h2>
+        <p class="text-center text-white/60 mb-14 max-w-xl mx-auto">
+          Each project is designed to create lasting, scalable change for
+          African youth in agriculture.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Project 1 -->
+          <div class="premium-card p-10 rounded-3xl">
+            <div class="flex items-center gap-4 mb-6">
+              <div
+                class="w-12 h-12 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+              >
+                🌾
+              </div>
+              <div>
+                <p class="text-[#f5c24c] text-xs uppercase tracking-[2px]">
+                  Initiative 01
+                </p>
+                <h3 class="text-xl font-semibold">
+                  Youth Agribusiness Launchpad
+                </h3>
+              </div>
+            </div>
+            <p class="text-white/75 leading-relaxed mb-6">
+              A structured programme providing young Nigerians with agribusiness
+              training, access to micro-funding, and mentorship from established
+              agripreneurs. Target: 10,000 youth-led businesses operational by
+              end of 2026.
+            </p>
+            <div class="progress-bar mb-2">
+              <div class="progress-fill" style="width: 38%"></div>
+            </div>
+            <p class="text-xs text-white/40">38% of 2026 target reached</p>
+          </div>
+
+          <!-- Project 2 -->
+          <div class="premium-card p-10 rounded-3xl">
+            <div class="flex items-center gap-4 mb-6">
+              <div
+                class="w-12 h-12 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+              >
+                📱
+              </div>
+              <div>
+                <p class="text-[#f5c24c] text-xs uppercase tracking-[2px]">
+                  Initiative 02
+                </p>
+                <h3 class="text-xl font-semibold">
+                  Smart Farming & AgriTech Drive
+                </h3>
+              </div>
+            </div>
+            <p class="text-white/75 leading-relaxed mb-6">
+              Equipping youth with digital tools — drone mapping, soil sensors,
+              mobile market platforms — to modernise smallholder farming and
+              boost productivity across rural communities.
+            </p>
+            <div class="progress-bar mb-2">
+              <div class="progress-fill" style="width: 22%"></div>
+            </div>
+            <p class="text-xs text-white/40">22% of 2026 target reached</p>
+          </div>
+
+          <!-- Project 3 -->
+          <div class="premium-card p-10 rounded-3xl">
+            <div class="flex items-center gap-4 mb-6">
+              <div
+                class="w-12 h-12 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+              >
+                ♀️
+              </div>
+              <div>
+                <p class="text-[#f5c24c] text-xs uppercase tracking-[2px]">
+                  Initiative 03
+                </p>
+                <h3 class="text-xl font-semibold">
+                  Women in Agriculture Programme
+                </h3>
+              </div>
+            </div>
+            <p class="text-white/75 leading-relaxed mb-6">
+              A dedicated strand ensuring young women receive equal access to
+              training, land, funding, and leadership positions within YINAGA
+              and the wider agribusiness sector.
+            </p>
+            <div class="progress-bar mb-2">
+              <div class="progress-fill" style="width: 51%"></div>
+            </div>
+            <p class="text-xs text-white/40">51% of 2026 target reached</p>
+          </div>
+
+          <!-- Project 4 -->
+          <div class="premium-card p-10 rounded-3xl">
+            <div class="flex items-center gap-4 mb-6">
+              <div
+                class="w-12 h-12 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+              >
+                ♻️
+              </div>
+              <div>
+                <p class="text-[#f5c24c] text-xs uppercase tracking-[2px]">
+                  Initiative 04
+                </p>
+                <h3 class="text-xl font-semibold">
+                  Circular Agriculture & Waste Recovery
+                </h3>
+              </div>
+            </div>
+            <p class="text-white/75 leading-relaxed mb-6">
+              Training youth to convert agricultural waste into compost, biogas,
+              and value-added products — building circular economy models that
+              are profitable and environmentally responsible.
+            </p>
+            <div class="progress-bar mb-2">
+              <div class="progress-fill" style="width: 15%"></div>
+            </div>
+            <p class="text-xs text-white/40">15% of 2026 target reached</p>
+          </div>
+
+          <!-- Project 5 -->
+          <div class="premium-card p-10 rounded-3xl">
+            <div class="flex items-center gap-4 mb-6">
+              <div
+                class="w-12 h-12 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+              >
+                🤝
+              </div>
+              <div>
+                <p class="text-[#f5c24c] text-xs uppercase tracking-[2px]">
+                  Initiative 05
+                </p>
+                <h3 class="text-xl font-semibold">State Coordinator Network</h3>
+              </div>
+            </div>
+            <p class="text-white/75 leading-relaxed mb-6">
+              Building a grassroots coordinator network across all 36 Nigerian
+              states — each coordinator driving local recruitment, training
+              events, and liaison with state ministries of agriculture.
+            </p>
+            <div class="progress-bar mb-2">
+              <div class="progress-fill" style="width: 8%"></div>
+            </div>
+            <p class="text-xs text-white/40">
+              8% of states with active coordinators
+            </p>
+          </div>
+
+          <!-- Project 6 -->
+          <div class="premium-card p-10 rounded-3xl">
+            <div class="flex items-center gap-4 mb-6">
+              <div
+                class="w-12 h-12 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+              >
+                🌍
+              </div>
+              <div>
+                <p class="text-[#f5c24c] text-xs uppercase tracking-[2px]">
+                  Initiative 06
+                </p>
+                <h3 class="text-xl font-semibold">
+                  Pan-African Youth Agriculture Summit
+                </h3>
+              </div>
+            </div>
+            <p class="text-white/75 leading-relaxed mb-6">
+              An annual continental summit bringing together youth agripreneurs,
+              policymakers, investors, and research institutions to share
+              knowledge, forge partnerships, and celebrate African agricultural
+              excellence.
+            </p>
+            <div class="progress-bar mb-2">
+              <div class="progress-fill" style="width: 65%"></div>
+            </div>
+            <p class="text-xs text-white/40">
+              2025 Summit completed — 2026 edition in planning
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-20 bg-[#0f2a1f] text-white text-center reveal">
+      <div class="max-w-2xl mx-auto section-padding">
+        <h2 class="text-4xl heading-font mb-6 text-[#f5c24c]">
+          Be Part of the Story
+        </h2>
+        <p class="text-white/70 text-lg mb-10">
+          These projects are powered by young Africans like you. Join,
+          volunteer, or partner with us to accelerate the mission.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="join.html"
+            class="gold-button text-black px-10 py-5 rounded-3xl text-base font-semibold"
+            >Join the Movement
+          </a>
+          <a
+            href="partners.html"
+            class="border-2 border-[#f5c24c] text-[#f5c24c] px-10 py-5 rounded-3xl text-base font-semibold hover:bg-[#f5c24c] hover:text-black transition-all duration-300"
+            >Become a Partner</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer
+      class="bg-[#0f2a1f] text-white py-12 md:py-20 border-t border-[#f5c24c]/20"
+    >
+      <div
+        class="max-w-screen-2xl mx-auto section-padding grid md:grid-cols-4 gap-y-10"
+      >
+        <div>
+          <img
+            src="assets/images/logo.jpg"
+            alt="YINAGA"
+            class="h-8 md:h-10 mb-6"
+          />
+          <p class="text-white/80 max-w-xs text-sm leading-relaxed">
+            A youth-led Pan-African movement redefining agriculture as the
+            ultimate wealth and peace engine.
+          </p>
+          <div class="text-xs text-white/40 mt-12">
+            © 2026 YINAGA • yinaga.com • All Rights Reserved
+          </div>
+        </div>
+        <div class="space-y-3 text-sm">
+          <a
+            href="about.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Mission & Vision</a
+          >
+          <a
+            href="team.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Leadership</a
+          >
+          <a
+            href="projects.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Projects</a
+          >
+        </div>
+        <div class="space-y-3 text-sm">
+          <a
+            href="join.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Member Registration</a
+          >
+          <a
+            href="join.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Volunteer Application</a
+          >
+          <a
+            href="member-portal.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Member Portal</a
+          >
+        </div>
+        <div>
+          <p class="text-white/80 text-sm mb-4">Stay in the movement</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input
+              id="footer-email"
+              type="email"
+              placeholder="your@email.com"
+              class="bg-white/10 border border-white/30 text-white placeholder:text-white/50 px-6 py-4 rounded-3xl w-full focus:outline-none text-sm"
+            />
+            <button
+              onclick="subscribe()"
+              class="bg-[#f5c24c] text-black px-8 py-4 rounded-3xl font-semibold text-sm whitespace-nowrap hover:bg-[#e8b02a]"
+            >
+              JOIN
+            </button>
+          </div>
+          <div id="subscribe-msg" class="text-[#4ade80] text-xs mt-4"></div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        window.toggleMobileMenu = () =>
+          document.getElementById("mobileMenu").classList.toggle("hidden");
+
+        // Active nav
+        document
+          .querySelectorAll('a.nav-link[href="projects.html"]')
+          .forEach((l) => l.classList.add("active"));
+
+        const reveals = document.querySelectorAll(".reveal");
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("active");
+            });
+          },
+          { threshold: 0.15 },
+        );
+        reveals.forEach((el) => observer.observe(el));
+
+        window.subscribe = () => {
+          document.getElementById("subscribe-msg").innerHTML =
+            "✅ Welcome to the YINAGA movement!";
+        };
+      });
+    </script>
+  </body>
+</html>
