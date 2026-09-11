@@ -8,28 +8,10 @@
       content="Join YINAGA – Register as a Member or Volunteer"
     />
     <title>Join | YINAGA</title>
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="assets/images/favicon/favicon.ico"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="assets/images/favicon/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="assets/images/favicon/favicon-16x16.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="assets/images/favicon/apple-touch-icon.png"
-    />
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script
@@ -482,7 +464,7 @@
             <div class="mt-6 flex justify-center">
               <div
                 class="cf-turnstile"
-                data-sitekey="1x00000000000000000000AA"
+                data-sitekey="0x4AAAAAAEvtRZFeNXduPS74"
                 data-theme="dark"
                 data-callback="onMemberCaptchaSuccess"
                 data-expired-callback="onMemberCaptchaExpired"
@@ -659,7 +641,7 @@
             <div class="mt-6 flex justify-center">
               <div
                 class="cf-turnstile"
-                data-sitekey="1x00000000000000000000AA"
+                data-sitekey="0x4AAAAAAEvtRZFeNXduPS74"
                 data-theme="dark"
                 data-callback="onVolunteerCaptchaSuccess"
                 data-expired-callback="onVolunteerCaptchaExpired"
@@ -837,7 +819,8 @@
       // Returns null if valid, or an error message string if not.
       function validatePassword(pw, pw2) {
         if (!pw || !pw2) return "⚠️ Please create and confirm a password.";
-        if (pw.length < 8) return "⚠️ Password must be at least 8 characters.";
+        if (pw.length < 8)
+          return "⚠️ Password must be at least 8 characters.";
         if (pw !== pw2) return "⚠️ Passwords do not match.";
         return null;
       }
