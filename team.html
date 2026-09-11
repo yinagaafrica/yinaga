@@ -42,12 +42,15 @@
       }
 
       .team-hero {
+        background-color: #0a0f0a;
         background-image:
           linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
           url("assets/images/youth.jpg");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
+        min-height: 100vh;
+        min-height: 100svh;
       }
       @media (max-width: 768px) {
         .team-hero {
@@ -160,9 +163,10 @@
           <div class="flex items-center gap-x-4 md:gap-x-6">
             <a
               href="join.html"
-              class="gold-button text-black px-7 py-3 md:px-10 md:py-4 text-xs md:text-sm uppercase tracking-widest flex items-center gap-x-2 rounded-3xl font-semibold"
+              class="gold-button text-black px-4 py-2.5 sm:px-7 sm:py-3 md:px-10 md:py-4 text-[0.65rem] sm:text-xs md:text-sm uppercase tracking-widest flex items-center gap-x-2 rounded-3xl font-semibold whitespace-nowrap flex-shrink-0"
             >
-              Join the Movement <span class="text-xl leading-none"></span>
+              <span class="sm:hidden">Join</span>
+              <span class="hidden sm:inline">Join the Movement</span>
             </a>
             <button
               onclick="toggleMobileMenu()"
@@ -203,7 +207,7 @@
     </nav>
 
     <!-- HERO -->
-    <header class="team-hero h-screen flex items-center relative text-white">
+    <header class="team-hero min-h-screen flex items-center relative text-white">
       <div class="max-w-screen-2xl mx-auto section-padding">
         <div class="text-center">
           <h1
@@ -229,7 +233,11 @@
             <img
               src="assets/images/team/president.jpg"
               alt="Ayodeji Adegboro"
-              class="w-full h-72 object-cover"
+              width="797"
+              height="875"
+              loading="eager"
+              decoding="async"
+              class="w-full aspect-[4/5] object-cover"
             />
             <div class="p-6">
               <h3 class="text-2xl font-semibold text-white">
@@ -248,7 +256,11 @@
             <img
               src="assets/images/team/director-general.jpg"
               alt="Director General"
-              class="w-full h-72 object-cover"
+              width="808"
+              height="895"
+              loading="eager"
+              decoding="async"
+              class="w-full aspect-[4/5] object-cover"
             />
             <div class="p-6">
               <h3 class="text-2xl font-semibold text-white">
@@ -266,8 +278,12 @@
           <div class="team-card rounded-3xl overflow-hidden">
             <img
               src="assets/images/team/secretary-general.jpg"
-              alt="Ruby Oputa"
-              class="w-full h-72 object-cover"
+              alt="Oluwapelumi Idowu"
+              width="879"
+              height="980"
+              loading="eager"
+              decoding="async"
+              class="w-full aspect-[4/5] object-cover"
             />
             <div class="p-6">
               <h3 class="text-2xl font-semibold text-white">
@@ -286,7 +302,11 @@
             <img
               src="assets/images/team/head-of-finance.jpg"
               alt="Head of Finance"
-              class="w-full h-72 object-cover"
+              width="902"
+              height="894"
+              loading="eager"
+              decoding="async"
+              class="w-full aspect-[4/5] object-cover"
             />
             <div class="p-6">
               <h3 class="text-2xl font-semibold text-white">
@@ -304,7 +324,11 @@
             <img
               src="assets/images/team/head-of-technical.jpg"
               alt="Head of Technical"
-              class="w-full h-84 object-cover"
+              width="911"
+              height="990"
+              loading="eager"
+              decoding="async"
+              class="w-full aspect-[4/5] object-cover"
             />
             <div class="p-6">
               <h3 class="text-2xl font-semibold text-white">
@@ -325,7 +349,11 @@
             <img
               src="assets/images/team/head-of-media.jpg"
               alt="Head of Media"
-              class="w-full h-72 object-cover"
+              width="845"
+              height="995"
+              loading="eager"
+              decoding="async"
+              class="w-full aspect-[4/5] object-cover"
             />
             <div class="p-6">
               <h3 class="text-2xl font-semibold text-white">Tega Abraham</h3>
@@ -343,7 +371,11 @@
             <img
               src="assets/images/team/head-of-intl.jpg"
               alt="Head of Intl Relations"
-              class="w-full h-72 object-cover"
+              width="1000"
+              height="1255"
+              loading="eager"
+              decoding="async"
+              class="w-full aspect-[4/5] object-cover"
             />
             <div class="p-6">
               <h3 class="text-2xl font-semibold text-white">
@@ -364,7 +396,11 @@
             <img
               src="assets/images/team/jigawa-state-coordinator.jpg"
               alt="Jigawa State Coordinator"
-              class="w-full h-72 object-cover"
+              width="720"
+              height="990"
+              loading="eager"
+              decoding="async"
+              class="w-full aspect-[4/5] object-cover"
             />
             <div class="p-6">
               <h3 class="text-2xl font-semibold text-white">
@@ -381,8 +417,12 @@
           <div class="team-card rounded-3xl overflow-hidden">
             <img
               src="assets/images/team/gender-equity.jpg"
-              alt="Auditor General"
-              class="w-full h-72 object-cover"
+              alt="Chiamaka Stellamaris Edwin"
+              width="1254"
+              height="1254"
+              loading="eager"
+              decoding="async"
+              class="w-full aspect-[4/5] object-cover"
             />
             <div class="p-6">
               <h3 class="text-2xl font-semibold text-white">
@@ -403,7 +443,11 @@
             <img
               src="assets/images/team/oyo-state-coordinator.jpg"
               alt="Isaiah Armstrong, Oyo State Coordinator"
-              class="w-full h-96 object-cover"
+              width="896"
+              height="972"
+              loading="eager"
+              decoding="async"
+              class="w-full aspect-[4/5] object-cover"
             />
             <div class="p-6">
               <h3 class="text-2xl font-semibold text-white">
