@@ -120,30 +120,21 @@
         box-shadow: 0 25px 50px -15px rgba(245, 194, 76, 0.4);
       }
 
-      /* Unified, responsive image sizing for team photos so every card
-         is the same height on any device instead of relying on
-         mismatched/invalid Tailwind height classes. */
+      /* Sized by aspect-ratio (tied to the card's width) instead of a
+         fixed rem height. Fixed rem heights are affected by the
+         device/browser's root font-size setting — some Android phones
+         (Samsung Internet in particular) ship with larger default font
+         scaling than iOS/desktop, which silently inflates rem-based
+         sizes and breaks the layout on those devices specifically.
+         aspect-ratio sidesteps that entirely: it scales purely off the
+         image's own rendered width, so it looks the same on every
+         device regardless of font-size settings. */
       .team-photo {
         width: 100%;
-        height: 22rem; /* mobile */
+        aspect-ratio: 4 / 5;
         object-fit: cover;
         object-position: top center;
         display: block;
-      }
-      @media (min-width: 640px) {
-        .team-photo {
-          height: 24rem; /* sm+ */
-        }
-      }
-      @media (min-width: 1024px) {
-        .team-photo {
-          height: 22rem; /* lg (more columns, keep cards compact) */
-        }
-      }
-      @media (min-width: 1280px) {
-        .team-photo {
-          height: 24rem; /* xl+ */
-        }
       }
 
       .section-padding {
@@ -186,7 +177,7 @@
           <div class="flex items-center gap-x-4 md:gap-x-6">
             <a
               href="join.html"
-              class="gold-button text-black px-4 py-2 md:px-10 md:py-4 text-[11px] md:text-sm uppercase tracking-widest whitespace-nowrap flex items-center gap-x-2 rounded-full md:rounded-3xl font-semibold"
+              class="gold-button text-black px-4 py-2 md:px-10 md:py-4 text-[11px] md:text-sm uppercase tracking-widest whitespace-nowrap flex items-center gap-x-2 rounded-full md:rounded-3xl font-semibold leading-none"
             >
               <span class="sm:hidden">Join</span>
               <span class="hidden sm:inline">Join the Movement</span>
