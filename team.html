@@ -120,20 +120,15 @@
         box-shadow: 0 25px 50px -15px rgba(245, 194, 76, 0.4);
       }
 
-      /* Sized by aspect-ratio (tied to the card's width) instead of a
-         fixed rem height. Fixed rem heights are affected by the
-         device/browser's root font-size setting — some Android phones
-         (Samsung Internet in particular) ship with larger default font
-         scaling than iOS/desktop, which silently inflates rem-based
-         sizes and breaks the layout on those devices specifically.
-         aspect-ratio sidesteps that entirely: it scales purely off the
-         image's own rendered width, so it looks the same on every
-         device regardless of font-size settings. */
+      /* Sized purely from the image's own rendered width via aspect-ratio,
+         instead of a fixed rem height — rem is relative to the device's root
+         font size, which some Android browsers (Samsung Internet in
+         particular) scale differently by default than iOS/desktop, causing
+         the same "h-72" to render at inconsistent actual heights. */
       .team-photo {
         width: 100%;
         aspect-ratio: 4 / 5;
         object-fit: cover;
-        object-position: top center;
         display: block;
       }
 
@@ -177,10 +172,9 @@
           <div class="flex items-center gap-x-4 md:gap-x-6">
             <a
               href="join.html"
-              class="gold-button text-black px-4 py-2 md:px-10 md:py-4 text-[11px] md:text-sm uppercase tracking-widest whitespace-nowrap flex items-center gap-x-2 rounded-full md:rounded-3xl font-semibold leading-none"
+              class="gold-button text-black px-5 py-3 md:px-10 md:py-4 text-xs md:text-sm uppercase tracking-widest flex items-center gap-x-2 rounded-3xl font-semibold whitespace-nowrap"
             >
-              <span class="sm:hidden">Join</span>
-              <span class="hidden sm:inline">Join the Movement</span>
+              Join<span class="hidden sm:inline">&nbsp;the Movement</span>
             </a>
             <button
               onclick="toggleMobileMenu()"
@@ -237,7 +231,7 @@
     </header>
 
     <!-- TEAM GRID -->
-    <section class="py-16 md:py-24 bg-[#0a0f0a] reveal">
+    <section class="py-16 md:py-24 bg-[#0a0f0a]">
       <div class="max-w-screen-2xl mx-auto section-padding">
         <div
           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
@@ -288,9 +282,7 @@
               class="team-photo"
             />
             <div class="p-6">
-              <h3 class="text-2xl font-semibold text-white">
-                Oluwapelumi Idowu
-              </h3>
+              <h3 class="text-2xl font-semibold text-white">Ruby Oputa</h3>
               <p class="text-[#f5c24c] text-sm">Secretary General</p>
               <p class="mt-4 text-white/80 text-sm">
                 Operational backbone ensuring seamless execution of all YINAGA
@@ -364,9 +356,7 @@
               class="team-photo"
             />
             <div class="p-6">
-              <h3 class="text-2xl font-semibold text-white">
-                Oluwanifise Anthony Idowu
-              </h3>
+              <h3 class="text-2xl font-semibold text-white">Anthony Idowu</h3>
               <p class="text-[#f5c24c] text-sm">
                 Head of International Relations
               </p>
