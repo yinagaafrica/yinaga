@@ -123,15 +123,63 @@
         box-shadow: 0 25px 50px -15px rgba(245, 194, 76, 0.4);
       }
 
-      .partner-logo-card {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+      /* Partner tiles: bold on-brand gradient backgrounds (alternating
+         YINAGA green and gold, rather than white cards) with a small white
+         badge to hold each logo cleanly, giving the same "bold colorful
+         tile" energy as brand-partner grids while staying on this site's
+         own palette instead of a plain white template look. */
+      .partner-tile {
+        border-radius: 1.5rem;
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 20px 45px -20px rgba(0, 0, 0, 0.6);
       }
-      .partner-logo-card:hover {
-        background: rgba(245, 194, 76, 0.08);
-        border-color: rgba(245, 194, 76, 0.4);
-        transform: translateY(-4px);
+      .partner-tile::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at 85% -10%,
+          rgba(255, 255, 255, 0.18) 0%,
+          transparent 55%
+        );
+        pointer-events: none;
+      }
+      .partner-tile:hover {
+        transform: translateY(-8px);
+      }
+      .partner-tile.tile-green {
+        background: linear-gradient(145deg, #1f9e3e 0%, #0c2c14 100%);
+      }
+      .partner-tile.tile-green:hover {
+        box-shadow: 0 30px 55px -20px rgba(31, 158, 62, 0.5);
+      }
+      .partner-tile.tile-gold {
+        background: linear-gradient(145deg, #f5c24c 0%, #7a4e0c 100%);
+      }
+      .partner-tile.tile-gold:hover {
+        box-shadow: 0 30px 55px -20px rgba(245, 194, 76, 0.5);
+      }
+      .partner-logo-badge {
+        width: 92px;
+        height: 92px;
+        background: #ffffff;
+        border-radius: 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.85rem;
+        margin: 0 auto 1.5rem;
+        box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.5);
+        position: relative;
+        z-index: 1;
+      }
+      .partner-logo-badge img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
       }
 
       .section-padding {
@@ -231,140 +279,133 @@
             Our Partners
           </h1>
           <p class="text-2xl md:text-3xl font-light text-white/90">
-            Strategic alliances turning vision into continental action.
+            The institutions, financial partners, and agribusinesses helping
+            turn our vision into action on the ground.
           </p>
         </div>
       </div>
     </header>
 
-    <!-- PARTNER TIERS -->
+    <!-- PARTNERS -->
     <section class="py-16 md:py-24 bg-[#0a0f0a] text-white reveal">
       <div class="max-w-screen-2xl mx-auto section-padding">
-        <!-- Institutional Partners -->
         <h2 class="text-4xl heading-font text-center mb-4 text-[#f5c24c]">
-          Institutional Partners
+          Our Partners
         </h2>
         <p class="text-center text-white/60 mb-14 max-w-xl mx-auto">
-          Government bodies and continental institutions anchoring YINAGA's
-          mandate.
+          Real collaborations already driving YINAGA's programmes on the ground
+          in Jigawa State and beyond.
         </p>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
-          <div class="premium-card p-8 rounded-3xl flex gap-6 items-start">
-            <div
-              class="w-12 h-12 flex-shrink-0 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+
+        <div class="flex flex-wrap justify-center gap-6 mb-20">
+          <!-- Federal University Dutse -->
+          <div class="partner-tile tile-green w-full sm:w-[46%] lg:w-[30%]">
+            <div class="partner-logo-badge">
+              <img
+                src="assets/images/partners/fud.png"
+                alt="Federal University Dutse (FUD)"
+              />
+            </div>
+            <h3
+              class="text-lg font-semibold text-white mb-2 text-center relative z-10"
             >
-              🏛️
-            </div>
-            <div>
-              <h3 class="text-lg font-semibold mb-1">
-                Federal Ministry of Agriculture & Food Security
-              </h3>
-              <p class="text-[#f5c24c] text-xs uppercase tracking-widest mb-3">
-                Nigeria
-              </p>
-              <p class="text-white/65 text-sm leading-relaxed">
-                Policy alignment, state-level implementation support, and access
-                to national agricultural programmes.
-              </p>
-            </div>
+              Federal University Dutse
+            </h3>
+            <p
+              class="text-white/80 text-sm leading-relaxed text-center relative z-10"
+            >
+              Host institution and academic partner for the YINAGA Agrinnovation
+              Summit, which brought together over 200 students from agricultural
+              and non-agricultural disciplines.
+            </p>
           </div>
 
-          <div class="premium-card p-8 rounded-3xl flex gap-6 items-start">
-            <div
-              class="w-12 h-12 flex-shrink-0 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+          <!-- NAJISS-FUD -->
+          <div class="partner-tile tile-gold w-full sm:w-[46%] lg:w-[30%]">
+            <div class="partner-logo-badge">
+              <img
+                src="assets/images/partners/najiss-fud.png"
+                alt="National Association of Jigawa State Students, FUD Chapter (NAJISS-FUD)"
+              />
+            </div>
+            <h3
+              class="text-lg font-semibold text-white mb-2 text-center relative z-10"
             >
-              🌍
-            </div>
-            <div>
-              <h3 class="text-lg font-semibold mb-1">African Union (AU)</h3>
-              <p class="text-[#f5c24c] text-xs uppercase tracking-widest mb-3">
-                Continental
-              </p>
-              <p class="text-white/65 text-sm leading-relaxed">
-                Strategic alignment with AU Agenda 2063 and the Comprehensive
-                Africa Agriculture Development Programme (CAADP).
-              </p>
-            </div>
+              NAJISS-FUD
+            </h3>
+            <p
+              class="text-white/85 text-sm leading-relaxed text-center relative z-10"
+            >
+              National Association of Jigawa State Students, FUD Chapter.
+              Student mobilisation partner supporting outreach and turnout for
+              YINAGA programmes across the university.
+            </p>
           </div>
 
-          <div class="premium-card p-8 rounded-3xl flex gap-6 items-start">
-            <div
-              class="w-12 h-12 flex-shrink-0 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+          <!-- NAAS -->
+          <div class="partner-tile tile-green w-full sm:w-[46%] lg:w-[30%]">
+            <div class="partner-logo-badge">
+              <img
+                src="assets/images/partners/naas.png"
+                alt="National Association of Agricultural Students (NAAS)"
+              />
+            </div>
+            <h3
+              class="text-lg font-semibold text-white mb-2 text-center relative z-10"
             >
-              🏦
-            </div>
-            <div>
-              <h3 class="text-lg font-semibold mb-1">
-                African Development Bank (AfDB)
-              </h3>
-              <p class="text-[#f5c24c] text-xs uppercase tracking-widest mb-3">
-                Pan-African
-              </p>
-              <p class="text-white/65 text-sm leading-relaxed">
-                Funding pipelines, technical assistance, and connections to the
-                Feed Africa Strategy for youth agribusiness scale-up.
-              </p>
-            </div>
+              NAAS
+            </h3>
+            <p
+              class="text-white/80 text-sm leading-relaxed text-center relative z-10"
+            >
+              National Association of Agricultural Students. Connects YINAGA
+              directly with agriculture-focused student communities and emerging
+              agricultural talent.
+            </p>
           </div>
 
-          <div class="premium-card p-8 rounded-3xl flex gap-6 items-start">
-            <div
-              class="w-12 h-12 flex-shrink-0 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+          <!-- The Alternative Bank -->
+          <div class="partner-tile tile-gold w-full sm:w-[46%] lg:w-[30%]">
+            <div class="partner-logo-badge">
+              <img
+                src="assets/images/partners/alternative-bank.png"
+                alt="The Alternative Bank"
+              />
+            </div>
+            <h3
+              class="text-lg font-semibold text-white mb-2 text-center relative z-10"
             >
-              🔬
-            </div>
-            <div>
-              <h3 class="text-lg font-semibold mb-1">
-                International Institute of Tropical Agriculture (IITA)
-              </h3>
-              <p class="text-[#f5c24c] text-xs uppercase tracking-widest mb-3">
-                Research
-              </p>
-              <p class="text-white/65 text-sm leading-relaxed">
-                Research collaboration, agritech knowledge transfer, and youth
-                internship placement in cutting-edge agricultural science.
-              </p>
-            </div>
+              The Alternative Bank
+            </h3>
+            <p
+              class="text-white/85 text-sm leading-relaxed text-center relative z-10"
+            >
+              Financial partner for the Improved Seed Empowerment &amp;
+              Financial Inclusion Programme in Dabi Local Government Area,
+              Jigawa State, reaching over 100 farmers.
+            </p>
           </div>
 
-          <div class="premium-card p-8 rounded-3xl flex gap-6 items-start">
-            <div
-              class="w-12 h-12 flex-shrink-0 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+          <!-- Tecni Seeds -->
+          <div class="partner-tile tile-green w-full sm:w-[46%] lg:w-[30%]">
+            <div class="partner-logo-badge">
+              <img
+                src="assets/images/partners/tecniseeds.png"
+                alt="Tecni Seeds"
+              />
+            </div>
+            <h3
+              class="text-lg font-semibold text-white mb-2 text-center relative z-10"
             >
-              🌱
-            </div>
-            <div>
-              <h3 class="text-lg font-semibold mb-1">
-                Food and Agriculture Organization (FAO)
-              </h3>
-              <p class="text-[#f5c24c] text-xs uppercase tracking-widest mb-3">
-                UN Agency
-              </p>
-              <p class="text-white/65 text-sm leading-relaxed">
-                Data sharing, food security benchmarking, and integration with
-                global nutrition and sustainability frameworks.
-              </p>
-            </div>
-          </div>
-
-          <div class="premium-card p-8 rounded-3xl flex gap-6 items-start">
-            <div
-              class="w-12 h-12 flex-shrink-0 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+              Tecni Seeds
+            </h3>
+            <p
+              class="text-white/80 text-sm leading-relaxed text-center relative z-10"
             >
-              📊
-            </div>
-            <div>
-              <h3 class="text-lg font-semibold mb-1">
-                National Youth Council of Nigeria
-              </h3>
-              <p class="text-[#f5c24c] text-xs uppercase tracking-widest mb-3">
-                Nigeria
-              </p>
-              <p class="text-white/65 text-sm leading-relaxed">
-                Youth mobilisation, registration support, and national outreach
-                through an established grassroots network.
-              </p>
-            </div>
+              Seed and agri-input partner for the Improved Seed Empowerment
+              Programme and the YINAGA Outgrower Programme, which began
+              cultivation across 30 hectares of farmland.
+            </p>
           </div>
         </div>
 

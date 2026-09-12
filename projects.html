@@ -145,6 +145,56 @@
         border-radius: 9999px;
         background: linear-gradient(90deg, #1f9e3e, #f5c24c);
       }
+
+      .tag-pill {
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: rgba(255, 255, 255, 0.85);
+        padding: 0.4rem 0.9rem;
+        border-radius: 9999px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+      }
+
+      .project-panel {
+        display: grid;
+        grid-template-rows: 0fr;
+        opacity: 0;
+        transition:
+          grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.4s ease;
+      }
+      .project-panel.open {
+        grid-template-rows: 1fr;
+        opacity: 1;
+      }
+      .project-panel > div {
+        overflow: hidden;
+      }
+      .project-chevron {
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .project-chevron.open {
+        transform: rotate(180deg);
+      }
+
+      .tabloid-cover {
+        cursor: pointer;
+      }
+      .tabloid-bg {
+        transition: transform 1.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+        transform: scale(1);
+      }
+      .tabloid-cover:hover .tabloid-bg {
+        transform: scale(1.06);
+      }
+      .tabloid-card {
+        background: #0d130c;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .tabloid-card:hover {
+        border-color: rgba(245, 194, 76, 0.4);
+      }
     </style>
   </head>
   <body class="overflow-x-hidden font-sans bg-[#0a0f0a]">
@@ -238,54 +288,6 @@
       </div>
     </header>
 
-    <!-- IMPACT STATS -->
-    <section class="py-12 md:py-20 bg-[#0a0f0a] reveal">
-      <div
-        class="max-w-screen-2xl mx-auto section-padding grid grid-cols-2 md:grid-cols-4 gap-6"
-      >
-        <div class="premium-card p-8 rounded-3xl text-center">
-          <div
-            class="text-4xl md:text-5xl font-bold text-[#f5c24c] heading-font"
-          >
-            10K
-          </div>
-          <div class="text-white/70 text-sm mt-2 uppercase tracking-widest">
-            Youth Agribusinesses<br />Target by 2026
-          </div>
-        </div>
-        <div class="premium-card p-8 rounded-3xl text-center">
-          <div
-            class="text-4xl md:text-5xl font-bold text-[#f5c24c] heading-font"
-          >
-            36
-          </div>
-          <div class="text-white/70 text-sm mt-2 uppercase tracking-widest">
-            States Targeted<br />Across Nigeria
-          </div>
-        </div>
-        <div class="premium-card p-8 rounded-3xl text-center">
-          <div
-            class="text-4xl md:text-5xl font-bold text-[#f5c24c] heading-font"
-          >
-            54
-          </div>
-          <div class="text-white/70 text-sm mt-2 uppercase tracking-widest">
-            African Countries<br />In Scope
-          </div>
-        </div>
-        <div class="premium-card p-8 rounded-3xl text-center">
-          <div
-            class="text-4xl md:text-5xl font-bold text-[#f5c24c] heading-font"
-          >
-            2063
-          </div>
-          <div class="text-white/70 text-sm mt-2 uppercase tracking-widest">
-            Aligned With<br />AU Agenda
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- FLAGSHIP PROJECTS -->
     <section class="py-16 md:py-24 bg-[#0a0f0a] text-white reveal">
       <div class="max-w-screen-2xl mx-auto section-padding">
@@ -293,181 +295,300 @@
           Flagship Initiatives
         </h2>
         <p class="text-center text-white/60 mb-14 max-w-xl mx-auto">
-          Each project is designed to create lasting, scalable change for
-          African youth in agriculture.
+          Two programmes doing the hands-on work of turning young Africans into
+          agricultural business owners.
         </p>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <!-- Project 1 -->
-          <div class="premium-card p-10 rounded-3xl">
-            <div class="flex items-center gap-4 mb-6">
+        <div class="space-y-10">
+          <!-- Project 1: Food Beyond Africa Outgrower Project -->
+          <div
+            class="tabloid-card rounded-3xl overflow-hidden border border-white/10"
+          >
+            <button
+              onclick="toggleProject('project-1')"
+              class="tabloid-cover group relative w-full text-left block overflow-hidden"
+            >
               <div
-                class="w-12 h-12 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+                class="tabloid-bg absolute inset-0 bg-cover bg-center"
+                style="
+                  background-image:
+                    linear-gradient(
+                      to top,
+                      rgba(5, 10, 5, 0.95),
+                      rgba(5, 10, 5, 0.55) 55%,
+                      rgba(5, 10, 5, 0.35)
+                    ),
+                    url(&quot;assets/images/projects/outgrower-cover.jpg&quot;);
+                  background-position: center 35%;
+                "
+              ></div>
+              <div
+                class="relative z-10 p-8 md:p-14 min-h-[320px] md:min-h-[420px] flex flex-col justify-end"
               >
-                🌾
-              </div>
-              <div>
-                <p class="text-[#f5c24c] text-xs uppercase tracking-[2px]">
+                <p
+                  class="text-[#f5c24c] text-xs md:text-sm uppercase tracking-[3px] mb-4 font-semibold"
+                >
                   Initiative 01
                 </p>
-                <h3 class="text-xl font-semibold">
-                  Youth Agribusiness Launchpad
+                <h3
+                  class="text-3xl sm:text-4xl md:text-6xl heading-font text-white mb-4 max-w-2xl"
+                >
+                  Food Beyond Africa<br />Outgrower Project
                 </h3>
+                <p class="text-white/80 max-w-xl mb-2 text-base md:text-lg">
+                  Turning young farmers into productive agricultural businesses.
+                </p>
+                <span
+                  class="inline-flex items-center gap-2 mt-6 text-[#f5c24c] text-sm font-semibold uppercase tracking-widest"
+                >
+                  <span id="project-1-label">Read Full Project</span>
+                  <svg
+                    id="project-1-chevron"
+                    class="project-chevron w-4 h-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </span>
+              </div>
+            </button>
+
+            <div id="project-1" class="project-panel">
+              <div>
+                <div
+                  class="p-8 md:p-14 bg-[#0d130c] space-y-6 border-t border-white/10"
+                >
+                  <p class="text-white/70 leading-relaxed">
+                    The Food Beyond Africa Outgrower Project is a practical
+                    agricultural development programme designed to help young
+                    farmers move from traditional, low-productivity farming into
+                    modern, commercially viable agriculture. The project
+                    connects selected farmers and farming communities with
+                    quality agricultural inputs, improved farming practices,
+                    mechanization, financial inclusion, technology, technical
+                    support and reliable markets.
+                  </p>
+                  <p class="text-white/70 leading-relaxed">
+                    Rather than operating as a one-time donation programme, the
+                    project is built around a structured outgrower and
+                    off-taking model. Farmers receive the inputs and production
+                    support they require, with the associated costs established
+                    upfront. Following harvest, their produce is purchased
+                    through an agreed off-taking arrangement, with the cost of
+                    the provided inputs and support recovered from the proceeds
+                    and the balance returned to the farmers. This approach is
+                    designed to create a sustainable and potentially repeatable
+                    production cycle, allowing farmers to access the resources
+                    they need while connecting production to a market.
+                  </p>
+
+                  <div>
+                    <p
+                      class="text-[#f5c24c] text-xs uppercase tracking-[2px] mb-3"
+                    >
+                      Our Focus
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                      <span class="tag-pill">Young farmer development</span>
+                      <span class="tag-pill"
+                        >Improved agricultural practices</span
+                      >
+                      <span class="tag-pill">Quality inputs</span>
+                      <span class="tag-pill">Mechanized farming</span>
+                      <span class="tag-pill">Climate-smart agriculture</span>
+                      <span class="tag-pill">Financial inclusion</span>
+                      <span class="tag-pill">Agricultural technology</span>
+                      <span class="tag-pill">Market access and off-taking</span>
+                      <span class="tag-pill">Increased productivity</span>
+                      <span class="tag-pill"
+                        >Youth agricultural enterprise</span
+                      >
+                    </div>
+                  </div>
+
+                  <div
+                    class="rounded-2xl bg-[#1f9e3e]/10 border border-[#1f9e3e]/30 p-6"
+                  >
+                    <p
+                      class="text-[#f5c24c] text-xs uppercase tracking-[2px] mb-2"
+                    >
+                      Our Vision
+                    </p>
+                    <p class="heading-font text-xl md:text-2xl text-white mb-3">
+                      Produce more. Waste less. Add value. Build businesses.
+                    </p>
+                    <p class="text-white/70 leading-relaxed text-sm">
+                      Through the FBA Outgrower Project, YINAGA seeks to
+                      demonstrate that supporting farmers can go beyond simply
+                      giving inputs, it can mean building a functioning
+                      agricultural business ecosystem around them.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-            <p class="text-white/75 leading-relaxed mb-6">
-              A structured programme providing young Nigerians with agribusiness
-              training, access to micro-funding, and mentorship from established
-              agripreneurs. Target: 10,000 youth-led businesses operational by
-              end of 2026.
-            </p>
-            <div class="progress-bar mb-2">
-              <div class="progress-fill" style="width: 38%"></div>
-            </div>
-            <p class="text-xs text-white/40">38% of 2026 target reached</p>
           </div>
 
-          <!-- Project 2 -->
-          <div class="premium-card p-10 rounded-3xl">
-            <div class="flex items-center gap-4 mb-6">
+          <!-- Project 2: YINAGA AgroTrainings -->
+          <div
+            class="tabloid-card rounded-3xl overflow-hidden border border-white/10"
+          >
+            <button
+              onclick="toggleProject('project-2')"
+              class="tabloid-cover group relative w-full text-left block overflow-hidden"
+            >
               <div
-                class="w-12 h-12 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
+                class="tabloid-bg absolute inset-0 bg-cover bg-center"
+                style="
+                  background-image:
+                    linear-gradient(
+                      to top,
+                      rgba(5, 10, 5, 0.95),
+                      rgba(5, 10, 5, 0.55) 55%,
+                      rgba(5, 10, 5, 0.35)
+                    ),
+                    url(&quot;assets/images/projects/agrotrainings-cover.jpg&quot;);
+                  background-position: center 20%;
+                "
+              ></div>
+              <div
+                class="relative z-10 p-8 md:p-14 min-h-[320px] md:min-h-[420px] flex flex-col justify-end"
               >
-                📱
-              </div>
-              <div>
-                <p class="text-[#f5c24c] text-xs uppercase tracking-[2px]">
+                <p
+                  class="text-[#f5c24c] text-xs md:text-sm uppercase tracking-[3px] mb-4 font-semibold"
+                >
                   Initiative 02
                 </p>
-                <h3 class="text-xl font-semibold">
-                  Smart Farming & AgriTech Drive
+                <h3
+                  class="text-3xl sm:text-4xl md:text-6xl heading-font text-white mb-4 max-w-2xl"
+                >
+                  YINAGA AgroTrainings
                 </h3>
-              </div>
-            </div>
-            <p class="text-white/75 leading-relaxed mb-6">
-              Equipping youth with digital tools — drone mapping, soil sensors,
-              mobile market platforms — to modernise smallholder farming and
-              boost productivity across rural communities.
-            </p>
-            <div class="progress-bar mb-2">
-              <div class="progress-fill" style="width: 22%"></div>
-            </div>
-            <p class="text-xs text-white/40">22% of 2026 target reached</p>
-          </div>
-
-          <!-- Project 3 -->
-          <div class="premium-card p-10 rounded-3xl">
-            <div class="flex items-center gap-4 mb-6">
-              <div
-                class="w-12 h-12 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
-              >
-                ♀️
-              </div>
-              <div>
-                <p class="text-[#f5c24c] text-xs uppercase tracking-[2px]">
-                  Initiative 03
+                <p class="text-white/80 max-w-xl mb-2 text-base md:text-lg">
+                  Equipping young people with the knowledge to build the
+                  agriculture of tomorrow.
                 </p>
-                <h3 class="text-xl font-semibold">
-                  Women in Agriculture Programme
-                </h3>
+                <span
+                  class="inline-flex items-center gap-2 mt-6 text-[#f5c24c] text-sm font-semibold uppercase tracking-widest"
+                >
+                  <span id="project-2-label">Read Full Project</span>
+                  <svg
+                    id="project-2-chevron"
+                    class="project-chevron w-4 h-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </span>
               </div>
-            </div>
-            <p class="text-white/75 leading-relaxed mb-6">
-              A dedicated strand ensuring young women receive equal access to
-              training, land, funding, and leadership positions within YINAGA
-              and the wider agribusiness sector.
-            </p>
-            <div class="progress-bar mb-2">
-              <div class="progress-fill" style="width: 51%"></div>
-            </div>
-            <p class="text-xs text-white/40">51% of 2026 target reached</p>
-          </div>
+            </button>
 
-          <!-- Project 4 -->
-          <div class="premium-card p-10 rounded-3xl">
-            <div class="flex items-center gap-4 mb-6">
-              <div
-                class="w-12 h-12 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
-              >
-                ♻️
-              </div>
+            <div id="project-2" class="project-panel">
               <div>
-                <p class="text-[#f5c24c] text-xs uppercase tracking-[2px]">
-                  Initiative 04
-                </p>
-                <h3 class="text-xl font-semibold">
-                  Circular Agriculture & Waste Recovery
-                </h3>
-              </div>
-            </div>
-            <p class="text-white/75 leading-relaxed mb-6">
-              Training youth to convert agricultural waste into compost, biogas,
-              and value-added products — building circular economy models that
-              are profitable and environmentally responsible.
-            </p>
-            <div class="progress-bar mb-2">
-              <div class="progress-fill" style="width: 15%"></div>
-            </div>
-            <p class="text-xs text-white/40">15% of 2026 target reached</p>
-          </div>
+                <div
+                  class="p-8 md:p-14 bg-[#0d130c] space-y-6 border-t border-white/10"
+                >
+                  <p class="text-white/70 leading-relaxed">
+                    YINAGA AgroTrainings is our agricultural education and
+                    capacity-building programme designed to expose young people
+                    to the modern realities and opportunities within
+                    agriculture. Many young people still associate agriculture
+                    with traditional farming methods and manual labour.
+                    AgroTrainings seeks to change this perception by introducing
+                    participants to the knowledge, technologies and business
+                    opportunities shaping the modern agricultural sector.
+                  </p>
+                  <p class="text-white/70 leading-relaxed">
+                    Our trainings go beyond teaching participants how to farm.
+                    We help young people understand agriculture as a business,
+                    an industry and an innovation ecosystem — combining
+                    knowledge, practical exposure, mentorship and access to
+                    opportunities so participants can move from simply being
+                    interested in agriculture to identifying where they can
+                    actually participate and create value.
+                  </p>
 
-          <!-- Project 5 -->
-          <div class="premium-card p-10 rounded-3xl">
-            <div class="flex items-center gap-4 mb-6">
-              <div
-                class="w-12 h-12 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
-              >
-                🤝
-              </div>
-              <div>
-                <p class="text-[#f5c24c] text-xs uppercase tracking-[2px]">
-                  Initiative 05
-                </p>
-                <h3 class="text-xl font-semibold">State Coordinator Network</h3>
-              </div>
-            </div>
-            <p class="text-white/75 leading-relaxed mb-6">
-              Building a grassroots coordinator network across all 36 Nigerian
-              states — each coordinator driving local recruitment, training
-              events, and liaison with state ministries of agriculture.
-            </p>
-            <div class="progress-bar mb-2">
-              <div class="progress-fill" style="width: 8%"></div>
-            </div>
-            <p class="text-xs text-white/40">
-              8% of states with active coordinators
-            </p>
-          </div>
+                  <div>
+                    <p
+                      class="text-[#f5c24c] text-xs uppercase tracking-[2px] mb-3"
+                    >
+                      Training Areas
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                      <span class="tag-pill">Modern farming practices</span>
+                      <span class="tag-pill">Climate-smart agriculture</span>
+                      <span class="tag-pill"
+                        >Agricultural technology &amp; AI</span
+                      >
+                      <span class="tag-pill">Mechanization</span>
+                      <span class="tag-pill">Farm business management</span>
+                      <span class="tag-pill"
+                        >Agricultural finance &amp; literacy</span
+                      >
+                      <span class="tag-pill"
+                        >Value addition &amp; agro-processing</span
+                      >
+                      <span class="tag-pill"
+                        >Agricultural entrepreneurship</span
+                      >
+                      <span class="tag-pill">Market access and off-taking</span>
+                      <span class="tag-pill"
+                        >Supply chains &amp; logistics</span
+                      >
+                      <span class="tag-pill">Government programmes</span>
+                      <span class="tag-pill">Innovation &amp; enterprise</span>
+                    </div>
+                  </div>
 
-          <!-- Project 6 -->
-          <div class="premium-card p-10 rounded-3xl">
-            <div class="flex items-center gap-4 mb-6">
-              <div
-                class="w-12 h-12 rounded-2xl bg-[#1f9e3e]/20 flex items-center justify-center text-2xl"
-              >
-                🌍
-              </div>
-              <div>
-                <p class="text-[#f5c24c] text-xs uppercase tracking-[2px]">
-                  Initiative 06
-                </p>
-                <h3 class="text-xl font-semibold">
-                  Pan-African Youth Agriculture Summit
-                </h3>
+                  <div>
+                    <p
+                      class="text-[#f5c24c] text-xs uppercase tracking-[2px] mb-3"
+                    >
+                      Who We Train
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                      <span class="tag-pill">Young farmers</span>
+                      <span class="tag-pill">Aspiring farmers</span>
+                      <span class="tag-pill">Agricultural entrepreneurs</span>
+                      <span class="tag-pill">Students</span>
+                      <span class="tag-pill">Agricultural innovators</span>
+                      <span class="tag-pill">Youth organizations</span>
+                    </div>
+                  </div>
+
+                  <div
+                    class="rounded-2xl bg-[#1f9e3e]/10 border border-[#1f9e3e]/30 p-6"
+                  >
+                    <p
+                      class="text-[#f5c24c] text-xs uppercase tracking-[2px] mb-2"
+                    >
+                      Our Vision
+                    </p>
+                    <p class="text-white/70 leading-relaxed text-sm mb-3">
+                      We want to raise a generation of young Africans who don't
+                      see agriculture as an outdated profession, but as a sector
+                      where they can become:
+                    </p>
+                    <p class="heading-font text-lg md:text-xl text-white">
+                      Farmers. Founders. Innovators. Investors. Processors.
+                      Manufacturers. Exporters. Leaders.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-            <p class="text-white/75 leading-relaxed mb-6">
-              An annual continental summit bringing together youth agripreneurs,
-              policymakers, investors, and research institutions to share
-              knowledge, forge partnerships, and celebrate African agricultural
-              excellence.
-            </p>
-            <div class="progress-bar mb-2">
-              <div class="progress-fill" style="width: 65%"></div>
-            </div>
-            <p class="text-xs text-white/40">
-              2025 Summit completed — 2026 edition in planning
-            </p>
           </div>
         </div>
       </div>
@@ -598,6 +719,16 @@
         window.subscribe = () => {
           document.getElementById("subscribe-msg").innerHTML =
             "✅ Welcome to the YINAGA movement!";
+        };
+
+        // Expand/collapse project detail panels
+        window.toggleProject = (id) => {
+          const panel = document.getElementById(id);
+          const chevron = document.getElementById(`${id}-chevron`);
+          const label = document.getElementById(`${id}-label`);
+          const isOpen = panel.classList.toggle("open");
+          chevron.classList.toggle("open", isOpen);
+          label.textContent = isOpen ? "Show Less" : "Learn More";
         };
       });
     </script>
