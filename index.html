@@ -106,16 +106,10 @@
         background: rgba(245, 194, 76, 0.25);
         border-color: #f5c24c;
       }
-      .hero-arrow-left {
-        left: 1rem;
-      }
       .hero-arrow-right {
         right: 1rem;
       }
       @media (min-width: 768px) {
-        .hero-arrow-left {
-          left: 2rem;
-        }
         .hero-arrow-right {
           right: 2rem;
         }
@@ -490,14 +484,7 @@
         "
       ></div>
 
-      <!-- Prev/Next arrows -->
-      <button
-        class="hero-arrow hero-arrow-left"
-        onclick="heroPrev()"
-        aria-label="Previous slide"
-      >
-        ‹
-      </button>
+      <!-- Next arrow -->
       <button
         class="hero-arrow hero-arrow-right"
         onclick="heroNext()"
@@ -878,10 +865,6 @@
         }
         window.heroNext = () => {
           heroShow((heroIndex + 1) % heroSlides.length);
-          resetHeroTimer();
-        };
-        window.heroPrev = () => {
-          heroShow((heroIndex - 1 + heroSlides.length) % heroSlides.length);
           resetHeroTimer();
         };
         window.heroGoTo = (i) => {
