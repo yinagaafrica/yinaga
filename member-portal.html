@@ -51,6 +51,8 @@
     />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
@@ -945,6 +947,7 @@
             <div class="flex flex-col items-center">
               <!-- The card -->
               <div
+                id="member-id-card"
                 class="id-card rounded-3xl p-8 w-full max-w-md mb-6"
                 style="min-height: 240px"
               >
@@ -1028,9 +1031,11 @@
                 </div>
               </div>
               <button
+                id="download-id-btn"
+                onclick="downloadIDCard()"
                 class="gold-button text-black px-8 py-3 rounded-2xl text-sm font-semibold"
               >
-                Download ID Card (PDF)
+                <span id="download-id-text">Download ID Card (PDF)</span>
               </button>
               <p class="text-xs text-white/30 mt-3">
                 This card serves as proof of YINAGA membership
@@ -1326,6 +1331,55 @@
           year: "numeric",
         });
       }
+
+      // ─── DOWNLOAD ID CARD (PDF) ────────────────────────────
+      window.downloadIDCard = async () => {
+        const btn = document.getElementById("download-id-btn");
+        const txt = document.getElementById("download-id-text");
+        const card = document.getElementById("member-id-card");
+        if (!card) return;
+
+        const originalText = txt.textContent;
+        btn.disabled = true;
+        txt.textContent = "Generating...";
+
+        try {
+          const canvas = await html2canvas(card, {
+            backgroundColor: "#0f2a1f",
+            scale: 3,
+            useCORS: true,
+          });
+          const imgData = canvas.toDataURL("image/png");
+
+          const { jsPDF } = window.jspdf;
+          // Card is roughly a credit-card / badge shape — use a small
+          // landscape page sized to the card's own aspect ratio so the
+          // PDF isn't just a big empty sheet with a small image on it.
+          const pxW = canvas.width;
+          const pxH = canvas.height;
+          const pdfWidth = 140; // mm
+          const pdfHeight = (pxH / pxW) * pdfWidth;
+
+          const pdf = new jsPDF({
+            orientation: pdfWidth > pdfHeight ? "landscape" : "portrait",
+            unit: "mm",
+            format: [pdfWidth, pdfHeight],
+          });
+          pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+
+          const memberId =
+            document.querySelector(".member-id")?.textContent?.trim() ||
+            "member";
+          pdf.save(`YINAGA-ID-${memberId}.pdf`);
+        } catch (err) {
+          alert(
+            "Could not generate the PDF right now. Please try again in a moment.",
+          );
+        } finally {
+          btn.disabled = false;
+          txt.textContent = originalText;
+        }
+      };
 
       // ─── SIGN OUT ─────────────────────────────────────────
       window.signOut = async () => {
