@@ -658,12 +658,7 @@
             </div>
 
             <div class="mt-5 flex justify-center">
-              <div
-                id="turnstile-login-container"
-                class="cf-turnstile"
-                data-sitekey="0x4AAAAAAEvtRZFeNXduPS74"
-                data-theme="dark"
-              ></div>
+              <div id="turnstile-login-container"></div>
             </div>
 
             <button id="login-btn" onclick="signIn()" class="gold-button mt-6">
@@ -675,7 +670,7 @@
 
             <p class="text-center text-white/40 text-sm mt-4">
               Not a member yet?
-              <a href="join.html" class="link-btn ml-1">Register here</a>
+              <a href="join.html" class="link-btn ml-1">Register here →</a>
             </p>
           </div>
 
@@ -705,12 +700,7 @@
             </div>
 
             <div class="mt-5 flex justify-center">
-              <div
-                id="turnstile-forgot-container"
-                class="cf-turnstile"
-                data-sitekey="0x4AAAAAAEvtRZFeNXduPS74"
-                data-theme="dark"
-              ></div>
+              <div id="turnstile-forgot-container"></div>
             </div>
 
             <button
@@ -723,7 +713,7 @@
             </button>
 
             <button onclick="showPanel('login')" class="outline-button mt-3">
-              Back to Sign In
+              ← Back to Sign In
             </button>
           </div>
         </div>
@@ -755,6 +745,35 @@
 
       const { createClient } = supabase;
       const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      // ─── Explicit Turnstile rendering ──────────────────────
+      // Auto-render (via class="cf-turnstile" + data-sitekey) is unreliable
+      // when a page has more than one widget: getResponse()/reset() called
+      // with the container's HTML id can fail with "Could not find widget
+      // for provided container." Rendering explicitly and tracking the
+      // real widget IDs Cloudflare returns avoids that entirely.
+      const TURNSTILE_SITEKEY = "0x4AAAAAAEvtRZFeNXduPS74";
+      let loginWidgetId = null;
+      let forgotWidgetId = null;
+
+      function initTurnstile() {
+        if (!window.turnstile) {
+          setTimeout(initTurnstile, 100);
+          return;
+        }
+        loginWidgetId = window.turnstile.render("#turnstile-login-container", {
+          sitekey: TURNSTILE_SITEKEY,
+          theme: "dark",
+        });
+        forgotWidgetId = window.turnstile.render(
+          "#turnstile-forgot-container",
+          {
+            sitekey: TURNSTILE_SITEKEY,
+            theme: "dark",
+          },
+        );
+      }
+      initTurnstile();
 
       // ─── On load: handle confirmation tokens & session ────
       document.addEventListener("DOMContentLoaded", async () => {
@@ -859,7 +878,7 @@
         clearAlerts();
 
         const captchaToken = window.turnstile
-          ? window.turnstile.getResponse("turnstile-login-container")
+          ? window.turnstile.getResponse(loginWidgetId)
           : null;
         if (!captchaToken) {
           showAlert(
@@ -887,8 +906,7 @@
             }
             showAlert("login-alert", "error", msg);
             setLoading("login", false);
-            if (window.turnstile)
-              window.turnstile.reset("turnstile-login-container");
+            if (window.turnstile) window.turnstile.reset(loginWidgetId);
             return;
           }
 
@@ -928,7 +946,7 @@
         clearAlerts();
 
         const captchaToken = window.turnstile
-          ? window.turnstile.getResponse("turnstile-forgot-container")
+          ? window.turnstile.getResponse(forgotWidgetId)
           : null;
         if (!captchaToken) {
           showAlert(
@@ -954,8 +972,7 @@
               "Could not send reset email. Please try again.",
             );
             setLoading("reset", false);
-            if (window.turnstile)
-              window.turnstile.reset("turnstile-forgot-container");
+            if (window.turnstile) window.turnstile.reset(forgotWidgetId);
             return;
           }
 
