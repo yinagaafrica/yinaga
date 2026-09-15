@@ -56,11 +56,6 @@
     />
     <!-- Supabase JS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script
-      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-      async
-      defer
-    ></script>
     <style>
       :root {
         --yinaga-green: #1f9e3e;
@@ -657,10 +652,6 @@
               </div>
             </div>
 
-            <div class="mt-5 flex justify-center">
-              <div id="turnstile-login-container"></div>
-            </div>
-
             <button id="login-btn" onclick="signIn()" class="gold-button mt-6">
               <span id="login-btn-text">Sign In to Portal</span>
               <div id="login-spinner" class="spinner"></div>
@@ -670,7 +661,7 @@
 
             <p class="text-center text-white/40 text-sm mt-4">
               Not a member yet?
-              <a href="join.html" class="link-btn ml-1">Register here →</a>
+              <a href="join.html" class="link-btn ml-1">Register here </a>
             </p>
           </div>
 
@@ -699,10 +690,6 @@
               </div>
             </div>
 
-            <div class="mt-5 flex justify-center">
-              <div id="turnstile-forgot-container"></div>
-            </div>
-
             <button
               id="reset-btn"
               onclick="sendReset()"
@@ -713,7 +700,7 @@
             </button>
 
             <button onclick="showPanel('login')" class="outline-button mt-3">
-              ← Back to Sign In
+              Back to Sign In
             </button>
           </div>
         </div>
@@ -745,35 +732,6 @@
 
       const { createClient } = supabase;
       const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-      // ─── Explicit Turnstile rendering ──────────────────────
-      // Auto-render (via class="cf-turnstile" + data-sitekey) is unreliable
-      // when a page has more than one widget: getResponse()/reset() called
-      // with the container's HTML id can fail with "Could not find widget
-      // for provided container." Rendering explicitly and tracking the
-      // real widget IDs Cloudflare returns avoids that entirely.
-      const TURNSTILE_SITEKEY = "0x4AAAAAAEvtRZFeNXduPS74";
-      let loginWidgetId = null;
-      let forgotWidgetId = null;
-
-      function initTurnstile() {
-        if (!window.turnstile) {
-          setTimeout(initTurnstile, 100);
-          return;
-        }
-        loginWidgetId = window.turnstile.render("#turnstile-login-container", {
-          sitekey: TURNSTILE_SITEKEY,
-          theme: "dark",
-        });
-        forgotWidgetId = window.turnstile.render(
-          "#turnstile-forgot-container",
-          {
-            sitekey: TURNSTILE_SITEKEY,
-            theme: "dark",
-          },
-        );
-      }
-      initTurnstile();
 
       // ─── On load: handle confirmation tokens & session ────
       document.addEventListener("DOMContentLoaded", async () => {
@@ -877,24 +835,10 @@
         setLoading("login", true);
         clearAlerts();
 
-        const captchaToken = window.turnstile
-          ? window.turnstile.getResponse(loginWidgetId)
-          : null;
-        if (!captchaToken) {
-          showAlert(
-            "login-alert",
-            "error",
-            "Please complete the verification challenge before signing in.",
-          );
-          setLoading("login", false);
-          return;
-        }
-
         try {
           const { data, error } = await sb.auth.signInWithPassword({
             email,
             password,
-            options: { captchaToken },
           });
 
           if (error) {
@@ -906,7 +850,6 @@
             }
             showAlert("login-alert", "error", msg);
             setLoading("login", false);
-            if (window.turnstile) window.turnstile.reset(loginWidgetId);
             return;
           }
 
@@ -945,23 +888,9 @@
         setLoading("reset", true);
         clearAlerts();
 
-        const captchaToken = window.turnstile
-          ? window.turnstile.getResponse(forgotWidgetId)
-          : null;
-        if (!captchaToken) {
-          showAlert(
-            "forgot-alert",
-            "error",
-            "Please complete the verification challenge before submitting.",
-          );
-          setLoading("reset", false);
-          return;
-        }
-
         try {
           const { error } = await sb.auth.resetPasswordForEmail(email, {
             redirectTo: window.location.origin + "/member-portal.html",
-            captchaToken,
           });
 
           if (error) {
@@ -972,7 +901,6 @@
               "Could not send reset email. Please try again.",
             );
             setLoading("reset", false);
-            if (window.turnstile) window.turnstile.reset(forgotWidgetId);
             return;
           }
 
