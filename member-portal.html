@@ -424,7 +424,6 @@
             <a href="projects.html" class="nav-link">Projects</a>
             <a href="gallery.html" class="nav-link">Gallery</a>
             <a href="partners.html" class="nav-link">Partners</a>
-            <a href="join.html" class="nav-link">Join</a>
           </div>
           <div class="flex items-center gap-x-3 md:gap-x-4">
             <!-- Notification Bell -->
@@ -514,7 +513,6 @@
           <a href="projects.html" class="nav-link">Projects</a>
           <a href="gallery.html" class="nav-link">Gallery</a>
           <a href="partners.html" class="nav-link">Partners</a>
-          <a href="join.html" class="nav-link">Join</a>
           <button onclick="signOut()" class="signout-btn justify-center mt-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -675,7 +673,9 @@
                 <p class="text-white/40 text-xs uppercase tracking-widest mb-2">
                   Days Active
                 </p>
-                <p class="text-white font-semibold text-xl">12</p>
+                <p class="text-white font-semibold text-xl" id="days-active">
+                  —
+                </p>
               </div>
             </div>
 
@@ -1303,6 +1303,19 @@
         setAll(".member-email", email);
         setAll(".member-phone", meta.phone || "—");
         setAll(".member-age", meta.age_range || "—");
+
+        // Real "Days Active" — days since this account was actually created,
+        // not a hardcoded number.
+        const daysActiveEl = document.getElementById("days-active");
+        if (daysActiveEl && user.created_at) {
+          const createdAt = new Date(user.created_at);
+          const msPerDay = 1000 * 60 * 60 * 24;
+          const daysSince = Math.max(
+            0,
+            Math.floor((Date.now() - createdAt.getTime()) / msPerDay),
+          );
+          daysActiveEl.textContent = daysSince;
+        }
 
         // Profile form fields
         setInput("profile-firstname", meta.first_name || "");

@@ -56,6 +56,11 @@
     />
     <!-- Supabase JS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+      async
+      defer
+    ></script>
     <style>
       :root {
         --yinaga-green: #1f9e3e;
@@ -652,6 +657,15 @@
               </div>
             </div>
 
+            <div class="mt-5 flex justify-center">
+              <div
+                id="turnstile-login-container"
+                class="cf-turnstile"
+                data-sitekey="0x4AAAAAAEvtRZFeNXduPS74"
+                data-theme="dark"
+              ></div>
+            </div>
+
             <button id="login-btn" onclick="signIn()" class="gold-button mt-6">
               <span id="login-btn-text">Sign In to Portal</span>
               <div id="login-spinner" class="spinner"></div>
@@ -661,7 +675,7 @@
 
             <p class="text-center text-white/40 text-sm mt-4">
               Not a member yet?
-              <a href="join.html" class="link-btn ml-1">Register here →</a>
+              <a href="join.html" class="link-btn ml-1">Register here</a>
             </p>
           </div>
 
@@ -690,6 +704,15 @@
               </div>
             </div>
 
+            <div class="mt-5 flex justify-center">
+              <div
+                id="turnstile-forgot-container"
+                class="cf-turnstile"
+                data-sitekey="0x4AAAAAAEvtRZFeNXduPS74"
+                data-theme="dark"
+              ></div>
+            </div>
+
             <button
               id="reset-btn"
               onclick="sendReset()"
@@ -700,7 +723,7 @@
             </button>
 
             <button onclick="showPanel('login')" class="outline-button mt-3">
-              ← Back to Sign In
+              Back to Sign In
             </button>
           </div>
         </div>
@@ -835,13 +858,28 @@
         setLoading("login", true);
         clearAlerts();
 
+        const captchaToken = window.turnstile
+          ? window.turnstile.getResponse("turnstile-login-container")
+          : null;
+        if (!captchaToken) {
+          showAlert(
+            "login-alert",
+            "error",
+            "Please complete the verification challenge before signing in.",
+          );
+          setLoading("login", false);
+          return;
+        }
+
         try {
           const { data, error } = await sb.auth.signInWithPassword({
             email,
             password,
+            options: { captchaToken },
           });
 
           if (error) {
+            console.error("Sign-in error:", error);
             let msg = "Invalid email or password. Please try again.";
             if (error.message.includes("Email not confirmed")) {
               msg =
@@ -849,6 +887,8 @@
             }
             showAlert("login-alert", "error", msg);
             setLoading("login", false);
+            if (window.turnstile)
+              window.turnstile.reset("turnstile-login-container");
             return;
           }
 
@@ -887,18 +927,35 @@
         setLoading("reset", true);
         clearAlerts();
 
+        const captchaToken = window.turnstile
+          ? window.turnstile.getResponse("turnstile-forgot-container")
+          : null;
+        if (!captchaToken) {
+          showAlert(
+            "forgot-alert",
+            "error",
+            "Please complete the verification challenge before submitting.",
+          );
+          setLoading("reset", false);
+          return;
+        }
+
         try {
           const { error } = await sb.auth.resetPasswordForEmail(email, {
             redirectTo: window.location.origin + "/member-portal.html",
+            captchaToken,
           });
 
           if (error) {
+            console.error("Reset-password error:", error);
             showAlert(
               "forgot-alert",
               "error",
               "Could not send reset email. Please try again.",
             );
             setLoading("reset", false);
+            if (window.turnstile)
+              window.turnstile.reset("turnstile-forgot-container");
             return;
           }
 
