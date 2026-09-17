@@ -186,6 +186,23 @@
           padding-right: 2rem;
         }
       }
+
+      .feature-icon {
+        width: 2.75rem;
+        height: 2.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.75rem;
+        background: rgba(245, 194, 76, 0.1);
+        border: 1px solid rgba(245, 194, 76, 0.25);
+        margin-bottom: 1rem;
+      }
+      .feature-icon svg {
+        width: 1.375rem;
+        height: 1.375rem;
+        stroke: #f5c24c;
+      }
     </style>
   </head>
   <body class="overflow-x-hidden font-sans bg-[#0a0f0a]">
@@ -288,7 +305,19 @@
         </p>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div class="premium-card p-8 rounded-3xl text-white">
-            <div class="text-3xl mb-4">🎓</div>
+            <div class="feature-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M22 10 12 5 2 10l10 5 10-5Z" />
+                <path d="M6 12v5c0 1.657 2.686 3 6 3s6-1.343 6-3v-5" />
+                <path d="M22 10v6" />
+              </svg>
+            </div>
             <h3 class="text-xl font-semibold mb-3">Training & Mentorship</h3>
             <p class="text-white/65 text-sm leading-relaxed">
               Access workshops, bootcamps, and one-on-one mentorship from
@@ -296,7 +325,21 @@
             </p>
           </div>
           <div class="premium-card p-8 rounded-3xl text-white">
-            <div class="text-3xl mb-4">💰</div>
+            <div class="feature-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path
+                  d="M9.5 15.5c0 1.105 1.12 2 2.5 2s2.5-.895 2.5-2-1.12-1.75-2.5-1.75S9.5 12.855 9.5 11.75s1.12-2 2.5-2 2.5.895 2.5 2"
+                />
+                <path d="M12 8.25v1M12 14.75v1" />
+              </svg>
+            </div>
             <h3 class="text-xl font-semibold mb-3">Funding Access</h3>
             <p class="text-white/65 text-sm leading-relaxed">
               Get connected to grants, micro-loans, and investor networks
@@ -304,7 +347,21 @@
             </p>
           </div>
           <div class="premium-card p-8 rounded-3xl text-white">
-            <div class="text-3xl mb-4">🌍</div>
+            <div class="feature-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path d="M3 12h18" />
+                <path
+                  d="M12 3c2.5 2.5 3.75 5.833 3.75 9s-1.25 6.5-3.75 9c-2.5-2.5-3.75-5.833-3.75-9S9.5 5.5 12 3Z"
+                />
+              </svg>
+            </div>
             <h3 class="text-xl font-semibold mb-3">Continental Network</h3>
             <p class="text-white/65 text-sm leading-relaxed">
               Join a growing community of young African agripreneurs across 54
