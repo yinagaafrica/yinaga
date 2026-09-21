@@ -1,0 +1,1428 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Join YINAGA – Register as a Member or Volunteer"
+    />
+    <title>Join | YINAGA</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="assets/images/favicon/favicon.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/images/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/images/favicon/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/images/favicon/apple-touch-icon.png"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+      async
+      defer
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --yinaga-green: #1f9e3e;
+        --yinaga-gold: #f5c24c;
+      }
+      .heading-font {
+        font-family: "Playfair Display", sans-serif;
+      }
+
+      .join-hero {
+        background-image:
+          linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url("assets/images/woman-farmer.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+      }
+      @media (max-width: 768px) {
+        .join-hero {
+          background-attachment: scroll;
+        }
+      }
+
+      @keyframes fadeInUp {
+        0% {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 1s cubic-bezier(0.25, 0.1, 0.25, 1);
+      }
+      .reveal.active {
+        animation: fadeInUp 1s forwards;
+      }
+
+      .nav-link {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      .nav-link:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #f5c24c;
+        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .nav-link:hover:after {
+        width: 100%;
+      }
+      .nav-link.active:after {
+        width: 100%;
+      }
+      .nav-link.active {
+        color: #f5c24c;
+      }
+
+      .gold-button {
+        background: linear-gradient(90deg, #f5c24c, #e8b02a);
+        box-shadow: 0 10px 30px -10px #f5c24c;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .gold-button:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 20px 40px -10px #f5c24c;
+      }
+
+      .premium-card {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .premium-card:hover {
+        transform: translateY(-4px);
+        border-color: #f5c24c;
+        box-shadow: 0 20px 40px -15px rgba(245, 194, 76, 0.3);
+      }
+
+      .form-input {
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: white;
+        border-radius: 1rem;
+        padding: 0.875rem 1.25rem;
+        width: 100%;
+        font-size: 0.95rem;
+        transition: border-color 0.3s ease;
+        outline: none;
+      }
+      .form-input::placeholder {
+        color: rgba(255, 255, 255, 0.35);
+      }
+      .form-input:focus {
+        border-color: #f5c24c;
+      }
+
+      select.form-input option {
+        background: #0a0f0a;
+        color: white;
+      }
+
+      .tab-btn {
+        padding: 0.75rem 2rem;
+        border-radius: 9999px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: 2px solid transparent;
+      }
+      .tab-btn.active {
+        background: linear-gradient(90deg, #f5c24c, #e8b02a);
+        color: black;
+      }
+      .tab-btn:not(.active) {
+        border-color: rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.6);
+      }
+      .tab-btn:not(.active):hover {
+        border-color: #f5c24c;
+        color: #f5c24c;
+      }
+
+      .section-padding {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      @media (min-width: 640px) {
+        .section-padding {
+          padding-left: 2rem;
+          padding-right: 2rem;
+        }
+      }
+
+      .feature-icon {
+        width: 2.75rem;
+        height: 2.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.75rem;
+        background: rgba(245, 194, 76, 0.1);
+        border: 1px solid rgba(245, 194, 76, 0.25);
+        margin-bottom: 1rem;
+      }
+      .feature-icon svg {
+        width: 1.375rem;
+        height: 1.375rem;
+        stroke: #f5c24c;
+      }
+    </style>
+  </head>
+  <body class="overflow-x-hidden font-sans bg-[#0a0f0a]">
+    <!-- NAVBAR -->
+    <nav
+      class="bg-black border-b border-[#f5c24c]/30 sticky top-0 z-50 backdrop-blur-lg"
+    >
+      <div class="max-w-screen-2xl mx-auto section-padding">
+        <div class="flex justify-between items-center h-16 md:h-20">
+          <a href="index.html" class="flex items-center group">
+            <img
+              src="assets/images/logo.png"
+              alt="YINAGA Logo"
+              class="h-9 w-auto md:h-11 transition-transform group-hover:rotate-12"
+            />
+          </a>
+          <div
+            class="hidden lg:flex items-center gap-x-10 text-white uppercase text-sm font-medium tracking-[2px]"
+          >
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="about.html" class="nav-link">About</a>
+                      <div class="nav-dropdown">
+            <button class="nav-link nav-dropdown-trigger" onclick="toggleNavDropdown(event)">
+              Leadership
+              <svg class="chev" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+            </button>
+            <div class="nav-dropdown-menu">
+              <a href="board-of-trustees.html" class="nav-dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22" /><line x1="6" y1="18" x2="6" y2="11" /><line x1="10" y1="18" x2="10" y2="11" /><line x1="14" y1="18" x2="14" y2="11" /><line x1="18" y1="18" x2="18" y2="11" /><polygon points="12 2 20 7 4 7 12 2" /></svg>
+                Board of Trustees
+              </a>
+              <a href="executives.html" class="nav-dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7" /><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" /></svg>
+                Executives
+              </a>
+              <a href="stakeholders.html" class="nav-dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg>
+                Stakeholders
+              </a>
+            </div>
+          </div>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="gallery.html" class="nav-link">Gallery</a>
+            <a href="partners.html" class="nav-link">Partners</a>
+          </div>
+          <div class="flex items-center gap-x-4 md:gap-x-6">
+            <a
+              href="join.html"
+              class="gold-button text-black px-5 py-3 md:px-10 md:py-4 text-xs md:text-sm uppercase tracking-widest flex items-center gap-x-2 rounded-3xl font-semibold whitespace-nowrap"
+            >
+              Join<span class="hidden sm:inline">&nbsp;the Movement</span>
+            </a>
+            <button
+              onclick="toggleMobileMenu()"
+              class="lg:hidden text-white p-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-7 h-7 md:w-8 md:h-8"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        id="mobileMenu"
+        class="hidden lg:hidden bg-black px-6 py-6 border-t border-[#f5c24c]/30"
+      >
+        <div class="flex flex-col gap-y-6 text-white text-base font-medium">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link">About</a>
+                    <div>
+            <button
+              class="nav-link mobile-dropdown-trigger flex items-center gap-2 w-full text-left"
+              onclick="toggleMobileDropdown(event)"
+            >
+              Leadership
+              <svg class="chev" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+            </button>
+            <div class="mobile-dropdown-panel">
+              <a href="board-of-trustees.html" class="text-white/80 text-sm">Board of Trustees</a>
+              <a href="executives.html" class="text-white/80 text-sm">Executives</a>
+              <a href="stakeholders.html" class="text-white/80 text-sm">Stakeholders</a>
+            </div>
+          </div>
+          <a href="projects.html" class="nav-link">Projects</a>
+          <a href="gallery.html" class="nav-link">Gallery</a>
+          <a href="partners.html" class="nav-link">Partners</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="join-hero h-screen flex items-center relative text-white">
+      <div class="max-w-screen-2xl mx-auto section-padding pt-12">
+        <div class="max-w-2xl">
+          <p class="text-[#f5c24c] uppercase text-sm tracking-[3px] mb-6">
+            Get Involved
+          </p>
+          <h1
+            class="text-6xl md:text-7xl font-bold heading-font tracking-[-4px] mb-6"
+          >
+            Join the Movement
+          </h1>
+          <p class="text-2xl md:text-3xl font-light text-white/90 max-w-xl">
+            Africa's agricultural revolution needs you. Register as a member or
+            volunteer today.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- WHY JOIN -->
+    <section class="py-16 md:py-24 bg-[#0a0f0a] reveal">
+      <div class="max-w-screen-2xl mx-auto section-padding">
+        <h2 class="text-4xl heading-font text-center mb-4 text-[#f5c24c]">
+          Why Join YINAGA?
+        </h2>
+        <p class="text-center text-white/60 mb-14 max-w-xl mx-auto">
+          Membership opens doors to training, funding, networks, and a
+          continent-wide community of agripreneurs.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="premium-card p-8 rounded-3xl text-white">
+            <div class="feature-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M22 10 12 5 2 10l10 5 10-5Z" />
+                <path d="M6 12v5c0 1.657 2.686 3 6 3s6-1.343 6-3v-5" />
+                <path d="M22 10v6" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold mb-3">Training & Mentorship</h3>
+            <p class="text-white/65 text-sm leading-relaxed">
+              Access workshops, bootcamps, and one-on-one mentorship from
+              experienced agripreneurs and agricultural scientists.
+            </p>
+          </div>
+          <div class="premium-card p-8 rounded-3xl text-white">
+            <div class="feature-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path
+                  d="M9.5 15.5c0 1.105 1.12 2 2.5 2s2.5-.895 2.5-2-1.12-1.75-2.5-1.75S9.5 12.855 9.5 11.75s1.12-2 2.5-2 2.5.895 2.5 2"
+                />
+                <path d="M12 8.25v1M12 14.75v1" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold mb-3">Funding Access</h3>
+            <p class="text-white/65 text-sm leading-relaxed">
+              Get connected to grants, micro-loans, and investor networks
+              specifically designed for youth-centric agribusinesses.
+            </p>
+          </div>
+          <div class="premium-card p-8 rounded-3xl text-white">
+            <div class="feature-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path d="M3 12h18" />
+                <path
+                  d="M12 3c2.5 2.5 3.75 5.833 3.75 9s-1.25 6.5-3.75 9c-2.5-2.5-3.75-5.833-3.75-9S9.5 5.5 12 3Z"
+                />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold mb-3">Continental Network</h3>
+            <p class="text-white/65 text-sm leading-relaxed">
+              Join a growing community of young African agripreneurs across 54
+              countries. Share, collaborate, and grow together.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REGISTRATION FORM -->
+    <section class="py-16 md:py-24 bg-[#0a0f0a] reveal">
+      <div class="max-w-3xl mx-auto section-padding">
+        <!-- Tabs -->
+        <div class="flex gap-3 justify-center mb-12 flex-wrap">
+          <button
+            class="tab-btn active"
+            id="tab-member"
+            onclick="switchTab('member')"
+          >
+            Member Registration
+          </button>
+          <button
+            class="tab-btn"
+            id="tab-volunteer"
+            onclick="switchTab('volunteer')"
+          >
+            Volunteer Application
+          </button>
+        </div>
+
+        <!-- Member Form -->
+        <!-- Member Form -->
+        <div id="form-member">
+          <div class="premium-card p-10 md:p-14 rounded-3xl text-white">
+            <h2 class="text-3xl heading-font text-[#f5c24c] mb-2">
+              Become a Member
+            </h2>
+            <p class="text-white/55 text-sm mb-10">
+              Fill in your details to register. You'll receive a confirmation
+              and your member ID by email.
+            </p>
+            <div
+              id="member-alert"
+              class="hidden mb-6 px-5 py-4 rounded-2xl text-sm font-medium"
+            ></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >First Name *</label
+                >
+                <input
+                  id="m-firstname"
+                  type="text"
+                  class="form-input"
+                  placeholder="e.g. First Name"
+                />
+              </div>
+              <div>
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >Last Name *</label
+                >
+                <input
+                  id="m-lastname"
+                  type="text"
+                  class="form-input"
+                  placeholder="e.g. Surname"
+                />
+              </div>
+              <div>
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >Email Address *</label
+                >
+                <input
+                  id="m-email"
+                  type="email"
+                  class="form-input"
+                  placeholder="you@email.com"
+                />
+              </div>
+              <div>
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >Phone Number *</label
+                >
+                <input
+                  id="m-phone"
+                  type="tel"
+                  class="form-input"
+                  placeholder="+234 800 000 0000"
+                />
+              </div>
+              <div>
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >State / Country *</label
+                >
+                <input
+                  id="m-location"
+                  type="text"
+                  class="form-input"
+                  placeholder="e.g. Lagos, Nigeria"
+                />
+              </div>
+              <div>
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >Age Range *</label
+                >
+                <select id="m-age" class="form-input">
+                  <option value="" disabled selected>Select age range</option>
+                  <option>15 – 20</option>
+                  <option>21 – 25</option>
+                  <option>26 – 30</option>
+                  <option>31 – 35</option>
+                  <option>36+</option>
+                </select>
+              </div>
+              <div class="md:col-span-2">
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >Area of Agriculture Interest *</label
+                >
+                <select id="m-interest" class="form-input">
+                  <option value="" disabled selected>Select your area</option>
+                  <option>Crop Farming</option>
+                  <option>Livestock &amp; Animal Husbandry</option>
+                  <option>Aquaculture / Fisheries</option>
+                  <option>Agritech &amp; Smart Farming</option>
+                  <option>Agro-processing &amp; Value Chain</option>
+                  <option>Agricultural Finance &amp; Investment</option>
+                  <option>Environmental / Circular Agriculture</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="md:col-span-2">
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >Tell Us About Yourself (optional)</label
+                >
+                <textarea
+                  id="m-bio"
+                  class="form-input"
+                  rows="4"
+                  placeholder="Share your background, experience, or what drives you to join YINAGA..."
+                ></textarea>
+              </div>
+              <div>
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >Create Password *</label
+                >
+                <input
+                  id="m-password"
+                  type="password"
+                  class="form-input"
+                  placeholder="At least 8 characters"
+                  autocomplete="new-password"
+                />
+              </div>
+              <div>
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >Confirm Password *</label
+                >
+                <input
+                  id="m-password2"
+                  type="password"
+                  class="form-input"
+                  placeholder="Re-enter your password"
+                  autocomplete="new-password"
+                />
+              </div>
+            </div>
+            <div class="mt-6 flex justify-center">
+              <div
+                class="cf-turnstile"
+                data-sitekey="0x4AAAAAAEvtRZFeNXduPS74"
+                data-theme="dark"
+                data-callback="onMemberCaptchaSuccess"
+                data-expired-callback="onMemberCaptchaExpired"
+              ></div>
+            </div>
+            <button
+              id="m-submit-btn"
+              onclick="submitMember()"
+              class="gold-button text-black w-full py-5 rounded-2xl text-base font-semibold mt-8 tracking-wide flex items-center justify-center gap-3"
+            >
+              <span id="m-submit-text">Submit Registration</span>
+              <div
+                id="m-spinner"
+                style="
+                  display: none;
+                  width: 20px;
+                  height: 20px;
+                  border: 2px solid rgba(0, 0, 0, 0.3);
+                  border-top-color: black;
+                  border-radius: 50%;
+                  animation: spin 0.7s linear infinite;
+                "
+              ></div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Volunteer Form -->
+        <div id="form-volunteer" class="hidden">
+          <div class="premium-card p-10 md:p-14 rounded-3xl text-white">
+            <h2 class="text-3xl heading-font text-[#f5c24c] mb-2">
+              Volunteer With Us
+            </h2>
+            <p class="text-white/55 text-sm mb-10">
+              Give your time and skills to help drive YINAGA's mission on the
+              ground. All backgrounds welcome.
+            </p>
+            <div
+              id="volunteer-alert"
+              class="hidden mb-6 px-5 py-4 rounded-2xl text-sm font-medium"
+            ></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >First Name *</label
+                >
+                <input
+                  id="v-firstname"
+                  type="text"
+                  class="form-input"
+                  placeholder="First name"
+                />
+              </div>
+              <div>
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >Last Name *</label
+                >
+                <input
+                  id="v-lastname"
+                  type="text"
+                  class="form-input"
+                  placeholder="Last name"
+                />
+              </div>
+              <div>
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >Email Address *</label
+                >
+                <input
+                  id="v-email"
+                  type="email"
+                  class="form-input"
+                  placeholder="you@email.com"
+                />
+              </div>
+              <div>
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >Phone Number *</label
+                >
+                <input
+                  id="v-phone"
+                  type="tel"
+                  class="form-input"
+                  placeholder="+234 800 000 0000"
+                />
+              </div>
+              <div>
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >Location *</label
+                >
+                <input
+                  id="v-location"
+                  type="text"
+                  class="form-input"
+                  placeholder="City, State, Country"
+                />
+              </div>
+              <div>
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >Availability *</label
+                >
+                <select id="v-availability" class="form-input">
+                  <option value="" disabled selected>
+                    How much time can you give?
+                  </option>
+                  <option>A few hours per week</option>
+                  <option>Weekends only</option>
+                  <option>Part-time (10–20 hrs/week)</option>
+                  <option>Full-time commitment</option>
+                </select>
+              </div>
+              <div class="md:col-span-2">
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >How Would You Like to Volunteer? *</label
+                >
+                <select id="v-role" class="form-input">
+                  <option value="" disabled selected>Select a role</option>
+                  <option>Community Outreach &amp; Mobilisation</option>
+                  <option>Event Organisation &amp; Logistics</option>
+                  <option>Social Media &amp; Content Creation</option>
+                  <option>Training &amp; Facilitation</option>
+                  <option>Research &amp; Documentation</option>
+                  <option>Fundraising &amp; Partnerships</option>
+                  <option>State Coordination Support</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="md:col-span-2">
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >Why Do You Want to Volunteer? *</label
+                >
+                <textarea
+                  id="v-motivation"
+                  class="form-input"
+                  rows="4"
+                  placeholder="Tell us what motivates you to give your time to YINAGA..."
+                ></textarea>
+              </div>
+              <div>
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >Create Password *</label
+                >
+                <input
+                  id="v-password"
+                  type="password"
+                  class="form-input"
+                  placeholder="At least 8 characters"
+                  autocomplete="new-password"
+                />
+              </div>
+              <div>
+                <label
+                  class="text-xs uppercase tracking-widest text-white/50 block mb-2"
+                  >Confirm Password *</label
+                >
+                <input
+                  id="v-password2"
+                  type="password"
+                  class="form-input"
+                  placeholder="Re-enter your password"
+                  autocomplete="new-password"
+                />
+              </div>
+            </div>
+            <div class="mt-6 flex justify-center">
+              <div
+                class="cf-turnstile"
+                data-sitekey="0x4AAAAAAEvtRZFeNXduPS74"
+                data-theme="dark"
+                data-callback="onVolunteerCaptchaSuccess"
+                data-expired-callback="onVolunteerCaptchaExpired"
+              ></div>
+            </div>
+            <button
+              id="v-submit-btn"
+              onclick="submitVolunteer()"
+              class="gold-button text-black w-full py-5 rounded-2xl text-base font-semibold mt-8 tracking-wide flex items-center justify-center gap-3"
+            >
+              <span id="v-submit-text">Submit Application</span>
+              <div
+                id="v-spinner"
+                style="
+                  display: none;
+                  width: 20px;
+                  height: 20px;
+                  border: 2px solid rgba(0, 0, 0, 0.3);
+                  border-top-color: black;
+                  border-radius: 50%;
+                  animation: spin 0.7s linear infinite;
+                "
+              ></div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer
+      class="bg-[#0f2a1f] text-white py-12 md:py-20 border-t border-[#f5c24c]/20"
+    >
+      <div
+        class="max-w-screen-2xl mx-auto section-padding grid md:grid-cols-4 gap-y-10"
+      >
+        <div>
+          <img
+            src="assets/images/logo.png"
+            alt="YINAGA"
+            class="h-8 md:h-10 mb-6"
+          />
+          <p class="text-white/80 max-w-xs text-sm leading-relaxed">
+            A youth-centric Pan-African movement redefining agriculture as the
+            ultimate wealth and peace engine.
+          </p>
+          <div class="flex gap-4 mt-6">
+            <a
+              href="https://www.instagram.com/yinaga_africa"
+              target="_blank"
+              rel="noopener"
+              aria-label="YINAGA on Instagram"
+              class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#f5c24c] hover:text-black transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <path
+                  d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z"
+                />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg>
+            </a>
+            <a
+              href="https://x.com/YINAGA_Africa"
+              target="_blank"
+              rel="noopener"
+              aria-label="YINAGA on X"
+              class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#f5c24c] hover:text-black transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231ZM17.083 19.77h1.833L7.084 4.126H5.117Z"
+                />
+              </svg>
+            </a>
+          </div>
+          <div class="text-xs text-white/40 mt-12">
+            © 2026 YINAGA • yinaga.com • All Rights Reserved
+          </div>
+        </div>
+        <div class="space-y-3 text-sm">
+          <a
+            href="about.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Mission & Vision</a
+          >
+          <a
+            href="executives.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Leadership</a
+          >
+          <a
+            href="projects.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Projects</a
+          >
+        </div>
+        <div class="space-y-3 text-sm">
+          <a
+            href="join.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Member Registration</a
+          >
+          <a
+            href="join.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Volunteer Application</a
+          >
+          <a
+            href="member-portal.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Member Portal</a
+          >
+        </div>
+        <div>
+          <p class="text-white/80 text-sm mb-4">Stay in the movement</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input
+              id="footer-email"
+              type="email"
+              placeholder="your@email.com"
+              class="bg-white/10 border border-white/30 text-white placeholder:text-white/50 px-6 py-4 rounded-3xl w-full focus:outline-none text-sm"
+            />
+            <button
+              onclick="subscribe()"
+              class="bg-[#f5c24c] text-black px-8 py-4 rounded-3xl font-semibold text-sm whitespace-nowrap hover:bg-[#e8b02a]"
+            >
+              JOIN
+            </button>
+          </div>
+          <div id="subscribe-msg" class="text-[#4ade80] text-xs mt-4"></div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const SUPABASE_URL = "https://samdxvbjguypmijmqsic.supabase.co";
+      const SUPABASE_ANON_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhbWR4dmJqZ3V5cG1pam1xc2ljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyNjc1MjEsImV4cCI6MjA5NDg0MzUyMX0.76k9l0eSraEFgn83oywdpvNIEnD64Ism-_aiL_vfrqA";
+
+      const { createClient } = supabase;
+      const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      function generateMemberID() {
+        return `YING-${new Date().getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
+      }
+      function generateVolunteerID() {
+        return `YINGV-${new Date().getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
+      }
+
+      function showAlert(id, type, msg) {
+        const el = document.getElementById(id);
+        el.style.background =
+          type === "error" ? "rgba(239,68,68,0.12)" : "rgba(74,222,128,0.1)";
+        el.style.border =
+          type === "error"
+            ? "1px solid rgba(239,68,68,0.3)"
+            : "1px solid rgba(74,222,128,0.25)";
+        el.style.color = type === "error" ? "#fca5a5" : "#86efac";
+        el.innerHTML = msg;
+        el.classList.remove("hidden");
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      function setLoading(p, on) {
+        document.getElementById(`${p}-submit-btn`).disabled = on;
+        document.getElementById(`${p}-submit-text`).textContent = on
+          ? "Submitting..."
+          : p === "m"
+            ? "Submit Registration"
+            : "Submit Application";
+        document.getElementById(`${p}-spinner`).style.display = on
+          ? "block"
+          : "none";
+      }
+
+      // ─── Turnstile captcha state ─────────────────────────
+      let memberCaptchaToken = null;
+      let volunteerCaptchaToken = null;
+
+      window.onMemberCaptchaSuccess = (token) => {
+        memberCaptchaToken = token;
+      };
+      window.onMemberCaptchaExpired = () => {
+        memberCaptchaToken = null;
+      };
+      window.onVolunteerCaptchaSuccess = (token) => {
+        volunteerCaptchaToken = token;
+      };
+      window.onVolunteerCaptchaExpired = () => {
+        volunteerCaptchaToken = null;
+      };
+
+      // Resets a Turnstile widget so the person can retry after a failed
+      // submission (tokens are single-use and expire once consumed).
+      function resetCaptcha(containerId) {
+        if (window.turnstile) {
+          const el = document.querySelector(`#${containerId} .cf-turnstile`);
+          if (el) window.turnstile.reset(el);
+        }
+      }
+
+      function val(id) {
+        return (document.getElementById(id)?.value || "").trim();
+      }
+
+      // Returns null if valid, or an error message string if not.
+      function validatePassword(pw, pw2) {
+        if (!pw || !pw2) return "⚠️ Please create and confirm a password.";
+        if (pw.length < 8) return "⚠️ Password must be at least 8 characters.";
+        if (pw !== pw2) return "⚠️ Passwords do not match.";
+        return null;
+      }
+
+      window.submitMember = async () => {
+        const firstName = val("m-firstname"),
+          lastName = val("m-lastname"),
+          email = val("m-email"),
+          phone = val("m-phone"),
+          location = val("m-location"),
+          age = val("m-age"),
+          interest = val("m-interest"),
+          bio = val("m-bio"),
+          password = val("m-password"),
+          password2 = val("m-password2");
+
+        if (
+          !firstName ||
+          !lastName ||
+          !email ||
+          !phone ||
+          !location ||
+          !age ||
+          !interest
+        ) {
+          showAlert(
+            "member-alert",
+            "error",
+            "⚠️ Please fill in all required fields before submitting.",
+          );
+          return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          showAlert(
+            "member-alert",
+            "error",
+            "⚠️ Please enter a valid email address.",
+          );
+          return;
+        }
+        const pwError = validatePassword(password, password2);
+        if (pwError) {
+          showAlert("member-alert", "error", pwError);
+          return;
+        }
+        if (!memberCaptchaToken) {
+          showAlert(
+            "member-alert",
+            "error",
+            "⚠️ Please complete the verification challenge before submitting.",
+          );
+          return;
+        }
+
+        setLoading("m", true);
+        document.getElementById("member-alert").classList.add("hidden");
+
+        const memberId = generateMemberID();
+        const memberSince = new Date().toLocaleDateString("en-GB", {
+          month: "long",
+          year: "numeric",
+        });
+
+        try {
+          const { data: authData, error: authError } = await sb.auth.signUp({
+            email,
+            password,
+            options: {
+              data: {
+                first_name: firstName,
+                last_name: lastName,
+                phone,
+                location,
+                age_range: age,
+                interest,
+                bio,
+                member_id: memberId,
+                member_since: memberSince,
+                role: "member",
+              },
+              emailRedirectTo: window.location.origin + "/member-login.html",
+              captchaToken: memberCaptchaToken,
+            },
+          });
+
+          if (authError) {
+            showAlert(
+              "member-alert",
+              "error",
+              authError.message.toLowerCase().includes("already")
+                ? "⚠️ This email is already registered. Please sign in instead."
+                : "⚠️ Registration failed: " + authError.message,
+            );
+            setLoading("m", false);
+            resetCaptcha("form-member");
+            memberCaptchaToken = null;
+            return;
+          }
+
+          await sb.from("registrations").insert({
+            type: "member",
+            first_name: firstName,
+            last_name: lastName,
+            email,
+            phone,
+            location,
+            age_range: age,
+            interest,
+            bio,
+            member_id: memberId,
+            created_at: new Date().toISOString(),
+          });
+
+          setLoading("m", false);
+          const needsConfirmation = !authData?.session;
+          showAlert(
+            "member-alert",
+            "success",
+            needsConfirmation
+              ? `✅ Registration successful! Your Member ID is: ${memberId}<br><small style="opacity:0.7;display:block;margin-top:6px;">We've sent a confirmation link to ${email} — please click it to activate your account, then sign in with the password you just created.</small>`
+              : `✅ Registration successful! Your Member ID is: ${memberId} — <a href="member-login.html" style="color:#f5c24c;text-decoration:underline;font-weight:600;">Click here to sign in to your portal →</a><br><small style="opacity:0.7;display:block;margin-top:6px;">Use the email and password you just created.</small>`,
+          );
+
+          [
+            "m-firstname",
+            "m-lastname",
+            "m-email",
+            "m-phone",
+            "m-location",
+            "m-bio",
+            "m-password",
+            "m-password2",
+          ].forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) el.value = "";
+          });
+          document.getElementById("m-age").selectedIndex = 0;
+          document.getElementById("m-interest").selectedIndex = 0;
+          resetCaptcha("form-member");
+          memberCaptchaToken = null;
+        } catch (err) {
+          showAlert(
+            "member-alert",
+            "error",
+            "⚠️ Something went wrong. Please try again.",
+          );
+          setLoading("m", false);
+          resetCaptcha("form-member");
+          memberCaptchaToken = null;
+        }
+      };
+
+      window.submitVolunteer = async () => {
+        const firstName = val("v-firstname"),
+          lastName = val("v-lastname"),
+          email = val("v-email"),
+          phone = val("v-phone"),
+          location = val("v-location"),
+          availability = val("v-availability"),
+          role = val("v-role"),
+          motivation = val("v-motivation"),
+          password = val("v-password"),
+          password2 = val("v-password2");
+
+        if (
+          !firstName ||
+          !lastName ||
+          !email ||
+          !phone ||
+          !location ||
+          !availability ||
+          !role
+        ) {
+          showAlert(
+            "volunteer-alert",
+            "error",
+            "⚠️ Please fill in all required fields before submitting.",
+          );
+          return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          showAlert(
+            "volunteer-alert",
+            "error",
+            "⚠️ Please enter a valid email address.",
+          );
+          return;
+        }
+        const pwError = validatePassword(password, password2);
+        if (pwError) {
+          showAlert("volunteer-alert", "error", pwError);
+          return;
+        }
+        if (!volunteerCaptchaToken) {
+          showAlert(
+            "volunteer-alert",
+            "error",
+            "⚠️ Please complete the verification challenge before submitting.",
+          );
+          return;
+        }
+
+        setLoading("v", true);
+        document.getElementById("volunteer-alert").classList.add("hidden");
+
+        const volunteerId = generateVolunteerID();
+        const memberSince = new Date().toLocaleDateString("en-GB", {
+          month: "long",
+          year: "numeric",
+        });
+
+        try {
+          const { data: authData, error: authError } = await sb.auth.signUp({
+            email,
+            password,
+            options: {
+              data: {
+                first_name: firstName,
+                last_name: lastName,
+                phone,
+                location,
+                volunteer_role: role,
+                availability,
+                motivation,
+                member_id: volunteerId,
+                member_since: memberSince,
+                role: "volunteer",
+              },
+              emailRedirectTo: window.location.origin + "/member-login.html",
+              captchaToken: volunteerCaptchaToken,
+            },
+          });
+
+          if (authError) {
+            showAlert(
+              "volunteer-alert",
+              "error",
+              authError.message.toLowerCase().includes("already")
+                ? "⚠️ This email is already registered. Please sign in instead."
+                : "⚠️ Application failed: " + authError.message,
+            );
+            setLoading("v", false);
+            resetCaptcha("form-volunteer");
+            volunteerCaptchaToken = null;
+            return;
+          }
+
+          await sb.from("registrations").insert({
+            type: "volunteer",
+            first_name: firstName,
+            last_name: lastName,
+            email,
+            phone,
+            location,
+            volunteer_role: role,
+            availability,
+            motivation,
+            member_id: volunteerId,
+            created_at: new Date().toISOString(),
+          });
+
+          setLoading("v", false);
+          const needsConfirmation = !authData?.session;
+          showAlert(
+            "volunteer-alert",
+            "success",
+            needsConfirmation
+              ? `✅ Application successful! Your Volunteer ID is: ${volunteerId}<br><small style="opacity:0.7;display:block;margin-top:6px;">We've sent a confirmation link to ${email} — please click it to activate your account, then sign in with the password you just created.</small>`
+              : `✅ Application successful! Your Volunteer ID is: ${volunteerId} — <a href="member-login.html" style="color:#f5c24c;text-decoration:underline;font-weight:600;">Click here to sign in to your portal →</a><br><small style="opacity:0.7;display:block;margin-top:6px;">Use the email and password you just created.</small>`,
+          );
+
+          [
+            "v-firstname",
+            "v-lastname",
+            "v-email",
+            "v-phone",
+            "v-location",
+            "v-motivation",
+            "v-password",
+            "v-password2",
+          ].forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) el.value = "";
+          });
+          document.getElementById("v-availability").selectedIndex = 0;
+          document.getElementById("v-role").selectedIndex = 0;
+          resetCaptcha("form-volunteer");
+          volunteerCaptchaToken = null;
+        } catch (err) {
+          showAlert(
+            "volunteer-alert",
+            "error",
+            "⚠️ Something went wrong. Please try again.",
+          );
+          setLoading("v", false);
+          resetCaptcha("form-volunteer");
+          volunteerCaptchaToken = null;
+        }
+      };
+
+      document.addEventListener("DOMContentLoaded", () => {
+        window.toggleMobileMenu = () =>
+          document.getElementById("mobileMenu").classList.toggle("hidden");
+        // ─── Leadership nav dropdown ────────────────────────
+        window.toggleNavDropdown = (e) => {
+          e.stopPropagation();
+          document.querySelectorAll(".nav-dropdown").forEach((d) => {
+            if (d !== e.currentTarget.closest(".nav-dropdown"))
+              d.classList.remove("open");
+          });
+          e.currentTarget.closest(".nav-dropdown").classList.toggle("open");
+        };
+        document.addEventListener("click", () => {
+          document
+            .querySelectorAll(".nav-dropdown")
+            .forEach((d) => d.classList.remove("open"));
+        });
+
+        window.toggleMobileDropdown = (e) => {
+          e.currentTarget.classList.toggle("open");
+          e.currentTarget.nextElementSibling.classList.toggle("open");
+        };
+
+
+        const reveals = document.querySelectorAll(".reveal");
+        const observer = new IntersectionObserver(
+          (entries) =>
+            entries.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("active");
+            }),
+          { threshold: 0.15 },
+        );
+        reveals.forEach((el) => observer.observe(el));
+
+        window.subscribe = () => {
+          document.getElementById("subscribe-msg").innerHTML =
+            "✅ Welcome to the YINAGA movement!";
+        };
+
+        window.switchTab = (tab) => {
+          document
+            .getElementById("form-member")
+            .classList.toggle("hidden", tab !== "member");
+          document
+            .getElementById("form-volunteer")
+            .classList.toggle("hidden", tab !== "volunteer");
+          document
+            .getElementById("tab-member")
+            .classList.toggle("active", tab === "member");
+          document
+            .getElementById("tab-volunteer")
+            .classList.toggle("active", tab === "volunteer");
+        };
+      });
+    </script>
+    <style>
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    
+      /* ── Leadership nav dropdown ── */
+      .nav-dropdown {
+        position: relative;
+      }
+      .nav-dropdown-trigger {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        color: inherit;
+        text-transform: inherit;
+        letter-spacing: inherit;
+      }
+      .nav-dropdown-trigger .chev {
+        width: 12px;
+        height: 12px;
+        transition: transform 0.3s ease;
+      }
+      .nav-dropdown.open .nav-dropdown-trigger .chev {
+        transform: rotate(180deg);
+      }
+      .nav-dropdown-menu {
+        position: absolute;
+        top: calc(100% + 16px);
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 260px;
+        background: #0a0a0a;
+        border: 1px solid rgba(245, 194, 76, 0.25);
+        border-radius: 1rem;
+        padding: 0.5rem;
+        display: none;
+        z-index: 60;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
+      }
+      .nav-dropdown.open .nav-dropdown-menu {
+        display: block;
+      }
+      .nav-dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        border-radius: 0.75rem;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 0.85rem;
+        font-weight: 500;
+        text-transform: none;
+        letter-spacing: normal;
+        transition: background 0.2s ease, color 0.2s ease;
+        white-space: nowrap;
+      }
+      .nav-dropdown-item:hover {
+        background: rgba(245, 194, 76, 0.12);
+        color: #f5c24c;
+      }
+      .nav-dropdown-item svg {
+        flex-shrink: 0;
+        width: 18px;
+        height: 18px;
+        color: #f5c24c;
+      }
+
+      /* Mobile accordion version */
+      .mobile-dropdown-panel {
+        display: none;
+        flex-direction: column;
+        gap: 1rem;
+        padding-left: 1.25rem;
+        margin-top: 1rem;
+        border-left: 2px solid rgba(245, 194, 76, 0.3);
+      }
+      .mobile-dropdown-panel.open {
+        display: flex;
+      }
+      .mobile-dropdown-trigger .chev {
+        width: 14px;
+        height: 14px;
+        transition: transform 0.3s ease;
+      }
+      .mobile-dropdown-trigger.open .chev {
+        transform: rotate(180deg);
+      }
+
+    </style>
+  </body>
+</html>

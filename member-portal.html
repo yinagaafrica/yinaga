@@ -1,0 +1,1742 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="YINAGA Member Portal – Your Dashboard" />
+    <title>Member Portal | YINAGA</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="assets/images/favicon/favicon.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/images/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/images/favicon/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/images/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="assets/images/favicon/favicon.ico"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/images/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/images/favicon/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/images/favicon/apple-touch-icon.png"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --yinaga-green: #1f9e3e;
+        --yinaga-gold: #f5c24c;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #0a0f0a;
+        font-family: "Inter", sans-serif;
+        color: white;
+        overflow-x: hidden;
+      }
+
+      .heading-font {
+        font-family: "Playfair Display", serif;
+      }
+      .mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      /* NAV */
+      .nav-link {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      .nav-link:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background: #f5c24c;
+        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .nav-link:hover:after,
+      .nav-link.active:after {
+        width: 100%;
+      }
+      .nav-link.active {
+        color: #f5c24c;
+      }
+
+      .gold-button {
+        background: linear-gradient(90deg, #f5c24c, #e8b02a);
+        box-shadow: 0 10px 30px -10px #f5c24c;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .gold-button:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 20px 40px -10px #f5c24c;
+      }
+
+      .section-padding {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      @media (min-width: 640px) {
+        .section-padding {
+          padding-left: 2rem;
+          padding-right: 2rem;
+        }
+      }
+
+      /* PREMIUM CARD */
+      .premium-card {
+        background: rgba(255, 255, 255, 0.06);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .premium-card:hover {
+        border-color: rgba(245, 194, 76, 0.35);
+        box-shadow: 0 20px 40px -15px rgba(245, 194, 76, 0.2);
+      }
+
+      /* MEMBER ID CARD */
+      .id-card {
+        background: linear-gradient(
+          135deg,
+          #0f2a1f 0%,
+          #0a1a10 50%,
+          #091508 100%
+        );
+        border: 1px solid rgba(245, 194, 76, 0.4);
+        position: relative;
+        overflow: hidden;
+      }
+      .id-card::before {
+        content: "";
+        position: absolute;
+        top: -60px;
+        right: -60px;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(245, 194, 76, 0.12) 0%,
+          transparent 70%
+        );
+      }
+      .id-card::after {
+        content: "";
+        position: absolute;
+        bottom: -40px;
+        left: -40px;
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(31, 158, 62, 0.1) 0%,
+          transparent 70%
+        );
+      }
+
+      /* AVATAR */
+      .avatar-ring {
+        background: linear-gradient(135deg, #f5c24c, #1f9e3e);
+        padding: 3px;
+        border-radius: 50%;
+      }
+      .avatar-inner {
+        background: #0a0f0a;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Playfair Display", serif;
+        font-weight: 700;
+      }
+
+      /* STAT CARDS */
+      .stat-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 1.25rem;
+        padding: 1.25rem 1.5rem;
+        transition: all 0.3s ease;
+      }
+      .stat-card:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(245, 194, 76, 0.3);
+      }
+
+      /* OPPORTUNITY BADGE */
+      .badge {
+        display: inline-block;
+        padding: 3px 12px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+      .badge-green {
+        background: rgba(31, 158, 62, 0.2);
+        color: #4ade80;
+        border: 1px solid rgba(74, 222, 128, 0.2);
+      }
+      .badge-gold {
+        background: rgba(245, 194, 76, 0.15);
+        color: #f5c24c;
+        border: 1px solid rgba(245, 194, 76, 0.25);
+      }
+      .badge-blue {
+        background: rgba(59, 130, 246, 0.15);
+        color: #60a5fa;
+        border: 1px solid rgba(96, 165, 250, 0.2);
+      }
+
+      /* PROGRESS BAR */
+      .progress-track {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 999px;
+        height: 6px;
+        overflow: hidden;
+      }
+      .progress-fill {
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #1f9e3e, #f5c24c);
+        transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* EVENT ITEM */
+      .event-item {
+        border-left: 2px solid rgba(245, 194, 76, 0.3);
+        padding-left: 1rem;
+        transition: all 0.3s ease;
+      }
+      .event-item:hover {
+        border-left-color: #f5c24c;
+      }
+
+      /* SIDEBAR */
+      .sidebar-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.7rem 1rem;
+        border-radius: 0.75rem;
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.55);
+        transition: all 0.25s ease;
+        cursor: pointer;
+      }
+      .sidebar-link:hover {
+        background: rgba(255, 255, 255, 0.06);
+        color: white;
+      }
+      .sidebar-link.active {
+        background: rgba(245, 194, 76, 0.1);
+        color: #f5c24c;
+        border: 1px solid rgba(245, 194, 76, 0.15);
+      }
+      .sidebar-link svg {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+      }
+
+      /* REVEAL ANIMATION */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: all 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
+      }
+      .reveal.active {
+        animation: fadeInUp 0.8s forwards;
+      }
+
+      /* FORM INPUT */
+      .form-input {
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: white;
+        border-radius: 0.875rem;
+        padding: 0.75rem 1rem;
+        width: 100%;
+        font-size: 0.9rem;
+        transition: border-color 0.3s ease;
+        outline: none;
+        font-family: "Inter", sans-serif;
+      }
+      .form-input::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+      }
+      .form-input:focus {
+        border-color: #f5c24c;
+      }
+
+      /* NOTIFICATION DOT */
+      .notif-dot {
+        width: 8px;
+        height: 8px;
+        background: #f5c24c;
+        border-radius: 50%;
+        flex-shrink: 0;
+        margin-top: 5px;
+      }
+
+      /* MOBILE MENU */
+      #mobileMenu {
+        display: none;
+      }
+      #mobileMenu.open {
+        display: block;
+      }
+
+      /* TABS */
+      .tab-panel {
+        display: none;
+      }
+      .tab-panel.active {
+        display: block;
+      }
+
+      /* PROFILE COMPLETION RING */
+      .ring-wrap {
+        position: relative;
+        width: 56px;
+        height: 56px;
+      }
+      .ring-wrap svg {
+        transform: rotate(-90deg);
+      }
+
+      /* SCROLL */
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(245, 194, 76, 0.3);
+        border-radius: 2px;
+      }
+
+      /* AUTH GUARD — body hidden until session confirmed */
+      body {
+        visibility: hidden;
+      }
+      body.auth-ready {
+        visibility: visible;
+      }
+
+      /* SIGN OUT BUTTON */
+      .signout-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        padding: 0.5rem 1rem;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        background: none;
+        font-family: "Inter", sans-serif;
+      }
+      .signout-btn:hover {
+        color: white;
+        border-color: rgba(255, 255, 255, 0.3);
+      }
+    
+      /* ── Leadership nav dropdown ── */
+      .nav-dropdown {
+        position: relative;
+      }
+      .nav-dropdown-trigger {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        color: inherit;
+        text-transform: inherit;
+        letter-spacing: inherit;
+      }
+      .nav-dropdown-trigger .chev {
+        width: 12px;
+        height: 12px;
+        transition: transform 0.3s ease;
+      }
+      .nav-dropdown.open .nav-dropdown-trigger .chev {
+        transform: rotate(180deg);
+      }
+      .nav-dropdown-menu {
+        position: absolute;
+        top: calc(100% + 16px);
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 260px;
+        background: #0a0a0a;
+        border: 1px solid rgba(245, 194, 76, 0.25);
+        border-radius: 1rem;
+        padding: 0.5rem;
+        display: none;
+        z-index: 60;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
+      }
+      .nav-dropdown.open .nav-dropdown-menu {
+        display: block;
+      }
+      .nav-dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        border-radius: 0.75rem;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 0.85rem;
+        font-weight: 500;
+        text-transform: none;
+        letter-spacing: normal;
+        transition: background 0.2s ease, color 0.2s ease;
+        white-space: nowrap;
+      }
+      .nav-dropdown-item:hover {
+        background: rgba(245, 194, 76, 0.12);
+        color: #f5c24c;
+      }
+      .nav-dropdown-item svg {
+        flex-shrink: 0;
+        width: 18px;
+        height: 18px;
+        color: #f5c24c;
+      }
+
+      /* Mobile accordion version */
+      .mobile-dropdown-panel {
+        display: none;
+        flex-direction: column;
+        gap: 1rem;
+        padding-left: 1.25rem;
+        margin-top: 1rem;
+        border-left: 2px solid rgba(245, 194, 76, 0.3);
+      }
+      .mobile-dropdown-panel.open {
+        display: flex;
+      }
+      .mobile-dropdown-trigger .chev {
+        width: 14px;
+        height: 14px;
+        transition: transform 0.3s ease;
+      }
+      .mobile-dropdown-trigger.open .chev {
+        transform: rotate(180deg);
+      }
+
+    </style>
+  </head>
+  <body>
+    <!-- ═══════════════════════════════════════ NAVBAR ═══ -->
+    <nav
+      class="bg-black border-b border-[#f5c24c]/30 sticky top-0 z-50 backdrop-blur-lg"
+    >
+      <div class="max-w-screen-2xl mx-auto section-padding">
+        <div class="flex justify-between items-center h-16 md:h-20">
+          <a href="index.html" class="flex items-center group">
+            <img
+              src="assets/images/logo.png"
+              alt="YINAGA Logo"
+              class="h-9 w-auto md:h-11 transition-transform group-hover:rotate-12"
+            />
+          </a>
+          <div
+            class="hidden lg:flex items-center gap-x-10 text-white uppercase text-sm font-medium tracking-[2px]"
+          >
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="about.html" class="nav-link">About</a>
+                      <div class="nav-dropdown">
+            <button class="nav-link nav-dropdown-trigger" onclick="toggleNavDropdown(event)">
+              Leadership
+              <svg class="chev" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+            </button>
+            <div class="nav-dropdown-menu">
+              <a href="board-of-trustees.html" class="nav-dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22" /><line x1="6" y1="18" x2="6" y2="11" /><line x1="10" y1="18" x2="10" y2="11" /><line x1="14" y1="18" x2="14" y2="11" /><line x1="18" y1="18" x2="18" y2="11" /><polygon points="12 2 20 7 4 7 12 2" /></svg>
+                Board of Trustees
+              </a>
+              <a href="executives.html" class="nav-dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7" /><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" /></svg>
+                Executives
+              </a>
+              <a href="stakeholders.html" class="nav-dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg>
+                Stakeholders
+              </a>
+            </div>
+          </div>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="gallery.html" class="nav-link">Gallery</a>
+            <a href="partners.html" class="nav-link">Partners</a>
+          </div>
+          <div class="flex items-center gap-x-3 md:gap-x-4">
+            <!-- Notification Bell -->
+            <button
+              class="relative text-white/60 hover:text-white transition-colors p-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                />
+              </svg>
+              <span
+                class="absolute top-1.5 right-1.5 w-2 h-2 bg-[#f5c24c] rounded-full"
+              ></span>
+            </button>
+            <!-- Logged-in email (desktop) -->
+            <span
+              id="nav-email"
+              class="hidden md:block text-xs text-white/35 max-w-[160px] truncate"
+            ></span>
+            <!-- Portal badge -->
+            <span
+              class="hidden md:flex items-center gap-2 text-xs text-[#f5c24c] border border-[#f5c24c]/30 px-4 py-2 rounded-full"
+            >
+              <span
+                class="w-1.5 h-1.5 rounded-full bg-[#4ade80] animate-pulse"
+              ></span>
+              Member Portal
+            </span>
+            <!-- Sign Out -->
+            <button onclick="signOut()" class="signout-btn hidden md:flex">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h5a2 2 0 012 2v1"
+                />
+              </svg>
+              Sign Out
+            </button>
+            <button
+              onclick="toggleMobileMenu()"
+              class="lg:hidden text-white p-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-7 h-7"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        id="mobileMenu"
+        class="bg-black px-6 py-6 border-t border-[#f5c24c]/30"
+      >
+        <div class="flex flex-col gap-y-5 text-white text-base font-medium">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link">About</a>
+                    <div>
+            <button
+              class="nav-link mobile-dropdown-trigger flex items-center gap-2 w-full text-left"
+              onclick="toggleMobileDropdown(event)"
+            >
+              Leadership
+              <svg class="chev" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+            </button>
+            <div class="mobile-dropdown-panel">
+              <a href="board-of-trustees.html" class="text-white/80 text-sm">Board of Trustees</a>
+              <a href="executives.html" class="text-white/80 text-sm">Executives</a>
+              <a href="stakeholders.html" class="text-white/80 text-sm">Stakeholders</a>
+            </div>
+          </div>
+          <a href="projects.html" class="nav-link">Projects</a>
+          <a href="gallery.html" class="nav-link">Gallery</a>
+          <a href="partners.html" class="nav-link">Partners</a>
+          <button onclick="signOut()" class="signout-btn justify-center mt-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H6a2 2 0 01-2-2V7a2 2 0 012-2h5a2 2 0 012 2v1"
+              />
+            </svg>
+            Sign Out
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════ PORTAL BODY ═══ -->
+    <div class="max-w-screen-2xl mx-auto section-padding py-8 md:py-12">
+      <div class="flex flex-col lg:flex-row gap-8">
+        <!-- ─────────────────── SIDEBAR ─────────────────── -->
+        <aside class="lg:w-64 xl:w-72 flex-shrink-0">
+          <!-- Mini Profile -->
+          <div class="premium-card rounded-2xl p-6 mb-4">
+            <div class="flex flex-col items-center text-center">
+              <div class="avatar-ring mb-4" style="width: 80px; height: 80px">
+                <div class="avatar-inner" style="width: 74px; height: 74px">
+                  <span class="text-2xl text-[#f5c24c]">AO</span>
+                </div>
+              </div>
+              <div
+                id="sidebar-name"
+                class="member-fullname text-base font-semibold"
+              >
+                —
+              </div>
+              <div class="member-location text-xs text-white/50 mt-0.5">—</div>
+              <div
+                class="mono text-[10px] text-[#f5c24c] mt-2 bg-[#f5c24c]/10 px-3 py-1 rounded-full border border-[#f5c24c]/20"
+              >
+                <span id="sidebar-id" class="member-id">—</span>
+              </div>
+              <!-- Profile completion -->
+              <div class="w-full mt-4">
+                <div class="flex justify-between text-xs text-white/40 mb-1.5">
+                  <span>Profile complete</span><span>78%</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: 78%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nav links -->
+          <div class="premium-card rounded-2xl p-3 space-y-1">
+            <div class="sidebar-link active" onclick="switchTab('overview')">
+              <svg
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <rect x="3" y="3" width="7" height="7" rx="1" />
+                <rect x="14" y="3" width="7" height="7" rx="1" />
+                <rect x="3" y="14" width="7" height="7" rx="1" />
+                <rect x="14" y="14" width="7" height="7" rx="1" />
+              </svg>
+              Overview
+            </div>
+            <div class="sidebar-link" onclick="switchTab('profile')">
+              <svg
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5.121 17.804A10 10 0 1118.88 6.196M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+              My Profile
+            </div>
+            <div class="h-px bg-white/[0.07] my-2"></div>
+            <div class="sidebar-link" onclick="switchTab('settings')">
+              <svg
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              Settings
+            </div>
+          </div>
+
+          <!-- Quick ID card teaser -->
+          <div class="mt-4 premium-card rounded-2xl p-4 text-center">
+            <p class="text-xs text-white/40 uppercase tracking-widest mb-2">
+              Member since
+            </p>
+            <p class="member-since text-[#f5c24c] text-sm font-semibold">—</p>
+            <p class="member-interest text-xs text-white/40 mt-1">—</p>
+            <button
+              onclick="switchTab('idcard')"
+              class="mt-3 w-full text-xs border border-[#f5c24c]/30 text-[#f5c24c] py-2 rounded-xl hover:bg-[#f5c24c]/10 transition-colors"
+            >
+              View ID Card
+            </button>
+          </div>
+        </aside>
+
+        <!-- ─────────────────── MAIN CONTENT ─────────────────── -->
+        <main class="flex-1 min-w-0">
+          <!-- ══════════ TAB: OVERVIEW ══════════ -->
+          <div id="tab-overview" class="tab-panel active">
+            <!-- Welcome bar -->
+            <div
+              class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8"
+            >
+              <div>
+                <p class="text-[#f5c24c] text-xs uppercase tracking-[3px] mb-1">
+                  Welcome back
+                </p>
+                <h1 class="member-fullname heading-font text-3xl md:text-4xl">
+                  —
+                </h1>
+              </div>
+              <div class="text-right">
+                <p class="text-white/40 text-xs" id="todays-date"></p>
+                <p class="member-location text-white/60 text-sm mt-0.5">—</p>
+              </div>
+            </div>
+
+            <!-- Stat row -->
+            <div class="grid grid-cols-2 gap-3 mb-8 reveal">
+              <div class="stat-card">
+                <p class="text-white/40 text-xs uppercase tracking-widest mb-2">
+                  Member ID
+                </p>
+                <p class="mono text-[#f5c24c] font-medium text-sm member-id">
+                  —
+                </p>
+              </div>
+              <div class="stat-card">
+                <p class="text-white/40 text-xs uppercase tracking-widest mb-2">
+                  Days Active
+                </p>
+                <p class="text-white font-semibold text-xl" id="days-active">
+                  —
+                </p>
+              </div>
+            </div>
+
+            <!-- Latest announcements -->
+            <div class="mb-6 reveal">
+              <div class="premium-card rounded-2xl p-6">
+                <div class="flex items-center justify-between mb-5">
+                  <h2 class="text-base font-semibold">Announcements</h2>
+                  <span class="badge badge-gold">3 new</span>
+                </div>
+                <div class="space-y-4">
+                  <div class="flex gap-3">
+                    <div class="notif-dot mt-1 bg-[#f5c24c]"></div>
+                    <div>
+                      <p class="text-sm font-medium leading-snug">
+                        AfDB Youth Agripreneur Grant – Applications Open
+                      </p>
+                      <p class="text-xs text-white/40 mt-0.5">
+                        Posted 19 May 2026
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex gap-3">
+                    <div class="notif-dot mt-1 bg-[#f5c24c]"></div>
+                    <div>
+                      <p class="text-sm font-medium leading-snug">
+                        New YINAGA State Coordinators Announced
+                      </p>
+                      <p class="text-xs text-white/40 mt-0.5">
+                        Posted 17 May 2026
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex gap-3">
+                    <div class="notif-dot mt-1 bg-[#f5c24c]"></div>
+                    <div>
+                      <p class="text-sm font-medium leading-snug">
+                        Jigawa Improved Seeds Programme Report Released
+                      </p>
+                      <p class="text-xs text-white/40 mt-0.5">
+                        Posted 15 May 2026
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex gap-3">
+                    <div class="notif-dot mt-1 opacity-30"></div>
+                    <div>
+                      <p class="text-sm text-white/50 leading-snug">
+                        National Youth Agriculture Survey – Complete Yours
+                      </p>
+                      <p class="text-xs text-white/30 mt-0.5">
+                        Posted 10 May 2026
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Profile completion nudge -->
+            <div
+              class="reveal premium-card rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4"
+            >
+              <div class="flex-1">
+                <p class="text-sm font-medium mb-1">
+                  Complete your profile to unlock all features
+                </p>
+                <div class="progress-track max-w-xs">
+                  <div class="progress-fill" style="width: 78%"></div>
+                </div>
+                <p class="text-xs text-white/40 mt-1.5">
+                  78% complete · Add a profile photo and bio to reach 100%
+                </p>
+              </div>
+              <button
+                onclick="switchTab('profile')"
+                class="text-sm border border-white/20 text-white px-5 py-2.5 rounded-xl hover:border-[#f5c24c]/40 hover:text-[#f5c24c] transition-all whitespace-nowrap flex-shrink-0"
+              >
+                Edit Profile
+              </button>
+            </div>
+          </div>
+          <!-- /overview -->
+
+          <!-- ══════════ TAB: MY PROFILE ══════════ -->
+          <div id="tab-profile" class="tab-panel">
+            <div class="mb-8">
+              <p class="text-[#f5c24c] text-xs uppercase tracking-[3px] mb-1">
+                Account
+              </p>
+              <h1 class="heading-font text-3xl md:text-4xl">My Profile</h1>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+              <!-- Avatar & ID card section -->
+              <div class="md:col-span-1 space-y-4">
+                <div class="premium-card rounded-2xl p-6 text-center">
+                  <div
+                    class="avatar-ring mx-auto mb-4"
+                    style="width: 96px; height: 96px"
+                  >
+                    <div class="avatar-inner" style="width: 90px; height: 90px">
+                      <span class="member-initials text-3xl text-[#f5c24c]"
+                        >—</span
+                      >
+                    </div>
+                  </div>
+                  <p class="member-fullname font-semibold text-lg">—</p>
+                  <p class="member-location text-white/50 text-sm mt-0.5">—</p>
+                  <p
+                    class="mono text-xs text-[#f5c24c] mt-3 bg-[#f5c24c]/10 border border-[#f5c24c]/20 px-3 py-1.5 rounded-full inline-block member-id"
+                  >
+                    —
+                  </p>
+                  <button
+                    class="mt-4 w-full text-sm border border-white/15 text-white/60 py-2.5 rounded-xl hover:text-white hover:border-white/30 transition-all"
+                  >
+                    Upload Photo
+                  </button>
+                </div>
+
+                <!-- Quick stats -->
+                <div class="premium-card rounded-2xl p-5 space-y-3">
+                  <div class="flex justify-between text-sm">
+                    <span class="text-white/50">Status</span>
+                    <span class="badge badge-green text-[11px]"
+                      >Active Member</span
+                    >
+                  </div>
+                  <div class="flex justify-between text-sm">
+                    <span class="text-white/50">Joined</span>
+                    <span class="member-since">—</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Edit form -->
+              <div class="md:col-span-2 premium-card rounded-2xl p-6 md:p-8">
+                <h2 class="text-base font-semibold mb-6">
+                  Personal Information
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                  <div>
+                    <label
+                      class="text-xs uppercase tracking-widest text-white/40 block mb-2"
+                      >First Name</label
+                    >
+                    <input
+                      id="profile-firstname"
+                      type="text"
+                      class="form-input"
+                      placeholder="First name"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      class="text-xs uppercase tracking-widest text-white/40 block mb-2"
+                      >Last Name</label
+                    >
+                    <input
+                      id="profile-lastname"
+                      type="text"
+                      class="form-input"
+                      placeholder="Last name"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      class="text-xs uppercase tracking-widest text-white/40 block mb-2"
+                      >Email Address</label
+                    >
+                    <input
+                      id="profile-email"
+                      type="email"
+                      class="form-input"
+                      placeholder="you@email.com"
+                      readonly
+                      style="opacity: 0.6; cursor: not-allowed"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      class="text-xs uppercase tracking-widest text-white/40 block mb-2"
+                      >Phone Number</label
+                    >
+                    <input
+                      id="profile-phone"
+                      type="tel"
+                      class="form-input"
+                      placeholder="+234 800 000 0000"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      class="text-xs uppercase tracking-widest text-white/40 block mb-2"
+                      >State / Country</label
+                    >
+                    <input
+                      id="profile-location"
+                      type="text"
+                      class="form-input"
+                      placeholder="Lagos, Nigeria"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      class="text-xs uppercase tracking-widest text-white/40 block mb-2"
+                      >Age Range</label
+                    >
+                    <select class="form-input">
+                      <option>15 – 20</option>
+                      <option selected>21 – 25</option>
+                      <option>26 – 30</option>
+                      <option>31 – 35</option>
+                      <option>36+</option>
+                    </select>
+                  </div>
+                  <div class="sm:col-span-2">
+                    <label
+                      class="text-xs uppercase tracking-widest text-white/40 block mb-2"
+                      >Agriculture Interest</label
+                    >
+                    <select class="form-input">
+                      <option>Crop Farming</option>
+                      <option selected>Agritech & Smart Farming</option>
+                      <option>Livestock & Animal Husbandry</option>
+                      <option>Aquaculture / Fisheries</option>
+                      <option>Agro-processing & Value Chain</option>
+                      <option>Agricultural Finance & Investment</option>
+                    </select>
+                  </div>
+                  <div class="sm:col-span-2">
+                    <label
+                      class="text-xs uppercase tracking-widest text-white/40 block mb-2"
+                      >Bio</label
+                    >
+                    <textarea
+                      id="profile-bio"
+                      class="form-input"
+                      rows="3"
+                      placeholder="Share your background and what drives you in agriculture..."
+                    ></textarea>
+                  </div>
+                </div>
+                <button
+                  onclick="saveProfile()"
+                  class="gold-button text-black px-8 py-3 rounded-xl text-sm font-semibold"
+                >
+                  Save Changes
+                </button>
+                <span id="save-msg" class="text-[#4ade80] text-sm ml-4 hidden"
+                  >✅ Profile saved!</span
+                >
+              </div>
+            </div>
+          </div>
+          <!-- /profile -->
+
+          <!-- ══════════ TAB: NETWORK ══════════ -->
+          <!-- ══════════ TAB: ID CARD ══════════ -->
+          <div id="tab-idcard" class="tab-panel">
+            <div class="mb-8">
+              <p class="text-[#f5c24c] text-xs uppercase tracking-[3px] mb-1">
+                Identity
+              </p>
+              <h1 class="heading-font text-3xl md:text-4xl">Member ID Card</h1>
+            </div>
+
+            <div class="flex flex-col items-center">
+              <!-- The card -->
+              <div
+                id="member-id-card"
+                class="id-card rounded-3xl p-8 w-full max-w-md mb-6"
+                style="min-height: 240px"
+              >
+                <div class="relative z-10">
+                  <div class="flex items-start justify-between mb-6">
+                    <div>
+                      <img
+                        src="assets/images/logo.png"
+                        alt="YINAGA"
+                        class="h-8 w-auto mb-3 opacity-90"
+                      />
+                      <p
+                        class="text-[10px] text-white/40 uppercase tracking-[2px]"
+                      >
+                        Youth Inclusion in Agriculture Advancement
+                      </p>
+                    </div>
+                    <div class="text-right">
+                      <p
+                        class="text-[10px] text-white/40 uppercase tracking-widest"
+                      >
+                        Member
+                      </p>
+                      <p
+                        class="mono text-[#f5c24c] text-sm font-medium mt-0.5 member-id"
+                      >
+                        —
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flex items-end justify-between">
+                    <div>
+                      <p
+                        class="member-fullname text-2xl font-bold heading-font"
+                      >
+                        —
+                      </p>
+                      <p class="member-location text-white/55 text-sm mt-1">
+                        —
+                      </p>
+                      <p class="member-interest text-[#f5c24c] text-xs mt-2">
+                        —
+                      </p>
+                    </div>
+                    <div class="avatar-ring" style="width: 60px; height: 60px">
+                      <div
+                        class="avatar-inner"
+                        style="width: 54px; height: 54px"
+                      >
+                        <span class="text-lg text-[#f5c24c]">AO</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="mt-5 pt-4 border-t border-white/10 flex justify-between"
+                  >
+                    <div>
+                      <p
+                        class="text-[10px] text-white/35 uppercase tracking-widest"
+                      >
+                        Issued
+                      </p>
+                      <p class="member-since text-xs text-white/70 mt-0.5">—</p>
+                    </div>
+                    <div>
+                      <p
+                        class="text-[10px] text-white/35 uppercase tracking-widest"
+                      >
+                        Status
+                      </p>
+                      <p class="text-xs text-[#4ade80] mt-0.5">● Active</p>
+                    </div>
+                    <div>
+                      <p
+                        class="text-[10px] text-white/35 uppercase tracking-widest"
+                      >
+                        yinaga.com
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button
+                id="download-id-btn"
+                onclick="downloadIDCard()"
+                class="gold-button text-black px-8 py-3 rounded-2xl text-sm font-semibold"
+              >
+                <span id="download-id-text">Download ID Card (PDF)</span>
+              </button>
+              <p class="text-xs text-white/30 mt-3">
+                This card serves as proof of YINAGA membership
+              </p>
+            </div>
+          </div>
+
+          <!-- ══════════ TAB: SETTINGS ══════════ -->
+          <div id="tab-settings" class="tab-panel">
+            <div class="mb-8">
+              <p class="text-[#f5c24c] text-xs uppercase tracking-[3px] mb-1">
+                Preferences
+              </p>
+              <h1 class="heading-font text-3xl md:text-4xl">Settings</h1>
+            </div>
+            <div class="space-y-4 max-w-lg">
+              <div class="premium-card rounded-2xl p-6">
+                <h2 class="text-sm font-semibold mb-4">Notifications</h2>
+                <div class="space-y-4">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="text-sm">New opportunities</p>
+                      <p class="text-xs text-white/40">
+                        Get notified when funding or training opens
+                      </p>
+                    </div>
+                    <label
+                      class="relative inline-flex items-center cursor-pointer"
+                    >
+                      <input type="checkbox" checked class="sr-only peer" />
+                      <div
+                        class="w-10 h-5 bg-white/20 peer-checked:bg-[#1f9e3e] rounded-full transition-colors"
+                      ></div>
+                      <div
+                        class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-all peer-checked:translate-x-5"
+                      ></div>
+                    </label>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="text-sm">Event reminders</p>
+                      <p class="text-xs text-white/40">
+                        24hrs before registered events
+                      </p>
+                    </div>
+                    <label
+                      class="relative inline-flex items-center cursor-pointer"
+                    >
+                      <input type="checkbox" checked class="sr-only peer" />
+                      <div
+                        class="w-10 h-5 bg-white/20 peer-checked:bg-[#1f9e3e] rounded-full transition-colors"
+                      ></div>
+                      <div
+                        class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-all peer-checked:translate-x-5"
+                      ></div>
+                    </label>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="text-sm">YINAGA newsletter</p>
+                      <p class="text-xs text-white/40">
+                        Monthly updates from leadership
+                      </p>
+                    </div>
+                    <label
+                      class="relative inline-flex items-center cursor-pointer"
+                    >
+                      <input type="checkbox" class="sr-only peer" />
+                      <div
+                        class="w-10 h-5 bg-white/20 peer-checked:bg-[#1f9e3e] rounded-full transition-colors"
+                      ></div>
+                      <div
+                        class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-all peer-checked:translate-x-5"
+                      ></div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="premium-card rounded-2xl p-6">
+                <h2 class="text-sm font-semibold mb-4">Privacy</h2>
+                <div class="space-y-4">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="text-sm">
+                        Show my profile in Members Directory
+                      </p>
+                      <p class="text-xs text-white/40">
+                        Other YINAGA members can find you
+                      </p>
+                    </div>
+                    <label
+                      class="relative inline-flex items-center cursor-pointer"
+                    >
+                      <input type="checkbox" checked class="sr-only peer" />
+                      <div
+                        class="w-10 h-5 bg-white/20 peer-checked:bg-[#1f9e3e] rounded-full transition-colors"
+                      ></div>
+                      <div
+                        class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full transition-all peer-checked:translate-x-5"
+                      ></div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="premium-card rounded-2xl p-6">
+                <h2 class="text-sm font-semibold mb-3">Account</h2>
+                <p class="text-xs text-white/40 mb-4">
+                  Permanently delete your YINAGA membership account. This cannot
+                  be undone.
+                </p>
+                <button
+                  class="text-white/70 text-sm border border-white/15 px-5 py-2.5 rounded-xl hover:border-red-500/30 hover:text-red-400 transition-all"
+                >
+                  Delete Account
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ FOOTER ═══ -->
+    <footer
+      class="bg-[#0f2a1f] text-white py-12 md:py-20 border-t border-[#f5c24c]/20 mt-16"
+    >
+      <div
+        class="max-w-screen-2xl mx-auto section-padding grid md:grid-cols-4 gap-y-10"
+      >
+        <div>
+          <img
+            src="assets/images/logo.png"
+            alt="YINAGA"
+            class="h-8 md:h-10 mb-6"
+          />
+          <p class="text-white/80 max-w-xs text-sm leading-relaxed">
+            A youth-centric Pan-African movement redefining agriculture as the
+            ultimate wealth and peace engine.
+          </p>
+          <div class="flex gap-4 mt-6">
+            <a
+              href="https://www.instagram.com/yinaga_africa"
+              target="_blank"
+              rel="noopener"
+              aria-label="YINAGA on Instagram"
+              class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#f5c24c] hover:text-black transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <path
+                  d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z"
+                />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg>
+            </a>
+            <a
+              href="https://x.com/YINAGA_Africa"
+              target="_blank"
+              rel="noopener"
+              aria-label="YINAGA on X"
+              class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#f5c24c] hover:text-black transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231ZM17.083 19.77h1.833L7.084 4.126H5.117Z"
+                />
+              </svg>
+            </a>
+          </div>
+          <div class="text-xs text-white/40 mt-12">
+            © 2026 YINAGA • yinaga.com • All Rights Reserved
+          </div>
+        </div>
+        <div class="space-y-3 text-sm">
+          <a
+            href="about.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Mission & Vision</a
+          >
+          <a
+            href="executives.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Leadership</a
+          >
+          <a
+            href="projects.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Projects</a
+          >
+        </div>
+        <div class="space-y-3 text-sm">
+          <a
+            href="join.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Member Registration</a
+          >
+          <a
+            href="join.html"
+            class="block hover:text-[#f5c24c] transition-colors"
+            >Volunteer Application</a
+          >
+          <a href="member-portal.html" class="block text-[#f5c24c]"
+            >Member Portal</a
+          >
+        </div>
+        <div>
+          <p class="text-white/80 text-sm mb-4">Stay in the movement</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input
+              id="footer-email"
+              type="email"
+              placeholder="your@email.com"
+              class="bg-white/10 border border-white/30 text-white placeholder:text-white/50 px-6 py-4 rounded-3xl w-full focus:outline-none text-sm"
+            />
+            <button
+              onclick="subscribe()"
+              class="bg-[#f5c24c] text-black px-8 py-4 rounded-3xl font-semibold text-sm whitespace-nowrap hover:bg-[#e8b02a]"
+            >
+              JOIN
+            </button>
+          </div>
+          <div id="subscribe-msg" class="text-[#4ade80] text-xs mt-4"></div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // ╔══════════════════════════════════════════════════════╗
+      // ║  PASTE YOUR SUPABASE CREDENTIALS HERE               ║
+      // ║  Must match the same values used in member-login.html║
+      // ╚══════════════════════════════════════════════════════╝
+      const SUPABASE_URL = "https://samdxvbjguypmijmqsic.supabase.co";
+      const SUPABASE_ANON_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhbWR4dmJqZ3V5cG1pam1xc2ljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyNjc1MjEsImV4cCI6MjA5NDg0MzUyMX0.76k9l0eSraEFgn83oywdpvNIEnD64Ism-_aiL_vfrqA";
+
+      const { createClient } = supabase;
+      const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      // ─── AUTH GUARD: runs before anything renders ─────────
+      (async () => {
+        // Handle password-reset callback (token in URL hash)
+        const hash = window.location.hash;
+        if (hash.includes("type=recovery")) {
+          showPasswordResetUI();
+          document.body.classList.add("auth-ready");
+          return;
+        }
+
+        const {
+          data: { session },
+          error,
+        } = await sb.auth.getSession();
+        if (!session) {
+          window.location.replace("member-login.html");
+          return;
+        }
+
+        // Session valid — show page and populate user data
+        document.body.classList.add("auth-ready");
+        populateUser(session.user);
+      })();
+
+      // ─── Populate UI from Supabase user object ────────────
+      function populateUser(user) {
+        const email = user.email || "";
+        const meta = user.user_metadata || {};
+
+        // Nav email
+        const navEmail = document.getElementById("nav-email");
+        if (navEmail) navEmail.textContent = email;
+
+        // Derive initials and display name from metadata or email
+        const firstName = meta.first_name || email.split("@")[0] || "";
+        const lastName = meta.last_name || "";
+        const fullName = (firstName + " " + lastName).trim() || email;
+        const initials =
+          ((firstName[0] || "") + (lastName[0] || "")).toUpperCase() ||
+          email.substring(0, 2).toUpperCase();
+
+        // Sidebar name, location, member ID
+        setText("sidebar-name", fullName);
+        setText("sidebar-location", meta.location || "—");
+        setText("sidebar-id", meta.member_id || "—");
+        setAll(".member-initials", initials);
+        setAll(".member-fullname", fullName);
+        setAll(".member-location", meta.location || "—");
+        setAll(".member-id", meta.member_id || "—");
+        setAll(".member-interest", meta.interest || "—");
+        setAll(
+          ".member-since",
+          meta.member_since || formatDate(user.created_at),
+        );
+        setAll(".member-email", email);
+        setAll(".member-phone", meta.phone || "—");
+        setAll(".member-age", meta.age_range || "—");
+
+        // Real "Days Active" — days since this account was actually created,
+        // not a hardcoded number.
+        const daysActiveEl = document.getElementById("days-active");
+        if (daysActiveEl && user.created_at) {
+          const createdAt = new Date(user.created_at);
+          const msPerDay = 1000 * 60 * 60 * 24;
+          const daysSince = Math.max(
+            0,
+            Math.floor((Date.now() - createdAt.getTime()) / msPerDay),
+          );
+          daysActiveEl.textContent = daysSince;
+        }
+
+        // Profile form fields
+        setInput("profile-firstname", meta.first_name || "");
+        setInput("profile-lastname", meta.last_name || "");
+        setInput("profile-email", email);
+        setInput("profile-phone", meta.phone || "");
+        setInput("profile-location", meta.location || "");
+        setInput("profile-bio", meta.bio || "");
+      }
+
+      function setText(id, val) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+      }
+      function setAll(sel, val) {
+        document.querySelectorAll(sel).forEach((el) => (el.textContent = val));
+      }
+      function setInput(id, val) {
+        const el = document.getElementById(id);
+        if (el) el.value = val;
+      }
+      function formatDate(iso) {
+        if (!iso) return "—";
+        return new Date(iso).toLocaleDateString("en-GB", {
+          month: "long",
+          year: "numeric",
+        });
+      }
+
+      // ─── DOWNLOAD ID CARD (PDF) ────────────────────────────
+      window.downloadIDCard = async () => {
+        const btn = document.getElementById("download-id-btn");
+        const txt = document.getElementById("download-id-text");
+        const card = document.getElementById("member-id-card");
+        if (!card) return;
+
+        const originalText = txt.textContent;
+        btn.disabled = true;
+        txt.textContent = "Generating...";
+
+        try {
+          const canvas = await html2canvas(card, {
+            backgroundColor: "#0f2a1f",
+            scale: 3,
+            useCORS: true,
+          });
+          const imgData = canvas.toDataURL("image/png");
+
+          const { jsPDF } = window.jspdf;
+          // Card is roughly a credit-card / badge shape — use a small
+          // landscape page sized to the card's own aspect ratio so the
+          // PDF isn't just a big empty sheet with a small image on it.
+          const pxW = canvas.width;
+          const pxH = canvas.height;
+          const pdfWidth = 140; // mm
+          const pdfHeight = (pxH / pxW) * pdfWidth;
+
+          const pdf = new jsPDF({
+            orientation: pdfWidth > pdfHeight ? "landscape" : "portrait",
+            unit: "mm",
+            format: [pdfWidth, pdfHeight],
+          });
+          pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+
+          const memberId =
+            document.querySelector(".member-id")?.textContent?.trim() ||
+            "member";
+          pdf.save(`YINAGA-ID-${memberId}.pdf`);
+        } catch (err) {
+          alert(
+            "Could not generate the PDF right now. Please try again in a moment.",
+          );
+        } finally {
+          btn.disabled = false;
+          txt.textContent = originalText;
+        }
+      };
+
+      // ─── SIGN OUT ─────────────────────────────────────────
+      window.signOut = async () => {
+        await sb.auth.signOut();
+        window.location.replace("member-login.html");
+      };
+
+      // ─── SAVE PROFILE ─────────────────────────────────────
+      window.saveProfile = async () => {
+        const {
+          data: { user },
+        } = await sb.auth.getUser();
+        if (!user) return;
+
+        const updates = {
+          first_name: document.getElementById("profile-firstname")?.value || "",
+          last_name: document.getElementById("profile-lastname")?.value || "",
+          phone: document.getElementById("profile-phone")?.value || "",
+          location: document.getElementById("profile-location")?.value || "",
+          bio: document.getElementById("profile-bio")?.value || "",
+        };
+
+        const { error } = await sb.auth.updateUser({ data: updates });
+        const msg = document.getElementById("save-msg");
+        if (msg) {
+          msg.textContent = error
+            ? "❌ Error saving. Try again."
+            : "✅ Profile saved!";
+          msg.className = error
+            ? "text-red-400 text-sm ml-4"
+            : "text-[#4ade80] text-sm ml-4";
+          msg.classList.remove("hidden");
+          setTimeout(() => msg.classList.add("hidden"), 3000);
+        }
+      };
+
+      // ─── PASSWORD RESET UI (for reset-link callback) ──────
+      function showPasswordResetUI() {
+        document.body.innerHTML = `
+          <div style="min-height:100vh;background:#0a0f0a;display:flex;align-items:center;justify-content:center;padding:2rem;font-family:Inter,sans-serif;">
+            <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:1.5rem;padding:2.5rem;width:100%;max-width:400px;color:white;">
+              <h2 style="font-family:'Playfair Display',serif;font-size:1.75rem;margin-bottom:0.5rem;">Set new password</h2>
+              <p style="color:rgba(255,255,255,0.45);font-size:0.875rem;margin-bottom:1.5rem;">Enter your new password below.</p>
+              <div id="reset-alert" style="display:none;padding:0.875rem;border-radius:0.75rem;font-size:0.875rem;margin-bottom:1rem;"></div>
+              <input id="new-pw" type="password" placeholder="New password (min 8 chars)"
+                style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:white;border-radius:0.875rem;padding:0.875rem 1rem;width:100%;font-size:0.9rem;outline:none;margin-bottom:0.75rem;font-family:Inter,sans-serif;" />
+              <input id="new-pw2" type="password" placeholder="Confirm new password"
+                style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:white;border-radius:0.875rem;padding:0.875rem 1rem;width:100%;font-size:0.9rem;outline:none;margin-bottom:1rem;font-family:Inter,sans-serif;" />
+              <button onclick="updatePassword()"
+                style="background:linear-gradient(90deg,#f5c24c,#e8b02a);color:black;font-weight:600;border:none;border-radius:0.875rem;padding:1rem;width:100%;font-size:0.95rem;cursor:pointer;font-family:Inter,sans-serif;">
+                Update Password
+              </button>
+            </div>
+          </div>`;
+
+        window.updatePassword = async () => {
+          const pw = document.getElementById("new-pw").value;
+          const pw2 = document.getElementById("new-pw2").value;
+          const alert = document.getElementById("reset-alert");
+
+          if (pw.length < 8) {
+            alert.style.display = "block";
+            alert.style.background = "rgba(239,68,68,0.12)";
+            alert.style.border = "1px solid rgba(239,68,68,0.25)";
+            alert.style.color = "#fca5a5";
+            alert.textContent = "Password must be at least 8 characters.";
+            return;
+          }
+          if (pw !== pw2) {
+            alert.style.display = "block";
+            alert.style.background = "rgba(239,68,68,0.12)";
+            alert.style.border = "1px solid rgba(239,68,68,0.25)";
+            alert.style.color = "#fca5a5";
+            alert.textContent = "Passwords do not match.";
+            return;
+          }
+
+          const { error } = await sb.auth.updateUser({ password: pw });
+          if (error) {
+            alert.style.display = "block";
+            alert.textContent = "Error updating password. Please try again.";
+            return;
+          }
+
+          alert.style.display = "block";
+          alert.style.background = "rgba(74,222,128,0.1)";
+          alert.style.border = "1px solid rgba(74,222,128,0.2)";
+          alert.style.color = "#86efac";
+          alert.textContent = "✅ Password updated! Redirecting...";
+          setTimeout(() => {
+            window.location.replace("member-portal.html");
+          }, 1500);
+        };
+      }
+
+      // ─── PAGE INIT ────────────────────────────────────────
+      document.addEventListener("DOMContentLoaded", () => {
+        // Today's date
+        const dateEl = document.getElementById("todays-date");
+        if (dateEl) {
+          dateEl.textContent = new Date().toLocaleDateString("en-GB", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          });
+        }
+
+        window.toggleMobileMenu = () =>
+          document.getElementById("mobileMenu").classList.toggle("open");
+        // ─── Leadership nav dropdown ────────────────────────
+        window.toggleNavDropdown = (e) => {
+          e.stopPropagation();
+          document.querySelectorAll(".nav-dropdown").forEach((d) => {
+            if (d !== e.currentTarget.closest(".nav-dropdown"))
+              d.classList.remove("open");
+          });
+          e.currentTarget.closest(".nav-dropdown").classList.toggle("open");
+        };
+        document.addEventListener("click", () => {
+          document
+            .querySelectorAll(".nav-dropdown")
+            .forEach((d) => d.classList.remove("open"));
+        });
+
+        window.toggleMobileDropdown = (e) => {
+          e.currentTarget.classList.toggle("open");
+          e.currentTarget.nextElementSibling.classList.toggle("open");
+        };
+
+
+        // Reveal on scroll
+        const reveals = document.querySelectorAll(".reveal");
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("active");
+            });
+          },
+          { threshold: 0.1 },
+        );
+        reveals.forEach((el) => observer.observe(el));
+
+        // Tab switching
+        window.switchTab = (tab) => {
+          document
+            .querySelectorAll(".tab-panel")
+            .forEach((p) => p.classList.remove("active"));
+          document
+            .querySelectorAll(".sidebar-link")
+            .forEach((l) => l.classList.remove("active"));
+          const panel = document.getElementById("tab-" + tab);
+          if (panel) panel.classList.add("active");
+          document.querySelectorAll(".sidebar-link").forEach((link) => {
+            if (
+              link.getAttribute("onclick") &&
+              link.getAttribute("onclick").includes("'" + tab + "'")
+            ) {
+              link.classList.add("active");
+            }
+          });
+        };
+
+        // Footer subscribe
+        window.subscribe = () => {
+          document.getElementById("subscribe-msg").innerHTML =
+            "✅ Welcome to the YINAGA movement!";
+        };
+
+        // Animate progress bars
+        setTimeout(() => {
+          document.querySelectorAll(".progress-fill").forEach((el) => {
+            const w = el.style.width;
+            el.style.width = "0";
+            setTimeout(() => {
+              el.style.width = w;
+            }, 100);
+          });
+        }, 400);
+      });
+    </script>
+  </body>
+</html>

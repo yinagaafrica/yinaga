@@ -1,0 +1,1747 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="YINAGA Gallery - Summits, Events & Moments" />
+    <title>Gallery | YINAGA</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --yinaga-green: #1f9e3e;
+        --yinaga-gold: #f5c24c;
+      }
+      .heading-font {
+        font-family: "Playfair Display", sans-serif;
+      }
+
+      .gallery-hero {
+        background-image:
+          linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+          url("assets/images/rural.webp");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+      }
+      @media (max-width: 768px) {
+        .gallery-hero {
+          background-attachment: scroll;
+        }
+      }
+
+      @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(40px); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 1s cubic-bezier(0.25, 0.1, 0.25, 1);
+      }
+      .reveal.active {
+        animation: fadeInUp 1s forwards;
+      }
+
+      .nav-link {
+        position: relative;
+        transition: color 0.3s ease;
+      }
+      .nav-link:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: #f5c24c;
+        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .nav-link:hover:after { width: 100%; }
+      .nav-link.active:after { width: 100%; }
+      .nav-link.active { color: #f5c24c; }
+
+      .gold-button {
+        background: linear-gradient(90deg, #f5c24c, #e8b02a);
+        box-shadow: 0 10px 30px -10px #f5c24c;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .gold-button:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 20px 40px -10px #f5c24c;
+      }
+
+      .gallery-card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+        cursor: pointer;
+      }
+      .gallery-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 20px 50px -15px rgba(245, 194, 76, 0.35);
+      }
+      .gallery-card img {
+        transition: transform 0.6s ease;
+      }
+      .gallery-card:hover img {
+        transform: scale(1.1);
+      }
+
+      /* Lightbox */
+      #lightbox {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.93);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+      }
+      #lightbox.open { display: flex; }
+      #lightbox img {
+        display: block;
+        max-width: 90vw;
+        max-height: 85vh;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+      }
+      .lb-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.18);
+        color: white;
+        width: 52px;
+        height: 52px;
+        border-radius: 9999px;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      .lb-btn:hover { background: rgba(245,194,76,0.25); }
+      #lb-prev { left: 1.5rem; }
+      #lb-next { right: 1.5rem; }
+      #lb-close {
+        position: absolute;
+        top: 1.25rem;
+        right: 1.5rem;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.18);
+        color: white;
+        width: 44px;
+        height: 44px;
+        border-radius: 9999px;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      #lb-close:hover { background: rgba(220,50,50,0.4); }
+      #lb-counter {
+        position: absolute;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(255,255,255,0.4);
+        font-size: 0.78rem;
+        letter-spacing: 2px;
+      }
+
+      .event-tab {
+        padding: 0.6rem 1.75rem;
+        border-radius: 9999px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255,255,255,0.15);
+        color: rgba(255,255,255,0.5);
+        white-space: nowrap;
+      }
+      .event-tab.active {
+        background: rgba(245,194,76,0.12);
+        border-color: #f5c24c;
+        color: #f5c24c;
+      }
+      .event-tab:hover:not(.active) {
+        border-color: rgba(255,255,255,0.4);
+        color: white;
+      }
+
+      .section-padding {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      @media (min-width: 640px) {
+        .section-padding { padding-left: 2rem; padding-right: 2rem; }
+      }
+    
+      /* ── Leadership nav dropdown ── */
+      .nav-dropdown {
+        position: relative;
+      }
+      .nav-dropdown-trigger {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        color: inherit;
+        text-transform: inherit;
+        letter-spacing: inherit;
+      }
+      .nav-dropdown-trigger .chev {
+        width: 12px;
+        height: 12px;
+        transition: transform 0.3s ease;
+      }
+      .nav-dropdown.open .nav-dropdown-trigger .chev {
+        transform: rotate(180deg);
+      }
+      .nav-dropdown-menu {
+        position: absolute;
+        top: calc(100% + 16px);
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 260px;
+        background: #0a0a0a;
+        border: 1px solid rgba(245, 194, 76, 0.25);
+        border-radius: 1rem;
+        padding: 0.5rem;
+        display: none;
+        z-index: 60;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
+      }
+      .nav-dropdown.open .nav-dropdown-menu {
+        display: block;
+      }
+      .nav-dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        border-radius: 0.75rem;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 0.85rem;
+        font-weight: 500;
+        text-transform: none;
+        letter-spacing: normal;
+        transition: background 0.2s ease, color 0.2s ease;
+        white-space: nowrap;
+      }
+      .nav-dropdown-item:hover {
+        background: rgba(245, 194, 76, 0.12);
+        color: #f5c24c;
+      }
+      .nav-dropdown-item svg {
+        flex-shrink: 0;
+        width: 18px;
+        height: 18px;
+        color: #f5c24c;
+      }
+
+      /* Mobile accordion version */
+      .mobile-dropdown-panel {
+        display: none;
+        flex-direction: column;
+        gap: 1rem;
+        padding-left: 1.25rem;
+        margin-top: 1rem;
+        border-left: 2px solid rgba(245, 194, 76, 0.3);
+      }
+      .mobile-dropdown-panel.open {
+        display: flex;
+      }
+      .mobile-dropdown-trigger .chev {
+        width: 14px;
+        height: 14px;
+        transition: transform 0.3s ease;
+      }
+      .mobile-dropdown-trigger.open .chev {
+        transform: rotate(180deg);
+      }
+
+    </style>
+  </head>
+  <body class="overflow-x-hidden font-sans bg-[#0a0f0a]">
+
+    <!-- NAVBAR -->
+    <nav class="bg-black border-b border-[#f5c24c]/30 sticky top-0 z-50 backdrop-blur-lg">
+      <div class="max-w-screen-2xl mx-auto section-padding">
+        <div class="flex justify-between items-center h-16 md:h-20">
+          <a href="index.html" class="flex items-center group">
+            <img src="assets/images/logo.png" alt="YINAGA Logo" class="h-9 w-auto md:h-11 transition-transform group-hover:rotate-12" />
+          </a>
+          <div class="hidden lg:flex items-center gap-x-10 text-white uppercase text-sm font-medium tracking-[2px]">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="about.html" class="nav-link">About</a>
+                      <div class="nav-dropdown">
+            <button class="nav-link nav-dropdown-trigger" onclick="toggleNavDropdown(event)">
+              Leadership
+              <svg class="chev" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+            </button>
+            <div class="nav-dropdown-menu">
+              <a href="board-of-trustees.html" class="nav-dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22" /><line x1="6" y1="18" x2="6" y2="11" /><line x1="10" y1="18" x2="10" y2="11" /><line x1="14" y1="18" x2="14" y2="11" /><line x1="18" y1="18" x2="18" y2="11" /><polygon points="12 2 20 7 4 7 12 2" /></svg>
+                Board of Trustees
+              </a>
+              <a href="executives.html" class="nav-dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7" /><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" /></svg>
+                Executives
+              </a>
+              <a href="stakeholders.html" class="nav-dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg>
+                Stakeholders
+              </a>
+            </div>
+          </div>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="gallery.html" class="nav-link">Gallery</a>
+            <a href="partners.html" class="nav-link">Partners</a>
+          </div>
+          <div class="flex items-center gap-x-4 md:gap-x-6">
+            <a href="join.html" class="gold-button text-black px-5 py-3 md:px-10 md:py-4 text-xs md:text-sm uppercase tracking-widest flex items-center gap-x-2 rounded-3xl font-semibold whitespace-nowrap">
+              Join<span class="hidden sm:inline">&nbsp;the Movement</span>
+            </a>
+            <button onclick="toggleMobileMenu()" class="lg:hidden text-white p-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 md:w-8 md:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="mobileMenu" class="hidden lg:hidden bg-black px-6 py-6 border-t border-[#f5c24c]/30">
+        <div class="flex flex-col gap-y-6 text-white text-base font-medium">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link">About</a>
+                    <div>
+            <button
+              class="nav-link mobile-dropdown-trigger flex items-center gap-2 w-full text-left"
+              onclick="toggleMobileDropdown(event)"
+            >
+              Leadership
+              <svg class="chev" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+            </button>
+            <div class="mobile-dropdown-panel">
+              <a href="board-of-trustees.html" class="text-white/80 text-sm">Board of Trustees</a>
+              <a href="executives.html" class="text-white/80 text-sm">Executives</a>
+              <a href="stakeholders.html" class="text-white/80 text-sm">Stakeholders</a>
+            </div>
+          </div>
+          <a href="projects.html" class="nav-link">Projects</a>
+          <a href="gallery.html" class="nav-link">Gallery</a>
+          <a href="partners.html" class="nav-link">Partners</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="gallery-hero h-screen flex items-center relative text-white">
+      <div class="max-w-screen-2xl mx-auto section-padding">
+        <div class="max-w-2xl">
+          <p class="text-[#f5c24c] uppercase text-sm tracking-[3px] mb-6">Our Events</p>
+          <h1 class="text-6xl md:text-7xl font-bold heading-font tracking-[-4px] mb-6">Moments That Matter</h1>
+          <p class="text-2xl md:text-3xl font-light text-white/90">Summits, field days, youth gatherings & more.</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- GALLERY -->
+    <section class="py-16 md:py-24 bg-[#0a0f0a]">
+      <div class="max-w-screen-2xl mx-auto section-padding">
+
+        <!-- Event Tabs -->
+        <div class="flex gap-3 flex-wrap mb-10">
+          <button class="event-tab active" onclick="showEvent('summit', this)">Agri Innovation Summit 2026</button>
+          <button class="event-tab" onclick="showEvent('jigawa', this)">Jigawa State: Improved Seeds Improvement Program</button>
+          <button class="event-tab" onclick="showEvent('kano', this)">Kano Bootcamp 2025</button>
+        </div>
+
+        <!-- Event Header — Agri Innovation Summit -->
+        <div id="event-summit">
+        <div class="mb-10 pb-8 border-b border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <h2 class="text-3xl heading-font text-white mb-1">Agri Innovation Summit 2026</h2>
+            <p class="text-white/45 text-sm">May 2026 &nbsp;&nbsp;</p>
+          </div>
+          <p class="text-white/30 text-xs uppercase tracking-widest"></p>
+        </div>
+
+        <!-- Photo Grid — 20 photos, -14 versions only -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="photo-grid">
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_1_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 1" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">1 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_2_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 2" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">2 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_3_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 3" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">3 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_4_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 4" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">4 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_5_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 5" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">5 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_6_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 6" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">6 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_7_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 7" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">7 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_8_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 8" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">8 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_9_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 9" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">9 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_10_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 10" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">10 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_11_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 11" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">11 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_12_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 12" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">12 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_13_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 13" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">13 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_14_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 14" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">14 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_15_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 15" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">15 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_16_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 16" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">16 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_17_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 17" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">17 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_18_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 18" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">18 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_19_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 19" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">19 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_20_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 20" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">20 / 69</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_21_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 21" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">21 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_22_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 22" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">22 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_23_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 23" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">23 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_24_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 24" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">24 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_25_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 25" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">25 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_26_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 26" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">26 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_27_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 27" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">27 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_28_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 28" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">28 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_29_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 29" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">29 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_30_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 30" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">30 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_31_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 31" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">31 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_32_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 32" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">32 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_33_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 33" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">33 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_34_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 34" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">34 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_35_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 35" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">35 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_36_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 36" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">36 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_37_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 37" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">37 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_38_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 38" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">38 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_39_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 39" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">39 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_40_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 40" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">40 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_41_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 41" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">41 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_42_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 42" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">42 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_43_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 43" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">43 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_44_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 44" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">44 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_45_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 45" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">45 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_46_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 46" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">46 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_47_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 47" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">47 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_48_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 48" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">48 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_49_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 49" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">49 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_50_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 50" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">50 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_51_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 51" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">51 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_52_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 52" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">52 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_53_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 53" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">53 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_54_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 54" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">54 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_55_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 55" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">55 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_56_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 56" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">56 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_57_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 57" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">57 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_58_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 58" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">58 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_59_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 59" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">59 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_60_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 60" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">60 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_61_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 61" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">61 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_62_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 62" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">62 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_63_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 63" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">63 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_64_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 64" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">64 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_65_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 65" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">65 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_66_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 66" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">66 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_67_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 67" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">67 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_68_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 68" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">68 / 69</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightbox(this)">
+            <img src="assets/images/gallery/youth-agribusiness-summit-2026/photo_69_2026-05-18_10-43-14.jpg" alt="Agri Innovation Summit — Photo 69" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">69 / 69</p>
+            </div>
+          </div>
+
+        </div>
+        </div><!-- end #event-summit -->
+
+        <!-- Event: Jigawa State Improved Seeds Improvement Program -->
+        <div id="event-jigawa" style="display:none;">
+        <div class="mb-10 pb-8 border-b border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <h2 class="text-3xl heading-font text-white mb-1">Jigawa State: Partnered with TECNI seeds and Alternative Bank for improved seed empowerment and financial inclusion program</h2>
+            <p class="text-white/45 text-sm">Jan 2026 &nbsp;&nbsp;</p>
+          </div>
+          <p class="text-white/30 text-xs uppercase tracking-widest"></p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="photo-grid-jigawa">
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_1_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 1" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">1 / 48</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_2_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 2" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">2 / 48</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_3_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 3" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">3 / 48</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_4_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 4" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">4 / 48</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_5_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 5" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">5 / 48</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_6_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 6" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">6 / 48</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_7_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 7" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">7 / 48</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_8_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 8" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">8 / 48</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_9_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 9" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">9 / 48</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_10_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 10" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">10 / 48</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_11_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 11" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">11 / 48</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_12_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 12" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">12 / 48</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_13_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 13" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">13 / 48</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_14_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 14" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">14 / 48</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_15_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 15" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">15 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_16_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 16" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">16 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_17_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 17" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">17 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_18_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 18" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">18 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_19_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 19" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">19 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_20_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 20" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">20 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_21_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 21" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">21 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_22_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 22" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">22 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_23_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 23" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">23 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_24_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 24" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">24 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_25_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 25" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">25 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_26_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 26" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">26 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_27_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 27" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">27 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_28_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 28" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">28 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_29_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 29" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">29 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_30_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 30" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">30 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_31_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 31" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">31 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_32_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 32" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">32 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_33_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 33" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">33 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_34_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 34" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">34 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_35_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 35" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">35 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_36_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 36" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">36 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_37_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 37" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">37 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_38_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 38" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">38 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_39_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 39" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">39 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_40_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 40" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">40 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_41_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 41" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">41 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_42_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 42" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">42 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_43_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 43" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">43 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_44_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 44" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">44 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_45_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 45" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">45 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_46_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 46" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">46 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_47_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 47" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">47 / 48</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxJigawa(this)">
+            <img src="assets/images/gallery/Jigawa state Improved seeds improvement program/photo_48_2026-05-18_23-44-15.jpg" alt="Jigawa Improved Seeds — Photo 48" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">48 / 48</p>
+            </div>
+          </div>
+
+        </div>
+        </div><!-- end #event-jigawa -->
+
+        <!-- Event: Kano Bootcamp 2025 -->
+        <div id="event-kano" style="display:none;">
+        <div class="mb-10 pb-8 border-b border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <h2 class="text-3xl heading-font text-white mb-1">Kano Bootcamp 2025</h2>
+            <p class="text-white/45 text-sm">Sept 2025 &nbsp;&nbsp;</p>
+          </div>
+          <p class="text-white/30 text-xs uppercase tracking-widest"></p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="photo-grid-kano">
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_1_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 1" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">1 / 64</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_2_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 2" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">2 / 64</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_3_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 3" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">3 / 64</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_4_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 4" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">4 / 64</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_5_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 5" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">5 / 64</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_6_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 6" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">6 / 64</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_7_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 7" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">7 / 64</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_8_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 8" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">8 / 64</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_9_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 9" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">9 / 64</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_10_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 10" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">10 / 64</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_11_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 11" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">11 / 64</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_12_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 12" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">12 / 64</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_13_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 13" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">13 / 64</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_14_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 14" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">14 / 64</p>
+            </div>
+          </div>
+
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_15_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 15" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">15 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_16_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 16" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">16 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_17_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 17" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">17 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_18_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 18" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">18 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_19_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 19" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">19 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_20_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 20" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">20 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_21_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 21" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">21 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_22_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 22" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">22 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_23_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 23" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">23 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_24_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 24" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">24 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_25_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 25" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">25 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_26_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 26" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">26 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_27_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 27" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">27 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_28_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 28" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">28 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_29_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 29" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">29 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_30_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 30" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">30 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_31_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 31" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">31 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_32_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 32" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">32 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_33_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 33" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">33 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_34_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 34" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">34 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_35_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 35" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">35 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_36_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 36" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">36 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_37_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 37" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">37 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_38_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 38" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">38 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_39_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 39" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">39 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_40_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 40" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">40 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_41_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 41" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">41 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_42_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 42" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">42 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_43_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 43" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">43 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_44_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 44" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">44 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_45_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 45" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">45 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_46_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 46" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">46 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_47_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 47" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">47 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_48_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 48" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">48 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_49_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 49" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">49 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_50_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 50" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">50 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_51_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 51" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">51 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_52_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 52" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">52 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_53_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 53" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">53 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_54_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 54" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">54 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_55_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 55" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">55 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_56_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 56" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">56 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_57_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 57" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">57 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_58_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 58" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">58 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_59_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 59" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">59 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_60_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 60" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">60 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_61_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 61" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">61 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_62_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 62" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">62 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_63_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 63" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">63 / 64</p>
+            </div>
+          </div>
+          <div class="gallery-card rounded-2xl overflow-hidden relative group" onclick="openLightboxKano(this)">
+            <img src="assets/images/gallery/Kano Bootcamp 2025/photo_64_2026-09-10_22-51-53.jpg" alt="Kano Bootcamp — Photo 64" class="w-full aspect-square object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+              <p class="text-white/80 text-xs uppercase tracking-widest">64 / 64</p>
+            </div>
+          </div>
+
+        </div>
+        </div><!-- end #event-kano -->
+
+    </section>
+    <footer class="bg-[#0f2a1f] text-white py-12 md:py-20 border-t border-[#f5c24c]/20">
+      <div class="max-w-screen-2xl mx-auto section-padding grid md:grid-cols-4 gap-y-10">
+        <div>
+          <img src="assets/images/logo.png" alt="YINAGA" class="h-8 md:h-10 mb-6" />
+          <p class="text-white/80 max-w-xs text-sm leading-relaxed">A youth-centric Pan-African movement redefining agriculture as the ultimate wealth and peace engine.</p>
+          <div class="flex gap-4 mt-6">
+            <a
+              href="https://www.instagram.com/yinaga_africa"
+              target="_blank"
+              rel="noopener"
+              aria-label="YINAGA on Instagram"
+              class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#f5c24c] hover:text-black transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <path
+                  d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z"
+                />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg>
+            </a>
+            <a
+              href="https://x.com/YINAGA_Africa"
+              target="_blank"
+              rel="noopener"
+              aria-label="YINAGA on X"
+              class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#f5c24c] hover:text-black transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231ZM17.083 19.77h1.833L7.084 4.126H5.117Z"
+                />
+              </svg>
+            </a>
+          </div>
+          <div class="text-xs text-white/40 mt-12">© 2026 YINAGA • yinaga.com • All Rights Reserved</div>
+        </div>
+        <div class="space-y-3 text-sm">
+          <a href="about.html" class="block hover:text-[#f5c24c] transition-colors">Mission & Vision</a>
+          <a href="executives.html" class="block hover:text-[#f5c24c] transition-colors">Leadership</a>
+          <a href="projects.html" class="block hover:text-[#f5c24c] transition-colors">Projects</a>
+        </div>
+        <div class="space-y-3 text-sm">
+          <a href="join.html" class="block hover:text-[#f5c24c] transition-colors">Member Registration</a>
+          <a href="join.html" class="block hover:text-[#f5c24c] transition-colors">Volunteer Application</a>
+          <a href="member-portal.html" class="block hover:text-[#f5c24c] transition-colors">Member Portal</a>
+        </div>
+        <div>
+          <p class="text-white/80 text-sm mb-4">Stay in the movement</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input id="footer-email" type="email" placeholder="your@email.com" class="bg-white/10 border border-white/30 text-white placeholder:text-white/50 px-6 py-4 rounded-3xl w-full focus:outline-none text-sm" />
+            <button onclick="subscribe()" class="bg-[#f5c24c] text-black px-8 py-4 rounded-3xl font-semibold text-sm whitespace-nowrap hover:bg-[#e8b02a]">JOIN</button>
+          </div>
+          <div id="subscribe-msg" class="text-[#4ade80] text-xs mt-4"></div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        window.toggleMobileMenu = () =>
+          document.getElementById("mobileMenu").classList.toggle("hidden");
+        // ─── Leadership nav dropdown ────────────────────────
+        window.toggleNavDropdown = (e) => {
+          e.stopPropagation();
+          document.querySelectorAll(".nav-dropdown").forEach((d) => {
+            if (d !== e.currentTarget.closest(".nav-dropdown"))
+              d.classList.remove("open");
+          });
+          e.currentTarget.closest(".nav-dropdown").classList.toggle("open");
+        };
+        document.addEventListener("click", () => {
+          document
+            .querySelectorAll(".nav-dropdown")
+            .forEach((d) => d.classList.remove("open"));
+        });
+
+        window.toggleMobileDropdown = (e) => {
+          e.currentTarget.classList.toggle("open");
+          e.currentTarget.nextElementSibling.classList.toggle("open");
+        };
+
+
+        document.querySelectorAll('a.nav-link[href="gallery.html"]').forEach(l => l.classList.add("active"));
+
+        const reveals = document.querySelectorAll(".reveal");
+        const observer = new IntersectionObserver(
+          (entries) => { entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("active"); }); },
+          { threshold: 0.15 }
+        );
+        reveals.forEach((el) => observer.observe(el));
+
+        window.subscribe = () => {
+          document.getElementById("subscribe-msg").innerHTML = "✅ Welcome to the YINAGA movement!";
+        };
+
+        // ── Tab switching ──
+        window.showEvent = (event, btn) => {
+          document.querySelectorAll(".event-tab").forEach(t => t.classList.remove("active"));
+          btn.classList.add("active");
+          document.getElementById("event-summit").style.display = event === "summit" ? "block" : "none";
+          document.getElementById("event-jigawa").style.display = event === "jigawa" ? "block" : "none";
+          document.getElementById("event-kano").style.display = event === "kano" ? "block" : "none";
+        };
+
+        // ── Lightbox ──
+        // Each card passes itself (the .gallery-card div) to openLightbox/openLightboxJigawa/openLightboxKano.
+        // We find the img inside, grab its src directly, and collect siblings for prev/next.
+        let allImages = [];
+        let current = 0;
+
+        function openWith(cardEl, gridId) {
+          const grid = document.getElementById(gridId);
+          allImages = Array.from(grid.querySelectorAll(".gallery-card img"));
+          const img = cardEl.querySelector("img");
+          current = allImages.indexOf(img);
+          document.getElementById("lb-img").src = img.src;
+          document.getElementById("lb-counter").textContent = `${current + 1} / ${allImages.length}`;
+          document.getElementById("lightbox").classList.add("open");
+          document.body.style.overflow = "hidden";
+          history.pushState({ lightbox: true }, "");
+        }
+
+        window.openLightbox = (cardEl) => openWith(cardEl, "photo-grid");
+        window.openLightboxJigawa = (cardEl) => openWith(cardEl, "photo-grid-jigawa");
+        window.openLightboxKano = (cardEl) => openWith(cardEl, "photo-grid-kano");
+
+        window.closeLightbox = () => {
+          document.getElementById("lightbox").classList.remove("open");
+          document.body.style.overflow = "";
+        };
+
+        // Browser back button — close lightbox instead of navigating away
+        window.addEventListener("popstate", (e) => {
+          if (document.getElementById("lightbox").classList.contains("open")) {
+            closeLightbox();
+          }
+        });
+
+        window.shiftLightbox = (dir) => {
+          current = (current + dir + allImages.length) % allImages.length;
+          document.getElementById("lb-img").src = allImages[current].src;
+          document.getElementById("lb-counter").textContent = `${current + 1} / ${allImages.length}`;
+        };
+
+        document.getElementById("lightbox").addEventListener("click", (e) => {
+          if (e.target === document.getElementById("lightbox")) closeLightbox();
+        });
+
+        document.addEventListener("keydown", (e) => {
+          if (!document.getElementById("lightbox").classList.contains("open")) return;
+          if (e.key === "ArrowRight") shiftLightbox(1);
+          if (e.key === "ArrowLeft") shiftLightbox(-1);
+          if (e.key === "Escape") closeLightbox();
+        });
+      });
+    </script>
+    <!-- LIGHTBOX — must be direct child of body, outside any transformed/animated parent -->
+    <div id="lightbox">
+      <button id="lb-close" onclick="closeLightbox()">✕</button>
+      <button class="lb-btn" id="lb-prev" onclick="shiftLightbox(-1)">‹</button>
+      <img id="lb-img" src="" alt="Gallery photo enlarged" />
+      <button class="lb-btn" id="lb-next" onclick="shiftLightbox(1)">›</button>
+      <div id="lb-counter"></div>
+    </div>
+
+  </body>
+</html>
