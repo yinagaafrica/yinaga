@@ -192,7 +192,7 @@
           padding-right: 2rem;
         }
       }
-    
+
       /* ── Leadership nav dropdown ── */
       .nav-dropdown {
         position: relative;
@@ -245,7 +245,9 @@
         font-weight: 500;
         text-transform: none;
         letter-spacing: normal;
-        transition: background 0.2s ease, color 0.2s ease;
+        transition:
+          background 0.2s ease,
+          color 0.2s ease;
         white-space: nowrap;
       }
       .nav-dropdown-item:hover {
@@ -279,7 +281,6 @@
       .mobile-dropdown-trigger.open .chev {
         transform: rotate(180deg);
       }
-
     </style>
   </head>
   <body class="overflow-x-hidden font-sans bg-[#0a0f0a]">
@@ -301,26 +302,79 @@
           >
             <a href="index.html" class="nav-link">Home</a>
             <a href="about.html" class="nav-link">About</a>
-                      <div class="nav-dropdown">
-            <button class="nav-link nav-dropdown-trigger" onclick="toggleNavDropdown(event)">
-              Leadership
-              <svg class="chev" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
-            </button>
-            <div class="nav-dropdown-menu">
-              <a href="board-of-trustees.html" class="nav-dropdown-item">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22" /><line x1="6" y1="18" x2="6" y2="11" /><line x1="10" y1="18" x2="10" y2="11" /><line x1="14" y1="18" x2="14" y2="11" /><line x1="18" y1="18" x2="18" y2="11" /><polygon points="12 2 20 7 4 7 12 2" /></svg>
-                Board of Trustees
-              </a>
-              <a href="executives.html" class="nav-dropdown-item">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7" /><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" /></svg>
-                Executives
-              </a>
-              <a href="stakeholders.html" class="nav-dropdown-item">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg>
-                Stakeholders
-              </a>
+            <div class="nav-dropdown">
+              <button
+                class="nav-link nav-dropdown-trigger"
+                onclick="toggleNavDropdown(event)"
+              >
+                Leadership
+                <svg
+                  class="chev"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <div class="nav-dropdown-menu">
+                <a href="board-of-trustees.html" class="nav-dropdown-item">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="3" y1="22" x2="21" y2="22" />
+                    <line x1="6" y1="18" x2="6" y2="11" />
+                    <line x1="10" y1="18" x2="10" y2="11" />
+                    <line x1="14" y1="18" x2="14" y2="11" />
+                    <line x1="18" y1="18" x2="18" y2="11" />
+                    <polygon points="12 2 20 7 4 7 12 2" />
+                  </svg>
+                  Board of Trustees
+                </a>
+                <a href="executives.html" class="nav-dropdown-item">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="8" r="7" />
+                    <polyline
+                      points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"
+                    />
+                  </svg>
+                  Executives
+                </a>
+                <a href="stakeholders.html" class="nav-dropdown-item">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                  </svg>
+                  Stakeholders
+                </a>
+              </div>
             </div>
-          </div>
             <a href="projects.html" class="nav-link">Projects</a>
             <a href="gallery.html" class="nav-link">Gallery</a>
             <a href="partners.html" class="nav-link">Partners</a>
@@ -361,18 +415,35 @@
         <div class="flex flex-col gap-y-6 text-white text-base font-medium">
           <a href="index.html" class="nav-link">Home</a>
           <a href="about.html" class="nav-link">About</a>
-                    <div>
+          <div>
             <button
               class="nav-link mobile-dropdown-trigger flex items-center gap-2 w-full text-left"
               onclick="toggleMobileDropdown(event)"
             >
               Leadership
-              <svg class="chev" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+              <svg
+                class="chev"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
             </button>
             <div class="mobile-dropdown-panel">
-              <a href="board-of-trustees.html" class="text-white/80 text-sm">Board of Trustees</a>
-              <a href="executives.html" class="text-white/80 text-sm">Executives</a>
-              <a href="stakeholders.html" class="text-white/80 text-sm">Stakeholders</a>
+              <a href="board-of-trustees.html" class="text-white/80 text-sm"
+                >Board of Trustees</a
+              >
+              <a href="executives.html" class="text-white/80 text-sm"
+                >Executives</a
+              >
+              <a href="stakeholders.html" class="text-white/80 text-sm"
+                >Stakeholders</a
+              >
             </div>
           </div>
           <a href="projects.html" class="nav-link">Projects</a>
@@ -416,6 +487,50 @@
         </p>
 
         <div class="flex flex-wrap justify-center gap-6 mb-20">
+          <!-- The Alternative Bank -->
+          <div class="partner-tile tile-gold w-full sm:w-[46%] lg:w-[30%]">
+            <div class="partner-logo-badge">
+              <img
+                src="assets/images/partners/alternative-bank.png"
+                alt="The Alternative Bank"
+              />
+            </div>
+            <h3
+              class="text-lg font-semibold text-white mb-2 text-center relative z-10"
+            >
+              The Alternative Bank
+            </h3>
+            <p
+              class="text-white/85 text-sm leading-relaxed text-center relative z-10"
+            >
+              Financial partner for the Improved Seed Empowerment &amp;
+              Financial Inclusion Programme in Dabi Local Government Area,
+              Jigawa State, reaching over 100 farmers.
+            </p>
+          </div>
+
+          <!-- Tecni Seeds -->
+          <div class="partner-tile tile-green w-full sm:w-[46%] lg:w-[30%]">
+            <div class="partner-logo-badge">
+              <img
+                src="assets/images/partners/tecniseeds.png"
+                alt="Tecni Seeds"
+              />
+            </div>
+            <h3
+              class="text-lg font-semibold text-white mb-2 text-center relative z-10"
+            >
+              Tecni Seeds
+            </h3>
+            <p
+              class="text-white/80 text-sm leading-relaxed text-center relative z-10"
+            >
+              Seed and agri-input partner for the Improved Seed Empowerment
+              Programme and the YINAGA Outgrower Programme, which began
+              cultivation across 30 hectares of farmland.
+            </p>
+          </div>
+
           <!-- Federal University Dutse -->
           <div class="partner-tile tile-green w-full sm:w-[46%] lg:w-[30%]">
             <div class="partner-logo-badge">
@@ -481,50 +596,6 @@
               agricultural talent.
             </p>
           </div>
-
-          <!-- The Alternative Bank -->
-          <div class="partner-tile tile-gold w-full sm:w-[46%] lg:w-[30%]">
-            <div class="partner-logo-badge">
-              <img
-                src="assets/images/partners/alternative-bank.png"
-                alt="The Alternative Bank"
-              />
-            </div>
-            <h3
-              class="text-lg font-semibold text-white mb-2 text-center relative z-10"
-            >
-              The Alternative Bank
-            </h3>
-            <p
-              class="text-white/85 text-sm leading-relaxed text-center relative z-10"
-            >
-              Financial partner for the Improved Seed Empowerment &amp;
-              Financial Inclusion Programme in Dabi Local Government Area,
-              Jigawa State, reaching over 100 farmers.
-            </p>
-          </div>
-
-          <!-- Tecni Seeds -->
-          <div class="partner-tile tile-green w-full sm:w-[46%] lg:w-[30%]">
-            <div class="partner-logo-badge">
-              <img
-                src="assets/images/partners/tecniseeds.png"
-                alt="Tecni Seeds"
-              />
-            </div>
-            <h3
-              class="text-lg font-semibold text-white mb-2 text-center relative z-10"
-            >
-              Tecni Seeds
-            </h3>
-            <p
-              class="text-white/80 text-sm leading-relaxed text-center relative z-10"
-            >
-              Seed and agri-input partner for the Improved Seed Empowerment
-              Programme and the YINAGA Outgrower Programme, which began
-              cultivation across 30 hectares of farmland.
-            </p>
-          </div>
         </div>
 
         <!-- Become a Partner CTA -->
@@ -584,9 +655,7 @@
                 stroke-linejoin="round"
               >
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                <path
-                  d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z"
-                />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z" />
                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
               </svg>
             </a>
@@ -691,7 +760,6 @@
           e.currentTarget.classList.toggle("open");
           e.currentTarget.nextElementSibling.classList.toggle("open");
         };
-
 
         document
           .querySelectorAll('a.nav-link[href="partners.html"]')
