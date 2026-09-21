@@ -418,7 +418,7 @@
         border-radius: 0.75rem;
         padding: 0.75rem;
       }
-    
+
       /* ── Leadership nav dropdown ── */
       .nav-dropdown {
         position: relative;
@@ -471,7 +471,9 @@
         font-weight: 500;
         text-transform: none;
         letter-spacing: normal;
-        transition: background 0.2s ease, color 0.2s ease;
+        transition:
+          background 0.2s ease,
+          color 0.2s ease;
         white-space: nowrap;
       }
       .nav-dropdown-item:hover {
@@ -505,7 +507,6 @@
       .mobile-dropdown-trigger.open .chev {
         transform: rotate(180deg);
       }
-
     </style>
   </head>
   <body class="overflow-x-hidden font-sans">
@@ -528,26 +529,79 @@
           >
             <a href="index.html" class="nav-link">Home</a>
             <a href="about.html" class="nav-link">About</a>
-                      <div class="nav-dropdown">
-            <button class="nav-link nav-dropdown-trigger" onclick="toggleNavDropdown(event)">
-              Leadership
-              <svg class="chev" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
-            </button>
-            <div class="nav-dropdown-menu">
-              <a href="board-of-trustees.html" class="nav-dropdown-item">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22" /><line x1="6" y1="18" x2="6" y2="11" /><line x1="10" y1="18" x2="10" y2="11" /><line x1="14" y1="18" x2="14" y2="11" /><line x1="18" y1="18" x2="18" y2="11" /><polygon points="12 2 20 7 4 7 12 2" /></svg>
-                Board of Trustees
-              </a>
-              <a href="executives.html" class="nav-dropdown-item">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7" /><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" /></svg>
-                Executives
-              </a>
-              <a href="stakeholders.html" class="nav-dropdown-item">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg>
-                Stakeholders
-              </a>
+            <div class="nav-dropdown">
+              <button
+                class="nav-link nav-dropdown-trigger"
+                onclick="toggleNavDropdown(event)"
+              >
+                Leadership
+                <svg
+                  class="chev"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <div class="nav-dropdown-menu">
+                <a href="board-of-trustees.html" class="nav-dropdown-item">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="3" y1="22" x2="21" y2="22" />
+                    <line x1="6" y1="18" x2="6" y2="11" />
+                    <line x1="10" y1="18" x2="10" y2="11" />
+                    <line x1="14" y1="18" x2="14" y2="11" />
+                    <line x1="18" y1="18" x2="18" y2="11" />
+                    <polygon points="12 2 20 7 4 7 12 2" />
+                  </svg>
+                  Board of Trustees
+                </a>
+                <a href="executives.html" class="nav-dropdown-item">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="8" r="7" />
+                    <polyline
+                      points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"
+                    />
+                  </svg>
+                  Executives
+                </a>
+                <a href="stakeholders.html" class="nav-dropdown-item">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                  </svg>
+                  Stakeholders
+                </a>
+              </div>
             </div>
-          </div>
             <a href="projects.html" class="nav-link">Projects</a>
             <a href="gallery.html" class="nav-link">Gallery</a>
             <a href="partners.html" class="nav-link">Partners</a>
@@ -590,18 +644,35 @@
         <div class="flex flex-col gap-y-6 text-white text-base font-medium">
           <a href="index.html" class="nav-link">Home</a>
           <a href="about.html" class="nav-link">About</a>
-                    <div>
+          <div>
             <button
               class="nav-link mobile-dropdown-trigger flex items-center gap-2 w-full text-left"
               onclick="toggleMobileDropdown(event)"
             >
               Leadership
-              <svg class="chev" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+              <svg
+                class="chev"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
             </button>
             <div class="mobile-dropdown-panel">
-              <a href="board-of-trustees.html" class="text-white/80 text-sm">Board of Trustees</a>
-              <a href="executives.html" class="text-white/80 text-sm">Executives</a>
-              <a href="stakeholders.html" class="text-white/80 text-sm">Stakeholders</a>
+              <a href="board-of-trustees.html" class="text-white/80 text-sm"
+                >Board of Trustees</a
+              >
+              <a href="executives.html" class="text-white/80 text-sm"
+                >Executives</a
+              >
+              <a href="stakeholders.html" class="text-white/80 text-sm"
+                >Stakeholders</a
+              >
             </div>
           </div>
           <a href="projects.html" class="nav-link">Projects</a>
@@ -1427,6 +1498,73 @@
       </div>
     </section>
 
+    <!-- NEWS & OPPORTUNITIES (disabled until we have real news/opportunities
+         to publish — uncomment and replace the placeholder cards below once
+         content is ready)
+    <section class="py-16 md:py-24 bg-[#0d130c] reveal">
+      <div class="max-w-screen-2xl mx-auto section-padding">
+        <div class="text-center mb-14">
+          <h2 class="text-3xl md:text-4xl heading-font text-[#4ade80] mb-4">
+            News &amp; Opportunities
+          </h2>
+          <p class="text-white/60 max-w-2xl mx-auto">
+            Stay updated on YINAGA's latest announcements, funding calls, and
+            opportunities for young agripreneurs.
+          </p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="premium-card rounded-3xl overflow-hidden">
+            <div class="p-6">
+              <p class="text-[#f5c24c] text-xs uppercase tracking-widest mb-2">
+                News
+              </p>
+              <h3 class="text-white font-semibold text-lg mb-2">
+                Article Title Goes Here
+              </h3>
+              <p class="text-white/60 text-sm">
+                Short summary of the news update goes here.
+              </p>
+            </div>
+          </div>
+          <div class="premium-card rounded-3xl overflow-hidden">
+            <div class="p-6">
+              <p class="text-[#f5c24c] text-xs uppercase tracking-widest mb-2">
+                Opportunity
+              </p>
+              <h3 class="text-white font-semibold text-lg mb-2">
+                Opportunity Title Goes Here
+              </h3>
+              <p class="text-white/60 text-sm">
+                Short summary of the opportunity, deadline, or eligibility goes
+                here.
+              </p>
+            </div>
+          </div>
+          <div class="premium-card rounded-3xl overflow-hidden">
+            <div class="p-6">
+              <p class="text-[#f5c24c] text-xs uppercase tracking-widest mb-2">
+                Announcement
+              </p>
+              <h3 class="text-white font-semibold text-lg mb-2">
+                Announcement Title Goes Here
+              </h3>
+              <p class="text-white/60 text-sm">
+                Short summary of the announcement goes here.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-10">
+          <a
+            href="#"
+            class="px-10 py-4 rounded-3xl font-semibold border border-white/30 text-white hover:border-[#f5c24c] hover:text-[#f5c24c] transition-colors inline-block"
+            >View All News</a
+          >
+        </div>
+      </div>
+    </section>
+    -->
+
     <!-- PARTNERS (temporarily disabled — re-enable once ECOWAS and the
          Ministry of Agriculture are fully onboarded as featured partners)
     <section
@@ -1666,7 +1804,6 @@
           e.currentTarget.classList.toggle("open");
           e.currentTarget.nextElementSibling.classList.toggle("open");
         };
-
 
         // ─── Hero carousel ────────────────────────────────
         const heroSlides = document.querySelectorAll(".hero-slide");
